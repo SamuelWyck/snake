@@ -9,6 +9,7 @@ class Game:
     def __init__(self):
         pygame.display.init()
 
+        #set up display
         sizes = pygame.display.get_desktop_sizes()
         flags = pygame.FULLSCREEN
         self.screen = pygame.display.set_mode(sizes[0], flags=flags)
@@ -16,8 +17,18 @@ class Game:
         self.screen_height = self.screen.get_height()
         pygame.display.set_caption("Snake")
 
+        #set up game canvas 
         self.canvas_width, self.canvas_height = 1536, 864
         self.canvas = pygame.Surface((self.canvas_width, self.canvas_height))
+
+        #set up play area canvas
+        self.ps_width, self.ps_height = 1300, 700
+        self.play_surface = pygame.Surface((self.ps_width, self.ps_height))
+        self.ps_topleft = (
+            (self.canvas_width - self.ps_width)//2,
+            (self.canvas_height - self.ps_height)//2
+        )
+
         self.framerate = 120
 
     
@@ -45,8 +56,10 @@ class Game:
 
 
             self.canvas.fill((0, 0, 0))
+            self.play_surface.fill((255, 255, 255))
 
 
+            self.canvas.blit(self.play_surface, self.ps_topleft)
             self.screen.blit(pygame.transform.smoothscale(self.canvas, (self.screen_width, self.screen_height)), (0, 0))
             pygame.display.update()
             clock.tick(self.framerate)
