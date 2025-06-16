@@ -1,6 +1,8 @@
 import pygame
 import time
 import sys
+from framework_objects.play_area import Play_Area
+
 
 
 
@@ -22,12 +24,12 @@ class Game:
         self.canvas = pygame.Surface((self.canvas_width, self.canvas_height))
 
         #set up play area canvas
-        self.ps_width, self.ps_height = 1300, 700
-        self.play_surface = pygame.Surface((self.ps_width, self.ps_height))
-        self.ps_topleft = (
-            (self.canvas_width - self.ps_width)//2,
-            (self.canvas_height - self.ps_height)//2
+        ps_width, ps_height = 1300, 700
+        ps_topleft = (
+            (self.canvas_width - ps_width)//2,
+            (self.canvas_height - ps_height)//2
         )
+        Play_Area.set_surface(ps_topleft, (ps_width, ps_height))
 
         self.framerate = 120
 
@@ -56,10 +58,11 @@ class Game:
 
 
             self.canvas.fill((0, 0, 0))
-            self.play_surface.fill((255, 255, 255))
+            Play_Area.fill((255, 255, 255))
+            Play_Area.set_surface_size((Play_Area.get_width() - 1, Play_Area.get_height()))
 
 
-            self.canvas.blit(self.play_surface, self.ps_topleft)
+            Play_Area.draw_surface(self.canvas)
             self.screen.blit(pygame.transform.smoothscale(self.canvas, (self.screen_width, self.screen_height)), (0, 0))
             pygame.display.update()
             clock.tick(self.framerate)
