@@ -26,26 +26,26 @@ class Play_Area:
 
 
 
-    @property
-    def x(cls):
+    @classmethod
+    def get_x(cls):
         return cls.topleft[0]
     
 
 
-    @property
-    def y(cls):
+    @classmethod
+    def get_y(cls):
         return cls.topleft[1]
     
 
 
-    @property
-    def width(cls):
+    @classmethod
+    def get_width(cls):
         return cls.size[0]
     
 
 
-    @property
-    def height(cls):
+    @classmethod
+    def get_height(cls):
         return cls.size[1]
     
 
@@ -67,6 +67,9 @@ class Play_Area:
 
     @classmethod
     def set_surface_size(cls, size):
+        if size[0] < 0 or size[1] < 0:
+            return
+        
         cls.size = size
 
         new_surface = pygame.Surface(size)
@@ -85,3 +88,9 @@ class Play_Area:
     @classmethod
     def blit(cls, surface, topleft):
         cls.surface.blit(surface, topleft)
+
+    
+
+    @classmethod
+    def fill(cls, color):
+        cls.surface.fill(color)
