@@ -27,7 +27,7 @@ class Game:
         self.canvas = pygame.Surface((self.canvas_width, self.canvas_height))
 
         #set up play area canvas
-        pa_width, pa_height = 1240, 640
+        pa_width, pa_height = 1230, 630
         pa_topleft = (
             (self.canvas_width - pa_width)//2,
             (self.canvas_height - pa_height)//2
