@@ -110,7 +110,7 @@ class Snake:
     
 
     def handle_segment_removal(self, remove, delta_time):
-        if remove:# and self.body_remove_interval <= 0:
+        if remove and self.body_remove_interval <= 0:
             self.body = [item for item in self.body if not item.remove]
             self.body_remove_interval = self.max_body_remove_interval
         elif self.body_remove_interval <= 0:
