@@ -2,12 +2,12 @@ import pygame
 import time
 import sys
 from framework_objects.play_area import Play_Area
+from hud_objects.hud import Hud
 
 
 
 
 class Game:
-
     def __init__(self):
         pygame.display.init()
 
@@ -24,12 +24,15 @@ class Game:
         self.canvas = pygame.Surface((self.canvas_width, self.canvas_height))
 
         #set up play area canvas
-        ps_width, ps_height = 1300, 700
-        ps_topleft = (
-            (self.canvas_width - ps_width)//2,
-            (self.canvas_height - ps_height)//2
+        pa_width, pa_height = 1240, 640
+        pa_topleft = (
+            (self.canvas_width - pa_width)//2,
+            (self.canvas_height - pa_height)//2
         )
-        Play_Area.set_surface(ps_topleft, (ps_width, ps_height))
+        Play_Area.set_surface(pa_topleft, (pa_width, pa_height))
+
+        #set up hud manager
+        self.hud = Hud(pa_topleft, (pa_width, pa_height))
 
         self.framerate = 120
 
@@ -58,6 +61,7 @@ class Game:
 
 
             self.canvas.fill((0, 0, 0))
+            self.hud.draw(self.canvas)
             Play_Area.fill((255, 255, 255))
 
 
