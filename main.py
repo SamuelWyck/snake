@@ -59,7 +59,6 @@ class Game:
 
             self.canvas.fill((0, 0, 0))
             Play_Area.fill((255, 255, 255))
-            Play_Area.set_surface_size((Play_Area.get_width() - 1, Play_Area.get_height()))
 
 
             Play_Area.draw_surface(self.canvas)
