@@ -35,7 +35,7 @@ class Game:
         Play_Area.set_surface(pa_topleft, (pa_width, pa_height))
 
         #set up player
-        player_step_size = 30
+        player_step_size = 40
         player_topleft = (
             player_step_size * 4,
             player_step_size * 10
