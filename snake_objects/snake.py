@@ -54,9 +54,8 @@ class Snake:
         self.step_interval -= interval_change
         if self.step_interval <= 0:
             self.step_interval = self.max_step_interval
-            next_head_pos = self.get_next_head_pos()
-            self.add_body_segment(next_head_pos)
-            self.move(next_head_pos)
+            prev_head_pos = self.move()
+            self.add_body_segment(prev_head_pos)
         
         self.draw(surface)
         remove = self.draw_body(surface, delta_time)
@@ -85,10 +84,21 @@ class Snake:
     
 
 
-    def move(self, next_head_pos):
-        self.rect.center = next_head_pos
+    def move(self):
+        prev_head_pos = list(self.rect.center)
+
+        if self.movement == self.move_up:
+            self.rect.centery -= self.step_size
+        elif self.movement == self.move_down:
+            self.rect.centery += self.step_size
+        elif self.movement == self.move_left:
+            self.rect.centerx -= self.step_size
+        elif self.movement == self.move_right:
+            self.rect.centerx += self.step_size
+
         self.collide_point = self.rect.center
         self.last_movement = self.movement
+        return prev_head_pos
 
 
 
@@ -103,12 +113,12 @@ class Snake:
     
 
 
-    def get_joint_side(self, next_head_pos):
-        segment_pos = self.rect.center
-        same_y_coord = segment_pos[1] == next_head_pos[1]
+    def get_joint_side(self, prev_head_pos):
+        segment_pos = prev_head_pos
+        same_y_coord = segment_pos[1] == self.rect.centery
         if same_y_coord:
-            return "left" if segment_pos[0] > next_head_pos[0] else "right"
-        return "top" if segment_pos[1] > next_head_pos[1] else "bottom"
+            return "left" if segment_pos[0] > self.rect.centerx else "right"
+        return "top" if segment_pos[1] > self.rect.centery else "bottom"
 
     
 
@@ -123,8 +133,8 @@ class Snake:
     
 
 
-    def add_body_segment(self, next_head_pos):
-        joint_side = self.get_joint_side(next_head_pos)
+    def add_body_segment(self, prev_head_pos):
+        joint_side = self.get_joint_side(prev_head_pos)
 
         body_segment = Snake_Segment(
             self.size,
@@ -135,18 +145,3 @@ class Snake:
             self.max_step_interval * self.body_length
         )
         self.body.append(body_segment)
-
-    
-
-    def get_next_head_pos(self):
-        next_head_pos = list(self.rect.center)
-        if self.movement == self.move_up:
-            next_head_pos[1] -= self.step_size
-        elif self.movement == self.move_down:
-            next_head_pos[1] += self.step_size
-        elif self.movement == self.move_left:
-            next_head_pos[0] -= self.step_size
-        elif self.movement == self.move_right:
-            next_head_pos[0] += self.step_size
-        return next_head_pos
-
