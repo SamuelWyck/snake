@@ -1,23 +1,6 @@
 import pygame
 
 
-# class Play_Area:
-
-#     def __init__(self, topleft, size):
-#         self.topleft = topleft
-#         self.x = topleft[0]
-#         self.y = topleft[1]
-
-#         self.size = size
-#         self.width = size[0]
-#         self.height = size[1]
-
-#         self.surface = pygame.Surface(size=size)
-    
-
-    
-#     def blit(self, surface, topleft):
-#         self.surface.blit(surface, topleft)
 
 class Play_Area:
     topleft = (0, 0)
