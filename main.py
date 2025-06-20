@@ -44,7 +44,7 @@ class Game:
             player_topleft, 
             size=30, 
             step_size=player_step_size, 
-            step_interval=30, 
+            step_interval=20, 
             color=(0, 255, 0), 
             controller=None
         )
