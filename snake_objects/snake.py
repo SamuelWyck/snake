@@ -138,7 +138,7 @@ class Snake:
 
         body_segment = Snake_Segment(
             self.size,
-            self.rect.center,
+            prev_head_pos,
             self.joint_size,
             joint_side,
             self.color,
