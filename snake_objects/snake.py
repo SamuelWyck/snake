@@ -27,7 +27,7 @@ class Snake:
     
         self.collide_point = self.rect.center
 
-        #set up the starting body
+        #setup the starting body
         self.body_length = 2
         self.body = []
         for i in range(self.body_length):
