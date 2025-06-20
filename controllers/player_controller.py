@@ -2,6 +2,25 @@ import pygame
 
 
 
+#controls is a dict of the control names and key codes for each game control
+
+#example of expected shape of controls param
+# player_controls = {
+#     "UP": pygame.K_w,
+#     "DOWN": pygame.K_s,
+#     "RIGHT": pygame.K_d,
+#     "LEFT": pygame.K_a
+# }
+
+#holdable_inputs is a set of the control names of the inputs
+#that the player is allowed to hold down to allow for repeated inputs 
+
+#example of expected shape of holdable_inputs param
+# set(
+#     "UP",
+#     "DOWN"
+# )
+
 class Player_Controller:
     def __init__(self, controls, holdable_inputs=set()):
         self.update_controls(controls)
