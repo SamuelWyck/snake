@@ -36,7 +36,13 @@ class Game:
         Play_Area.set_surface(pa_topleft, (pa_width, pa_height))
 
         #setup player controller
-        self.player_controller = Player_Controller
+        player_controls = {
+            "UP": pygame.K_w,
+            "DOWN": pygame.K_s,
+            "RIGHT": pygame.K_d,
+            "LEFT": pygame.K_a
+        }
+        self.player_controller = Player_Controller(player_controls, holdable_inputs=set())
 
         #setup player
         player_step_size = 40
@@ -93,6 +99,8 @@ class Game:
             Play_Area.draw_surface(self.canvas)
             self.screen.blit(pygame.transform.smoothscale(self.canvas, (self.screen_width, self.screen_height)), (0, 0))
             pygame.display.update()
+
+            self.player_controller.reset_inputs()
             clock.tick(self.framerate)
     
 
