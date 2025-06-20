@@ -7,6 +7,9 @@ class Snake_Segment:
         self.rect = pygame.rect.Rect((0, 0), (size, size))
         self.rect.center = center
 
+        #keep track of the back of the segment
+        self.back_pos = self.rect.center
+
         #extend rect in the direction needed to cover joint gap
         self.grow(joint_width, joint_side)
 

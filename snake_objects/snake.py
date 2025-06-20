@@ -28,11 +28,11 @@ class Snake:
         self.collide_point = self.rect.center
 
         #set up the starting body
-        self.body_length = 2
+        self.body_length = 1
         self.body = []
         for i in range(self.body_length):
             body_segment = Snake_Segment(
-                self.size,
+                self.size * 2,
                 (self.rect.centerx - (self.step_size * (i + 1)), self.rect.centery),
                 self.joint_size,
                 "right",
@@ -54,11 +54,15 @@ class Snake:
         self.step_interval -= interval_change
         if self.step_interval <= 0:
             self.step_interval = self.max_step_interval
-            prev_head_pos = self.move()
-            self.add_body_segment(prev_head_pos)
+            prev_head_pos, new_direction = self.move()
+            if new_direction:
+                self.add_body_segment(prev_head_pos)
+            else:
+                self.grow_front_segment()
+            self.shrink_back_segment()
         
         self.draw(surface)
-        remove = self.draw_body(surface, delta_time)
+        remove = self.draw_body(surface)
 
         self.handle_segment_removal(remove, delta_time)
 
@@ -97,33 +101,56 @@ class Snake:
             self.rect.centerx += self.step_size
 
         self.collide_point = self.rect.center
+        self.vector.x, self.vector.y = self.rect.centerx, self.rect.centery
+
+        new_direction = self.last_movement == self.movement
         self.last_movement = self.movement
-        return prev_head_pos
+        return prev_head_pos, new_direction
 
 
 
-    def draw_body(self, surface, delta_time):
+    def draw_body(self, surface):
         remove = False
         for body_part in self.body:
-            body_part.update(surface, delta_time)
             if body_part.remove:
                 remove = True
+                continue
+            body_part.draw(surface)
         
         return remove
     
 
 
-    def get_joint_side(self, prev_head_pos):
-        segment_pos = prev_head_pos
-        same_y_coord = segment_pos[1] == self.rect.centery
+    def get_joint_side(self, segment_pos, next_segment_pos):
+        same_y_coord = segment_pos[1] == next_segment_pos[1]
         if same_y_coord:
-            return "left" if segment_pos[0] > self.rect.centerx else "right"
-        return "top" if segment_pos[1] > self.rect.centery else "bottom"
+            return "left" if segment_pos[0] > next_segment_pos[0] else "right"
+        return "top" if segment_pos[1] > next_segment_pos[1] else "bottom"
+
+
+
+    def get_change_direction(self, segment_pos, next_segment_pos):
+        return self.get_joint_side(segment_pos, next_segment_pos)
+    
+
+
+    def grow_front_segment(self):
+        front_body_part = self.body[-1]
+        change_direction = self.get_change_direction(front_body_part.rect.center, self.rect.center)
+        front_body_part.grow(self.step_size, change_direction)
+
+    
+
+    def shrink_back_segment(self):
+        back_body_part = self.body[0]
+        next_body_part_pos = self.body[1].back_pos if len(self.body) > 1 else self.rect.center
+        change_direction = self.get_change_direction(back_body_part.rect.center, next_body_part_pos)
+        back_body_part.shrink(self.step_size, change_direction)
 
     
 
     def handle_segment_removal(self, remove, delta_time):
-        if remove and self.body_remove_interval <= 0:
+        if remove: # and self.body_remove_interval <= 0:
             self.body = [item for item in self.body if not item.remove]
             self.body_remove_interval = self.max_body_remove_interval
         elif self.body_remove_interval <= 0:
@@ -134,7 +161,7 @@ class Snake:
 
 
     def add_body_segment(self, prev_head_pos):
-        joint_side = self.get_joint_side(prev_head_pos)
+        joint_side = self.get_joint_side(prev_head_pos, self.rect.center)
 
         body_segment = Snake_Segment(
             self.size,
