@@ -48,7 +48,7 @@ class Snake:
 
 
     def update(self, surface, delta_time):
-        self.handle_movement_input()
+        self.handle_input()
 
         interval_change = 1 * delta_time
         self.step_interval -= interval_change
@@ -70,16 +70,16 @@ class Snake:
 
 
 
-    def handle_movement_input(self):
-        keys = pygame.key.get_just_pressed()
+    def handle_input(self):
+        pressed_inputs = self.controller.get_inputs()
         
-        if keys[pygame.K_w] and self.last_movement != self.move_down:
+        if pressed_inputs["UP"] and self.last_movement != self.move_down:
             self.movement = self.move_up
-        if keys[pygame.K_s] and self.last_movement != self.move_up:
+        if pressed_inputs["DOWN"] and self.last_movement != self.move_up:
             self.movement = self.move_down
-        if keys[pygame.K_a] and self.last_movement != self.move_right:
+        if pressed_inputs["LEFT"] and self.last_movement != self.move_right:
             self.movement = self.move_left
-        if keys[pygame.K_d] and self.last_movement != self.move_left:
+        if pressed_inputs["RIGHT"] and self.last_movement != self.move_left:
             self.movement = self.move_right
     
 
