@@ -8,16 +8,7 @@ class Snake_Segment:
         self.rect.center = center
 
         #extend rect in the direction needed to cover joint gap
-        if joint_side == "top":
-            self.rect.height += joint_width
-            self.rect.centery -= joint_width
-        elif joint_side == "right":
-            self.rect.width += joint_width
-        elif joint_side == "bottom":
-            self.rect.height += joint_width
-        elif joint_side == "left":
-            self.rect.width += joint_width
-            self.rect.centerx -= joint_width
+        self.grow(joint_width, joint_side)
 
 
         self.life_span = life_span
@@ -39,3 +30,17 @@ class Snake_Segment:
 
     def draw(self, surface):
         pygame.draw.rect(surface, self.color, self.rect)
+
+    
+
+    def grow(self, growth_amount, growth_direction):
+        if growth_direction == "top":
+            self.rect.height += growth_amount
+            self.rect.centery -= growth_amount
+        elif growth_direction == "right":
+            self.rect.width += growth_amount
+        elif growth_direction == "bottom":
+            self.rect.height += growth_amount
+        elif growth_direction == "left":
+            self.rect.width += growth_amount
+            self.rect.centerx -= growth_amount
