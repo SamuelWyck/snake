@@ -4,6 +4,7 @@ import sys
 from framework_objects.play_area import Play_Area
 from hud_objects.hud import Hud
 from snake_objects.snake import Snake
+from controllers.player_controller import Player_Controller
 
 
 
@@ -12,7 +13,7 @@ class Game:
     def __init__(self):
         pygame.display.init()
 
-        #set up display
+        #setup display
         sizes = pygame.display.get_desktop_sizes()
         flags = pygame.FULLSCREEN
         self.screen = pygame.display.set_mode(sizes[0], flags=flags)
@@ -22,11 +23,11 @@ class Game:
 
         self.framerate = 120
 
-        #set up game canvas 
+        #setup game canvas 
         self.canvas_width, self.canvas_height = 1536, 864
         self.canvas = pygame.Surface((self.canvas_width, self.canvas_height))
 
-        #set up play area canvas
+        #setup play area canvas
         pa_width, pa_height = 1230, 630
         pa_topleft = (
             (self.canvas_width - pa_width)//2,
@@ -34,7 +35,10 @@ class Game:
         )
         Play_Area.set_surface(pa_topleft, (pa_width, pa_height))
 
-        #set up player
+        #setup player controller
+        self.player_controller = Player_Controller
+
+        #setup player
         player_step_size = 40
         player_topleft = (
             player_step_size * 4,
@@ -46,10 +50,10 @@ class Game:
             step_size=player_step_size, 
             step_interval=20, 
             color=(0, 255, 0), 
-            controller=None
+            controller=self.player_controller
         )
 
-        #set up hud manager
+        #setup hud manager
         self.hud = Hud(pa_topleft, (pa_width, pa_height))
 
     
@@ -74,6 +78,11 @@ class Game:
                         run = False
                         pygame.quit()
                         sys.exit()
+                    else:
+                        self.player_controller.key_down(event.key)
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    self.player_controller.mouse_down(event.button)
+
 
 
             self.canvas.fill((0, 0, 0))
