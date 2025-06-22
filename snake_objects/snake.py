@@ -32,7 +32,7 @@ class Snake:
         self.body = []
         for i in range(self.body_length):
             body_segment = Snake_Segment(
-                self.size * 2,
+                (self.size * 2, self.size),
                 (self.rect.centerx - (self.step_size * (i + 1)), self.rect.centery),
                 self.joint_size,
                 "right",
@@ -164,7 +164,7 @@ class Snake:
         joint_side = self.get_joint_side(prev_head_pos, self.rect.center)
 
         body_segment = Snake_Segment(
-            self.size,
+            (self.size, self.size),
             prev_head_pos,
             self.joint_size,
             joint_side,

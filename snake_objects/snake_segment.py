@@ -4,7 +4,7 @@ import pygame
 
 class Snake_Segment:
     def __init__(self, size, center, joint_width, joint_side, color, life_span):
-        self.rect = pygame.rect.Rect((0, 0), (size, size))
+        self.rect = pygame.rect.Rect((0, 0), size)
         self.rect.center = center
 
         #keep track of the back of the segment
