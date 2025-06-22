@@ -1,6 +1,5 @@
 import pygame
 from snake_objects.snake_segment import Snake_Segment
-import random
 
 
 
@@ -37,7 +36,7 @@ class Snake:
             (self.rect.centerx - self.size - self.joint_size, self.rect.centery),
             self.joint_size,
             "right",
-            (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+            self.color
         )
         body_segment.rect.centerx -= self.step_size
         body_segment.grow(self.step_size, "right")
@@ -165,7 +164,7 @@ class Snake:
             prev_head_pos,
             self.joint_size,
             joint_side,
-            (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+            self.color
         )
         self.body.append(body_segment)
     
