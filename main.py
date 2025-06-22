@@ -74,6 +74,8 @@ class Game:
                         run = False
                         pygame.quit()
                         sys.exit()
+                    elif event.key == pygame.K_e:
+                        self.player.grow_snake()
 
 
             self.canvas.fill((0, 0, 0))
