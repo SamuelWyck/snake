@@ -84,6 +84,8 @@ class Game:
                         run = False
                         pygame.quit()
                         sys.exit()
+                    elif event.key == pygame.K_e:
+                        self.player.grow_snake()
                     else:
                         self.player_controller.key_down(event.key)
                 elif event.type == pygame.MOUSEBUTTONDOWN:
