@@ -41,10 +41,6 @@ class Snake:
             )
             self.body.append(body_segment)
         self.body.reverse()
-        
-        #variables to handle batching body segment removals
-        self.body_remove_interval = 60 * 3
-        self.max_body_remove_interval = 60 * 3
 
 
 
@@ -65,8 +61,9 @@ class Snake:
         self.draw(surface)
         remove = self.draw_body(surface)
 
-        self.handle_segment_removal(remove, delta_time)
-
+        if remove:
+            self.handle_segment_removal()
+            
 
 
     def draw(self, surface):
@@ -150,14 +147,8 @@ class Snake:
 
     
 
-    def handle_segment_removal(self, remove, delta_time):
-        if remove: # and self.body_remove_interval <= 0:
-            self.body = [item for item in self.body if not item.remove]
-            self.body_remove_interval = self.max_body_remove_interval
-        elif self.body_remove_interval <= 0:
-            self.body_remove_interval = self.max_body_remove_interval
-        else:
-            self.body_remove_interval -= (1 * delta_time)
+    def handle_segment_removal(self):
+        self.body = [item for item in self.body if not item.remove]
     
 
 
