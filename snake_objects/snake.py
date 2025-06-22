@@ -27,20 +27,21 @@ class Snake:
         self.last_movement = self.move_right
     
         self.collide_point = self.rect.center
+        self._increase_length = False
 
         #set up the starting body
-        self.body_length = 1
+        self.body_length = 2
         self.body = []
-        for i in range(self.body_length):
-            body_segment = Snake_Segment(
-                (self.size * 2, self.size),
-                (self.rect.centerx - (self.step_size * (i + 1)), self.rect.centery),
-                self.joint_size,
-                "right",
-                self.color, self.max_step_interval * self.body_length - (i * self.max_step_interval)
-            )
-            self.body.append(body_segment)
-        self.body.reverse()
+        body_segment = Snake_Segment(
+            self.size,
+            (self.rect.centerx - self.size - self.joint_size, self.rect.centery),
+            self.joint_size,
+            "right",
+            (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+        )
+        body_segment.rect.centerx -= self.step_size
+        body_segment.grow(self.step_size, "right")
+        self.body.append(body_segment)
 
 
 
@@ -57,6 +58,10 @@ class Snake:
             else:
                 self.grow_front_segment()
             self.shrink_back_segment()
+            
+            if self._increase_length:
+                self.increase_length()
+                self._increase_length = False
         
         self.draw(surface)
         remove = self.draw_body(surface)
@@ -156,11 +161,33 @@ class Snake:
         joint_side = self.get_joint_side(prev_head_pos, self.rect.center)
 
         body_segment = Snake_Segment(
-            (self.size, self.size),
+            self.size,
             prev_head_pos,
             self.joint_size,
             joint_side,
-            (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)),
-            self.max_step_interval * self.body_length
+            (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
         )
         self.body.append(body_segment)
+    
+
+
+    def grow_snake(self):
+        self._increase_length = True
+
+
+
+    def increase_length(self):
+        back_segment = self.body[0]
+
+        back_side_is_left = back_segment.back_pos[0] < back_segment.rect.centerx
+        back_side_is_bottom = back_segment.back_pos[1] > back_segment.rect.centery
+        width_is_long_side = back_segment.rect.width > back_segment.rect.height
+
+        grow_direction = None
+        if width_is_long_side:
+            grow_direction = "left" if back_side_is_left else "right"
+        else:
+            grow_direction = "bottom" if back_side_is_bottom else "top"
+        
+        back_segment.grow(self.step_size, grow_direction)
+        self.body_length += 1
