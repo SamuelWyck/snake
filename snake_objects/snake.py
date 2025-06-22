@@ -1,5 +1,6 @@
 import pygame
 from snake_objects.snake_segment import Snake_Segment
+import random
 
 
 
@@ -54,8 +55,8 @@ class Snake:
         self.step_interval -= interval_change
         if self.step_interval <= 0:
             self.step_interval = self.max_step_interval
-            prev_head_pos, new_direction = self.move()
-            if new_direction:
+            prev_head_pos, same_direction = self.move()
+            if not same_direction:
                 self.add_body_segment(prev_head_pos)
             else:
                 self.grow_front_segment()
@@ -103,9 +104,9 @@ class Snake:
         self.collide_point = self.rect.center
         self.vector.x, self.vector.y = self.rect.centerx, self.rect.centery
 
-        new_direction = self.last_movement == self.movement
+        same_direction = self.last_movement == self.movement
         self.last_movement = self.movement
-        return prev_head_pos, new_direction
+        return prev_head_pos, same_direction
 
 
 
@@ -168,7 +169,7 @@ class Snake:
             prev_head_pos,
             self.joint_size,
             joint_side,
-            self.color,
+            (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)),
             self.max_step_interval * self.body_length
         )
         self.body.append(body_segment)
