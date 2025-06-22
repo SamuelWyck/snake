@@ -3,8 +3,8 @@ import pygame
 
 
 class Snake_Segment:
-    def __init__(self, size, center, joint_width, joint_side, color, life_span):
-        self.rect = pygame.rect.Rect((0, 0), size)
+    def __init__(self, size, center, joint_width, joint_side, color):
+        self.rect = pygame.rect.Rect((0, 0), (size, size))
         self.rect.center = center
 
         #keep track of the back of the segment
@@ -13,21 +13,9 @@ class Snake_Segment:
         #extend rect in the direction needed to cover joint gap
         self.grow(joint_width, joint_side)
 
-
-        self.life_span = life_span
         self.color = color
 
         self.remove = False
-    
-
-
-    def update(self, surface, delta_time):
-        if not self.remove:
-            self.draw(surface)
-            life_span_change = 1 * delta_time
-            self.life_span -= life_span_change
-            if self.life_span <= 0:
-                self.remove = True
     
 
 
