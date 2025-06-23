@@ -21,7 +21,7 @@ import pygame
 #     "DOWN"
 # )
 
-class Player_Controller:
+class PlayerController:
     def __init__(self, controls, holdable_inputs=set()):
         self.update_controls(controls)
 

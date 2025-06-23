@@ -4,7 +4,7 @@ import sys
 from framework_objects.play_area import PlayArea
 from hud_objects.hud import Hud
 from snake_objects.snake import Snake
-from controllers.player_controller import Player_Controller
+from controllers.player_controller import PlayerController
 
 
 
@@ -42,7 +42,7 @@ class Game:
             "RIGHT": pygame.K_d,
             "LEFT": pygame.K_a
         }
-        self.player_controller = Player_Controller(player_controls, holdable_inputs=set())
+        self.player_controller = PlayerController(player_controls, holdable_inputs=set())
 
         #setup player
         player_step_size = 40
