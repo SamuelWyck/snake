@@ -1,9 +1,9 @@
 import pygame
-from static_level_objects.title import Level_Tile
+from static_level_objects.level_tile import LevelTile
 
 
 
-class Wall(Level_Tile):
+class Wall(LevelTile):
     def __init__(self, topleft, size, border_radius=0, color=(255, 255, 255), image=None):
         super().__init__(topleft, size)
         

@@ -2,7 +2,7 @@ import pygame
 
 
 
-class Level_Tile:
+class LevelTile:
     def __init__(self, topleft, size):
         self.rect = pygame.rect.Rect(topleft, size)
     
