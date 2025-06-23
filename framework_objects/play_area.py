@@ -2,7 +2,7 @@ import pygame
 
 
 
-class Play_Area:
+class PlayArea:
     topleft = (0, 0)
     size = (0, 0)
     surface = pygame.Surface(size)

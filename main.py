@@ -1,7 +1,7 @@
 import pygame
 import time
 import sys
-from framework_objects.play_area import Play_Area
+from framework_objects.play_area import PlayArea
 from hud_objects.hud import Hud
 from snake_objects.snake import Snake
 from controllers.player_controller import Player_Controller
@@ -33,7 +33,7 @@ class Game:
             (self.canvas_width - pa_width)//2,
             (self.canvas_height - pa_height)//2
         )
-        Play_Area.set_surface(pa_topleft, (pa_width, pa_height))
+        PlayArea.set_surface(pa_topleft, (pa_width, pa_height))
 
         #setup player controller
         player_controls = {
@@ -95,10 +95,10 @@ class Game:
 
             self.canvas.fill((0, 0, 0))
             self.hud.draw(self.canvas)
-            Play_Area.fill((0, 0, 0))
-            self.player.update(Play_Area.surface, delta_time)
+            PlayArea.fill((0, 0, 0))
+            self.player.update(PlayArea.surface, delta_time)
 
-            Play_Area.draw_surface(self.canvas)
+            PlayArea.draw_surface(self.canvas)
             self.screen.blit(pygame.transform.smoothscale(self.canvas, (self.screen_width, self.screen_height)), (0, 0))
             pygame.display.update()
 

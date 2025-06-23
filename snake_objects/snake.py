@@ -1,5 +1,5 @@
 import pygame
-from snake_objects.snake_segment import Snake_Segment
+from snake_objects.snake_segment import SnakeSegment
 
 
 
@@ -31,7 +31,7 @@ class Snake:
         #setup the starting body
         self.body_length = 2
         self.body = []
-        body_segment = Snake_Segment(
+        body_segment = SnakeSegment(
             self.size,
             (self.rect.centerx - self.size - self.joint_size, self.rect.centery),
             self.joint_size,
@@ -159,7 +159,7 @@ class Snake:
     def add_body_segment(self, prev_head_pos):
         joint_side = self.get_joint_side(prev_head_pos, self.rect.center)
 
-        body_segment = Snake_Segment(
+        body_segment = SnakeSegment(
             self.size,
             prev_head_pos,
             self.joint_size,

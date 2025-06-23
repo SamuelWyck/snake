@@ -2,7 +2,7 @@ import pygame
 
 
 
-class Snake_Segment:
+class SnakeSegment:
     def __init__(self, size, center, joint_width, joint_side, color):
         self.rect = pygame.rect.Rect((0, 0), (size, size))
         self.rect.center = center
