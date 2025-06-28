@@ -28,7 +28,7 @@ class Game:
         self.canvas = pygame.Surface((self.canvas_width, self.canvas_height))
 
         #setup play area canvas
-        pa_width, pa_height = 1230, 630
+        pa_width, pa_height = 1240, 640
         pa_topleft = (
             (self.canvas_width - pa_width)//2,
             (self.canvas_height - pa_height)//2
@@ -46,13 +46,14 @@ class Game:
 
         #setup player
         player_step_size = 40
+        player_size = 30
         player_topleft = (
-            player_step_size * 4,
-            player_step_size * 10
+            player_step_size * 4 + ((player_step_size - player_size) // 2),
+            player_step_size * 10 + ((player_step_size - player_size) // 2)
         )
         self.player = Snake(
             player_topleft, 
-            size=30, 
+            size=player_size, 
             step_size=player_step_size, 
             step_interval=20, 
             color=(0, 255, 0), 
