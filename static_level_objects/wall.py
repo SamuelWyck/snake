@@ -17,7 +17,7 @@ class Wall(LevelTile):
     
 
 
-    def update(self, surface):
+    def update(self, surface, delta_time):
         self.draw(surface)
 
 
