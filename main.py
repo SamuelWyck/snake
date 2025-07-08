@@ -5,6 +5,7 @@ from framework_objects.play_area import PlayArea
 from hud_objects.hud import Hud
 from snake_objects.snake import Snake
 from controllers.player_controller import PlayerController
+from level_manager_objects.level_manager import LevelManager
 
 
 
@@ -21,7 +22,7 @@ class Game:
         self.screen_height = self.screen.get_height()
         pygame.display.set_caption("Snake")
 
-        self.framerate = 120
+        self.framerate = 480
 
         #setup game canvas 
         self.canvas_width, self.canvas_height = 1536, 864
@@ -63,6 +64,10 @@ class Game:
         #setup hud manager
         self.hud = Hud(pa_topleft, (pa_width, pa_height))
 
+        #setup level manager
+        self.level_manager = LevelManager((pa_width, pa_height), single_tile_size=40)
+        self.level_manager.load_level(1)
+
     
 
     def start(self):
@@ -97,6 +102,7 @@ class Game:
             self.canvas.fill((0, 0, 0))
             self.hud.draw(self.canvas)
             PlayArea.fill((0, 0, 0))
+            self.level_manager.update(PlayArea.surface, delta_time)
             self.player.update(PlayArea.surface, delta_time)
 
             PlayArea.draw_surface(self.canvas)
