@@ -1,24 +1,32 @@
-import pygame
-from copy import deepcopy
 from static_level_objects.wall import Wall
 
 
 
 class TileConfig:
-
-    init_topleft = (0, 0)
-    init_size = (0, 0)
-
     tile_map = {
-        "W": Wall(init_topleft, init_size)
+        "W": Wall
     }
+    empty_symbol = "O"
+
+    tiles_to_explore = set(["L"])
+
 
 
     @classmethod
     def get_tile(cls, topleft, size, tile_symbol):
-        tile = deepcopy(cls.tile_map[tile_symbol])
-        tile.set_topleft(topleft)
-        tile.set_size(size)
+        tile_class = cls.tile_map[tile_symbol]
+        tile = tile_class(topleft, size)
 
         return tile
 
+
+
+    @classmethod
+    def is_empty_space(cls, tile_symbol):
+        return tile_symbol == cls.empty_symbol
+
+
+
+    @classmethod
+    def is_explore_tile(cls, tile_symbol):
+        return tile_symbol in cls.tiles_to_explore
