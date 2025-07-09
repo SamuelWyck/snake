@@ -1,6 +1,7 @@
 import pygame
 import time
 import sys
+from framework_objects.display import Display
 from framework_objects.play_area import PlayArea
 from hud_objects.hud import Hud
 from snake_objects.snake import Snake
@@ -12,15 +13,11 @@ from level_manager_objects.level_manager import LevelManager
 
 class Game:
     def __init__(self):
-        pygame.display.init()
 
-        #setup display
-        sizes = pygame.display.get_desktop_sizes()
-        flags = pygame.FULLSCREEN
-        self.screen = pygame.display.set_mode(sizes[0], flags=flags)
-        self.screen_width = self.screen.get_width()
-        self.screen_height = self.screen.get_height()
-        pygame.display.set_caption("Snake")
+        #setup display variables
+        self.screen = Display.screen
+        self.screen_width = Display.screen_width
+        self.screen_height = Display.screen_height
 
         self.framerate = 480
 
@@ -102,6 +99,7 @@ class Game:
             self.canvas.fill((0, 0, 0))
             self.hud.draw(self.canvas)
             PlayArea.fill((0, 0, 0))
+
             self.level_manager.update(PlayArea.surface, delta_time)
             self.player.update(PlayArea.surface, delta_time)
 
