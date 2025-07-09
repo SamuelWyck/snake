@@ -1,4 +1,3 @@
-import pygame
 import os
 from level_manager_objects.tile_config import TileConfig
 
@@ -15,6 +14,8 @@ class LevelManager:
             os.path.join("level_data_files", "level_1.txt")
         ]
 
+        self.traversed_tile_positions = set()
+
 
     
     def load_level(self, level_num):
@@ -23,6 +24,7 @@ class LevelManager:
 
         level = self.read_level_file(file_path)
         self.parse_level_objects(level)
+        TileConfig.link_tiles()
 
 
 
@@ -40,9 +42,11 @@ class LevelManager:
         for row in range(len(level)):
             for col in range(len(level[0]) - 1):
                 symbol = level[row][col]
-                if TileConfig.is_empty_space(symbol):
+                if TileConfig.is_empty_space(symbol) or self.is_traversed_tile(row, col):
                     continue
                 self.get_tile_object(row, col, symbol, level)
+        
+        self.traversed_tile_positions = set()
 
 
     
@@ -68,13 +72,14 @@ class LevelManager:
         self.traverse_tiles_rec(
             row, col, 
             level, symbol, 
-            topleft_positions, set()
+            topleft_positions, set(),
+            self.traversed_tile_positions
         )
         return topleft_positions
     
 
 
-    def traverse_tiles_rec(self, row, col, level, symbol, topleft_positions, visited):
+    def traverse_tiles_rec(self, row, col, level, symbol, topleft_positions, visited, explored_tiles):
         row_valid = 0 <= row < len(level)
         col_valid = 0 <= col < len(level[0]) - 1
         if not row_valid or not col_valid:
@@ -85,6 +90,9 @@ class LevelManager:
         visited.add(key)
         if level[row][col] != symbol:
             return
+        if key in explored_tiles:
+            return
+        explored_tiles.add(key)
         
         topleft = self.calc_tile_topleft(row, col)
         topleft_positions.append(topleft)
@@ -95,11 +103,11 @@ class LevelManager:
         ]
 
         for neighbor in neighbors:
-            if neighbor in visited:
+            if neighbor in visited or neighbor in explored_tiles:
                 continue
             nr = neighbor[0]
             nc = neighbor[1]
-            self.traverse_tiles_rec(nr, nc, level, symbol, topleft_positions, visited)
+            self.traverse_tiles_rec(nr, nc, level, symbol, topleft_positions, visited, explored_tiles)
             
 
 
@@ -108,10 +116,14 @@ class LevelManager:
             self.single_tile_size * col,
             self.single_tile_size * row
         )
+
+
+
+    def is_traversed_tile(self, row, col):
+        return (row, col) in self.traversed_tile_positions
     
 
 
     def update(self, surface, delta_time):
         for tile in self.level_tiles:
             tile.update(surface, delta_time)
-
