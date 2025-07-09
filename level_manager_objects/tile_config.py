@@ -1,10 +1,12 @@
 from static_level_objects.wall import Wall
+from static_level_objects.door import Door
 
 
 
 class TileConfig:
     tile_map = {
-        "W": Wall
+        "W": Wall,
+        "D": Door
     }
     empty_symbol = "O"
 
@@ -15,7 +17,7 @@ class TileConfig:
 
     @classmethod
     def get_tile(cls, topleft, size, tile_symbol):
-        tile_symbol, tile_id = cls.get_id(tile_symbol)
+        tile_symbol, tile_id = cls.parse_tile_symbol(tile_symbol)
 
         tile_class = cls.tile_map[tile_symbol]
         tile = tile_class(topleft, size)
@@ -30,7 +32,7 @@ class TileConfig:
 
 
     @classmethod
-    def get_id(cls, tile_symbol):
+    def parse_tile_symbol(cls, tile_symbol):
         symbol_parts = tile_symbol.split("-")
         if len(symbol_parts) == 1:
             return tile_symbol, None
