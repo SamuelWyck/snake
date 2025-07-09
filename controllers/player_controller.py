@@ -35,7 +35,7 @@ class PlayerController:
 
 
 
-    # this method is hooked up to the event loop and expects a key_code
+    # this method is hooked up to the event loop and expects a key_code from the KEYDOWN event
     def key_down(self, key):
         if key in self.key_codes:
             control_name = self.key_codes[key]
@@ -46,7 +46,7 @@ class PlayerController:
 
 
 
-    # this method is hooked up to the event loop and expects a key_code
+    # this method is hooked up to the event loop and expects a key_code from the KEYUP event
     # this method is only needed if there are controls the player is allowed to hold down
     def key_up(self, key):
         if key in self.key_codes:
@@ -55,7 +55,7 @@ class PlayerController:
 
     
 
-    # this method is hooked up to the event loop and expects a mouse btn code
+    # this method is hooked up to the event loop and expects a mouse_btn code from the MOUSEBUTTONDOWN event
     def mouse_down(self, mouse_btn):
         if mouse_btn in self.key_codes:
             control_name = self.key_codes[mouse_btn]
@@ -66,7 +66,7 @@ class PlayerController:
     
 
 
-    # this method is hooked up to the event loop and expects a mouse btn code
+    # this method is hooked up to the event loop and expects a mouse_btn code from the MOUSEBUTTONUP event
     # this method is only needed if there are controls the player is allowed to hold down
     def mouse_up(self, mouse_btn):
         if mouse_btn in self.key_codes:
