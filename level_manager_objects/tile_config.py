@@ -1,14 +1,23 @@
+from static_level_objects.receiver import Receiver
+from asset_loaders.image_loader import Images
 from static_level_objects.wall import Wall
 from static_level_objects.door import Door
+from static_level_objects.pressure_plate.pressure_plate import PressurePlate
 
 
 
 class TileConfig:
     tile_map = {
         "W": Wall,
-        "D": Door
+        "D": Door,
+        "P": PressurePlate
     }
     empty_symbol = "O"
+    tile_args_map = {
+        "W": [Images.wall_img],
+        "D": [Images.door_img],
+        "P": [[Images.pressure_plate_img, Images.pressure_plate_pressed_img]]
+    }
 
     tiles_to_explore = set(["P"])
     tiles_to_link = {}
@@ -20,12 +29,11 @@ class TileConfig:
         tile_symbol, tile_id = cls.parse_tile_symbol(tile_symbol)
 
         tile_class = cls.tile_map[tile_symbol]
-        tile = tile_class(topleft, size)
+        tile_args = cls.tile_args_map[tile_symbol]
+        tile = tile_class(topleft, size, *tile_args)
 
-        if tile_id and tile_id in cls.tiles_to_link:
-            cls.tiles_to_link[tile_id].append(tile)
-        elif tile_id:
-            cls.tiles_to_link[tile_id] = [tile]
+        if tile_id:
+            cls.store_tile_with_id(tile_id, tile)
 
         return tile
     
@@ -37,6 +45,34 @@ class TileConfig:
         if len(symbol_parts) == 1:
             return tile_symbol, None
         return symbol_parts[0], symbol_parts[1]
+    
+
+
+    @classmethod
+    def store_tile_with_id(cls, tile_id, tile):
+        key = "transmitters"
+        if isinstance(tile, Receiver):
+            key = "receivers"
+
+        if tile_id not in cls.tiles_to_link:
+            cls.tiles_to_link[tile_id] = {}
+        if key not in cls.tiles_to_link[tile_id]:
+            cls.tiles_to_link[tile_id][key] = []
+
+        cls.tiles_to_link[tile_id][key].append(tile)
+
+
+
+    @classmethod
+    def link_tiles(cls):
+        for id in cls.tiles_to_link:
+            link_map = cls.tiles_to_link[id]
+            
+            for transmitter_tile in link_map["transmitters"]:
+                for receiver_tile in link_map["receivers"]:
+                    transmitter_tile.link_receiver(receiver_tile)
+        
+        cls.tiles_to_link = {}
 
 
 
