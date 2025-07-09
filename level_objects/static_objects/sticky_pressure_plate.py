@@ -1,4 +1,4 @@
-from level_objects.static_level_objects.pressure_plate.pressure_plate import PressurePlate
+from level_objects.static_objects.pressure_plate.pressure_plate import PressurePlate
 
 
 
