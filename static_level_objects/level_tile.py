@@ -8,7 +8,7 @@ class LevelTile:
 
 
 
-    def update(self, surface):
+    def update(self, surface, delta_time):
         ...
     
 
