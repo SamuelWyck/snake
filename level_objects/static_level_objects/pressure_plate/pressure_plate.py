@@ -1,5 +1,5 @@
 from level_objects.static_level_objects.pressure_plate.plate_segment import PlateSegment
-from level_objects.static_level_objects.transmitter import Transmitter
+from level_objects.proto_objects.transmitter import Transmitter
 
 
 

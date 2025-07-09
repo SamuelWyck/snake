@@ -1,5 +1,5 @@
-from level_objects.static_level_objects.level_tile import LevelTile
-from level_objects.static_level_objects.receiver import Receiver
+from level_objects.proto_objects.level_tile import LevelTile
+from level_objects.proto_objects.receiver import Receiver
 
 
 

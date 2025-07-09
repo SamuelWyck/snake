@@ -1,4 +1,4 @@
-from level_objects.static_level_objects.receiver import Receiver
+from level_objects.proto_objects.receiver import Receiver
 from asset_loaders.image_loader import Images
 from level_objects.static_level_objects.wall import Wall
 from level_objects.static_level_objects.door import Door
