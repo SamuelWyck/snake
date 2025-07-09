@@ -42,23 +42,72 @@ class LevelManager:
                 symbol = level[row][col]
                 if TileConfig.is_empty_space(symbol):
                     continue
-                
-                tile = None
-                tile_size = (
-                    self.single_tile_size,
-                    self.single_tile_size
-                )
+                self.get_tile_object(row, col, symbol, level)
 
-                if TileConfig.is_explore_tile(symbol):
-                    ...
-                else:
-                    tile_topleft = (
-                        self.single_tile_size * col,
-                        self.single_tile_size * row
-                    )
-                    tile = TileConfig.get_tile(tile_topleft, tile_size, symbol)
 
-                self.level_tiles.append(tile)
+    
+    def get_tile_object(self, row, col, symbol, level):
+        tile_size = (
+            self.single_tile_size,
+            self.single_tile_size
+        )
+        topleft_positions = None
+
+        if TileConfig.is_explorable_tile(symbol):
+            topleft_positions = self.traverse_tiles(row, col, level, symbol)
+        else:
+            topleft_positions = self.calc_tile_topleft(row, col)
+
+        tile = TileConfig.get_tile(topleft_positions, tile_size, symbol)
+        self.level_tiles.append(tile)
+
+    
+
+    def traverse_tiles(self, row, col, level, symbol):
+        topleft_positions = []
+        self.traverse_tiles_rec(
+            row, col, 
+            level, symbol, 
+            topleft_positions, set()
+        )
+        return topleft_positions
+    
+
+
+    def traverse_tiles_rec(self, row, col, level, symbol, topleft_positions, visited):
+        row_valid = 0 <= row < len(level)
+        col_valid = 0 <= col < len(level[0]) - 1
+        if not row_valid or not col_valid:
+            return
+        key = (row, col)
+        if key in visited:
+            return
+        visited.add(key)
+        if level[row][col] != symbol:
+            return
+        
+        topleft = self.calc_tile_topleft(row, col)
+        topleft_positions.append(topleft)
+
+        neighbors = [
+            (row - 1, col), (row + 1, col),
+            (row, col - 1), (row, col + 1)
+        ]
+
+        for neighbor in neighbors:
+            if neighbor in visited:
+                continue
+            nr = neighbor[0]
+            nc = neighbor[1]
+            self.traverse_tiles_rec(nr, nc, level, symbol, topleft_positions, visited)
+            
+
+
+    def calc_tile_topleft(self, row, col):
+        return (
+            self.single_tile_size * col,
+            self.single_tile_size * row
+        )
     
 
 
