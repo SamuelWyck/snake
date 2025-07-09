@@ -1,8 +1,8 @@
-from static_level_objects.receiver import Receiver
+from level_objects.static_level_objects.receiver import Receiver
 from asset_loaders.image_loader import Images
-from static_level_objects.wall import Wall
-from static_level_objects.door import Door
-from static_level_objects.pressure_plate.pressure_plate import PressurePlate
+from level_objects.static_level_objects.wall import Wall
+from level_objects.static_level_objects.door import Door
+from level_objects.static_level_objects.pressure_plate.pressure_plate import PressurePlate
 
 
 
