@@ -14,6 +14,8 @@ class Wall(LevelTile):
         self.mask = None
         if image: 
             self.mask = pygame.mask.from_surface(self.image)
+            self.image_rect = self.image.get_rect()
+            self.image_rect.center = self.rect.center
     
 
 
@@ -24,7 +26,7 @@ class Wall(LevelTile):
 
     def draw(self, surface):
         if self.image:
-            surface.blit(self.image, self.rect.topleft)
+            surface.blit(self.image, self.image_rect.topleft)
         else:
             pygame.draw.rect(surface, self.color, self.rect, border_radius=self.border_radius)
     
