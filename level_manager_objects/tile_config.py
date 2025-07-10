@@ -7,12 +7,19 @@ from level_objects.static_objects.pressure_plate.pressure_plate import PressureP
 
 
 class TileConfig:
+    empty_symbol = "O"
+
+    tile_delimiter = ","
+    tile_id_delimiter = "-"
+
+    transmitter_key = "transmitters"
+    receiver_key = "receivers"
+
     tile_map = {
         "W": Wall,
         "D": Door,
         "P": PressurePlate
     }
-    empty_symbol = "O"
     tile_args_map = {
         "W": [Images.wall_img],
         "D": [Images.door_img],
@@ -41,25 +48,28 @@ class TileConfig:
 
     @classmethod
     def parse_tile_symbol(cls, tile_symbol):
-        symbol_parts = tile_symbol.split("-")
+        symbol_parts = tile_symbol.split(cls.tile_id_delimiter)
         if len(symbol_parts) == 1:
             return tile_symbol, None
-        return symbol_parts[0], symbol_parts[1]
+        
+        symbol_index = 0
+        id_index = 1
+        return symbol_parts[symbol_index], symbol_parts[id_index]
     
 
 
     @classmethod
     def store_tile_with_id(cls, tile_id, tile):
-        key = "transmitters"
+        tile_type = cls.transmitter_key
         if isinstance(tile, Receiver):
-            key = "receivers"
+            tile_type = cls.receiver_key
 
         if tile_id not in cls.tiles_to_link:
             cls.tiles_to_link[tile_id] = {}
-        if key not in cls.tiles_to_link[tile_id]:
-            cls.tiles_to_link[tile_id][key] = []
+        if tile_type not in cls.tiles_to_link[tile_id]:
+            cls.tiles_to_link[tile_id][tile_type] = []
 
-        cls.tiles_to_link[tile_id][key].append(tile)
+        cls.tiles_to_link[tile_id][tile_type].append(tile)
 
 
 
@@ -68,8 +78,8 @@ class TileConfig:
         for id in cls.tiles_to_link:
             link_map = cls.tiles_to_link[id]
             
-            for transmitter_tile in link_map["transmitters"]:
-                for receiver_tile in link_map["receivers"]:
+            for transmitter_tile in link_map[cls.transmitter_key]:
+                for receiver_tile in link_map[cls.receiver_key]:
                     transmitter_tile.link_receiver(receiver_tile)
         
         cls.tiles_to_link = {}
@@ -84,5 +94,7 @@ class TileConfig:
 
     @classmethod
     def is_explorable_tile(cls, tile_symbol):
-        tile_symbol = tile_symbol.split("-")[0]
+        tile_symbol_index = 0
+        symbol_parts = tile_symbol.split(cls.tile_id_delimiter)
+        tile_symbol = symbol_parts[tile_symbol_index]
         return tile_symbol in cls.tiles_to_explore
