@@ -19,7 +19,7 @@ class Game:
         self.screen_width = Display.screen_width
         self.screen_height = Display.screen_height
 
-        self.framerate = 480
+        self.framerate = 240
 
         #setup game canvas 
         self.canvas_width, self.canvas_height = 1536, 864
