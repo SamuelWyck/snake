@@ -19,7 +19,7 @@ class Game:
         self.screen_width = Display.screen_width
         self.screen_height = Display.screen_height
 
-        self.framerate = 240
+        self.framerate = 480
 
         #setup game canvas 
         self.canvas_width, self.canvas_height = 1536, 864
@@ -53,7 +53,7 @@ class Game:
             player_topleft, 
             size=player_size, 
             step_size=player_step_size, 
-            step_interval=20, 
+            step_interval=25, 
             color=(0, 255, 0), 
             controller=self.player_controller
         )
@@ -87,6 +87,7 @@ class Game:
                         run = False
                         pygame.quit()
                         sys.exit()
+                    #temp event set up to test player growth
                     elif event.key == pygame.K_e:
                         self.player.grow_snake()
                     else:
