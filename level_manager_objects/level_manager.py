@@ -32,7 +32,7 @@ class LevelManager:
         level = []
         with open(file_path, "r") as file:
             for line in file:
-                level.append(line.split(","))
+                level.append(line.split(TileConfig.tile_delimiter))
         
         return level
 
@@ -40,7 +40,8 @@ class LevelManager:
 
     def parse_level_objects(self, level):
         for row in range(len(level)):
-            for col in range(len(level[0]) - 1):
+            #the last col in each row is an unneeded newline character so subtract len by one to skip it
+            for col in range(len(level[row]) - 1):
                 symbol = level[row][col]
                 if TileConfig.is_empty_space(symbol) or self.is_traversed_tile(row, col):
                     continue
@@ -81,7 +82,7 @@ class LevelManager:
 
     def traverse_tiles_rec(self, row, col, level, symbol, topleft_positions, visited, explored_tiles):
         row_valid = 0 <= row < len(level)
-        col_valid = 0 <= col < len(level[0]) - 1
+        col_valid = 0 <= col < len(level[row]) - 1 #see line 43 to see reason for subtracting one
         if not row_valid or not col_valid:
             return
         key = (row, col)
@@ -105,9 +106,9 @@ class LevelManager:
         for neighbor in neighbors:
             if neighbor in visited or neighbor in explored_tiles:
                 continue
-            nr = neighbor[0]
-            nc = neighbor[1]
-            self.traverse_tiles_rec(nr, nc, level, symbol, topleft_positions, visited, explored_tiles)
+            n_row = neighbor[0]
+            n_col = neighbor[1]
+            self.traverse_tiles_rec(n_row, n_col, level, symbol, topleft_positions, visited, explored_tiles)
             
 
 
