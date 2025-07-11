@@ -1,12 +1,12 @@
 import pygame
 import time
 import sys
-from framework_objects.display import Display
-from framework_objects.play_area import PlayArea
-from hud_objects.hud import Hud
+from framework.display import Display
+from framework.play_area import PlayArea
+from hud.hud import Hud
 from snake_objects.snake import Snake
 from controllers.player_controller import PlayerController
-from level_manager_objects.level_manager import LevelManager
+from level_manager.level_manager import LevelManager
 
 
 

@@ -1,5 +1,5 @@
 import os
-from level_manager_objects.tile_config import TileConfig
+from level_manager.tile_config import TileConfig
 
 
 

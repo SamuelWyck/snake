@@ -1,4 +1,4 @@
-from hud_objects.border import Border
+from hud.border import Border
 
 
 
