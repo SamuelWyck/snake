@@ -3,10 +3,11 @@ from level_objects.proto_objects.level_tile import LevelTile
 
 
 class Wall(LevelTile):
-    def __init__(self, topleft, size, image):
+    def __init__(self, topleft, size, color, image):
         super().__init__(topleft, size)
 
         self.image = image
+        self.color = color
     
 
 
@@ -20,5 +21,7 @@ class Wall(LevelTile):
     
 
 
-    def get_hitbox(self):
-        return self.rect, None
+    def collide(self, collider):
+        if collider.color == self.color:
+            return False
+        return True
