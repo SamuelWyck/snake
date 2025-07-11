@@ -9,6 +9,9 @@ class LevelManager:
         self.single_tile_size = single_tile_size
 
         self.level_tiles = []
+        self.dynamic_tiles = []
+        self.static_tiles = []
+        self.static_tile_map = {}
 
         self.level_files = [
             os.path.join("level_data_files", "level_1.txt")
@@ -64,7 +67,16 @@ class LevelManager:
             topleft_positions = self.calc_tile_topleft(row, col)
 
         tile = TileConfig.get_tile(topleft_positions, tile_size, symbol)
-        self.level_tiles.append(tile)
+        self.store_tile(tile)
+
+    
+
+    def store_tile(self, tile):
+        if TileConfig.is_static_tile(tile):
+            self.static_tiles.append(tile)
+            self.static_tile_map[tile.rect.center] = tile
+        else:
+            self.dynamic_tiles.append(tile)
 
     
 
@@ -126,5 +138,13 @@ class LevelManager:
 
 
     def update(self, surface, delta_time):
-        for tile in self.level_tiles:
+        for tile in self.static_tiles:
             tile.update(surface, delta_time)
+        
+        for tile in self.dynamic_tiles:
+            tile.update(surface, delta_time)
+    
+
+
+    def get_level_objects(self):
+        return self.static_tile_map, self.dynamic_tiles
