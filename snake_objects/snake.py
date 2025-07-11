@@ -13,7 +13,7 @@ class Snake:
         self.step_interval = step_interval
         self.max_step_interval = step_interval
         self.step_size = step_size
-        self.color = color
+        self.color = (255, 0, 0)
         
         self.controller = controller
 
@@ -35,8 +35,7 @@ class Snake:
             self.size,
             (self.rect.centerx - self.size - self.joint_size, self.rect.centery),
             self.joint_size,
-            "right",
-            self.color
+            "right"
         )
         body_segment.rect.centerx -= self.step_size
         body_segment.grow(self.step_size, "right")
@@ -117,7 +116,7 @@ class Snake:
             if body_part.remove:
                 remove = True
                 continue
-            body_part.draw(surface)
+            body_part.draw(surface, self.color)
         
         return remove
     
@@ -163,8 +162,7 @@ class Snake:
             self.size,
             prev_head_pos,
             self.joint_size,
-            joint_side,
-            self.color
+            joint_side
         )
         self.body.append(body_segment)
     

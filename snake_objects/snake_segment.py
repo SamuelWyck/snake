@@ -3,7 +3,7 @@ import pygame
 
 
 class SnakeSegment:
-    def __init__(self, size, center, joint_width, joint_side, color):
+    def __init__(self, size, center, joint_width, joint_side):
         self.rect = pygame.rect.Rect((0, 0), (size, size))
         self.rect.center = center
 
@@ -13,14 +13,12 @@ class SnakeSegment:
         #extend rect in the direction needed to cover joint gap
         self.grow(joint_width, joint_side)
 
-        self.color = color
-
         self.remove = False
     
 
 
-    def draw(self, surface):
-        pygame.draw.rect(surface, self.color, self.rect)
+    def draw(self, surface, color):
+        pygame.draw.rect(surface, color, self.rect)
 
     
 
