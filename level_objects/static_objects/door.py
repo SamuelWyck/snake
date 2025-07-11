@@ -4,10 +4,11 @@ from level_objects.proto_objects.receiver import Receiver
 
 
 class Door(LevelTile, Receiver):
-    def __init__(self, topleft, size, image):
+    def __init__(self, topleft, size, color, image):
         super().__init__(topleft, size)
 
         self.image = image
+        self.color = color
         self.is_open = False
     
 
@@ -35,8 +36,3 @@ class Door(LevelTile, Receiver):
     
     def toggle(self):
         self.is_open = not self.is_open
-
-
-    
-    def get_hitbox(self):
-        return self.rect, self.mask
