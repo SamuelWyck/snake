@@ -3,6 +3,7 @@ from asset_loaders.image_loader import Images
 from level_objects.static_objects.wall import Wall
 from level_objects.static_objects.door import Door
 from level_objects.static_objects.pressure_plate.pressure_plate import PressurePlate
+from utils.color import Color
 
 
 
@@ -10,7 +11,7 @@ class TileConfig:
     empty_symbol = "O"
 
     tile_delimiter = ","
-    tile_id_delimiter = "-"
+    tile_data_delimiter = "-"
 
     transmitter_key = "transmitters"
     receiver_key = "receivers"
@@ -21,10 +22,23 @@ class TileConfig:
         "P": PressurePlate
     }
     tile_args_map = {
-        "W": [Images.wall_img],
-        "D": [Images.door_img],
-        "P": [[Images.pressure_plate_img, Images.pressure_plate_pressed_img]]
+        "W": {
+            "b": [Color.BLUE, Images.wall_img],
+            "o": [Color.ORANGE, Images.wall_img],
+            "g": [Color.GREEN, Images.wall_img],
+            "r": [Color.RED, Images.wall_img],
+            "NOCOLOR": [Color.NO_COLOR, Images.wall_img]   
+        },
+        "D": {
+            "NOCOLOR": [Color.NO_COLOR, Images.door_img]
+        },
+        "P": {
+            "NOCOLOR": [Color.NO_COLOR, [Images.pressure_plate_img, Images.pressure_plate_pressed_img]]
+        }
     }
+
+    static_tiles = set([Wall])
+
 
     tiles_to_explore = set(["P"])
     tiles_to_link = {}
@@ -33,10 +47,10 @@ class TileConfig:
 
     @classmethod
     def get_tile(cls, topleft, size, tile_symbol):
-        tile_symbol, tile_id = cls.parse_tile_symbol(tile_symbol)
+        tile_symbol, tile_color, tile_id = cls.parse_tile_symbol(tile_symbol)
 
         tile_class = cls.tile_map[tile_symbol]
-        tile_args = cls.tile_args_map[tile_symbol]
+        tile_args = cls.tile_args_map[tile_symbol][tile_color]
         tile = tile_class(topleft, size, *tile_args)
 
         if tile_id:
@@ -48,13 +62,26 @@ class TileConfig:
 
     @classmethod
     def parse_tile_symbol(cls, tile_symbol):
-        symbol_parts = tile_symbol.split(cls.tile_id_delimiter)
-        if len(symbol_parts) == 1:
-            return tile_symbol, None
-        
         symbol_index = 0
-        id_index = 1
-        return symbol_parts[symbol_index], symbol_parts[id_index]
+        color_index = 1
+        id_index = 2
+        symbol_parts = tile_symbol.split(cls.tile_data_delimiter)
+
+        symbol = symbol_parts[symbol_index]
+        id = None
+        color = "NOCOLOR"
+
+        if len(symbol_parts) == 2:
+            if symbol_parts[1] in cls.tile_args_map[symbol]:
+                color = symbol_parts[1]
+            else:
+                id = symbol_parts[1]
+        elif len(symbol_parts) == 3:
+            id = symbol_parts[id_index]
+            color = symbol_parts[color_index]
+
+        
+        return symbol, color, id
     
 
 
@@ -95,6 +122,12 @@ class TileConfig:
     @classmethod
     def is_explorable_tile(cls, tile_symbol):
         tile_symbol_index = 0
-        symbol_parts = tile_symbol.split(cls.tile_id_delimiter)
+        symbol_parts = tile_symbol.split(cls.tile_data_delimiter)
         tile_symbol = symbol_parts[tile_symbol_index]
         return tile_symbol in cls.tiles_to_explore
+    
+
+
+    @classmethod
+    def is_static_tile(cls, tile):
+        return tile.__class__ in cls.static_tiles
