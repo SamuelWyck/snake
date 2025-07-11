@@ -12,11 +12,6 @@ class LevelTile:
         ...
     
 
-
-    def get_hitbox(self):
-        return self.rect, None
-    
-
     
     def set_topleft(self, topleft):
         self.rect.topleft = topleft
