@@ -7,6 +7,7 @@ from hud.hud import Hud
 from snake_objects.snake import Snake
 from controllers.player_controller import PlayerController
 from level_manager.level_manager import LevelManager
+from collision_manager.collision_manager import CollisionManager
 
 
 
@@ -65,6 +66,9 @@ class Game:
         self.level_manager = LevelManager((pa_width, pa_height), single_tile_size=40)
         self.level_manager.load_level(1)
 
+        #setup collision manager
+        self.collision_manager = CollisionManager((pa_width, pa_height))
+
     
 
     def start(self):
@@ -103,6 +107,11 @@ class Game:
 
             self.level_manager.update(PlayArea.surface, delta_time)
             self.player.update(PlayArea.surface, delta_time)
+
+            self.collision_manager.check_collisions(
+                self.player, 
+                self.level_manager.get_level_objects
+            )
 
             PlayArea.draw_surface(self.canvas)
             self.screen.blit(pygame.transform.smoothscale(self.canvas, (self.screen_width, self.screen_height)), (0, 0))
