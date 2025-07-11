@@ -4,8 +4,11 @@ from level_objects.proto_objects.transmitter import Transmitter
 
 
 class PressurePlate(Transmitter):
-    def __init__(self, topleft_positions, tile_size, images):
+    def __init__(self, topleft_positions, tile_size, color, images):
         super().__init__()
+
+        self.color = color
+
         self.segments = []
         for position in topleft_positions:
             segment = PlateSegment(position, tile_size, images)

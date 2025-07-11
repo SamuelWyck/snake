@@ -29,11 +29,6 @@ class PlateSegment(LevelTile):
     
 
 
-    def get_hitbox(self):
-        return self.rect, None
-    
-
-
     def press(self):
         self.pressed = True
 
