@@ -190,3 +190,16 @@ class Snake:
         
         back_segment.grow(self.step_size, grow_direction)
         self.body_length += 1
+    
+
+
+    def just_moved(self):
+        return self.step_interval == self.max_step_interval
+    
+
+
+    def body_collide(self):
+        for segment in self.body:
+            if segment.rect.colliderect(self.rect):
+                return True
+        return False
