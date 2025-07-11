@@ -4,7 +4,7 @@ import sys
 from framework.display import Display
 from framework.play_area import PlayArea
 from hud.hud import Hud
-from snake_objects.snake import Snake
+from snake.snake import Snake
 from controllers.player_controller import PlayerController
 from level_manager.level_manager import LevelManager
 from collision_manager.collision_manager import CollisionManager

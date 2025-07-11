@@ -1,5 +1,5 @@
 import pygame
-from snake_objects.snake_segment import SnakeSegment
+from snake.snake_segment import SnakeSegment
 
 
 
@@ -13,7 +13,7 @@ class Snake:
         self.step_interval = step_interval
         self.max_step_interval = step_interval
         self.step_size = step_size
-        self.color = (255, 0, 0)
+        self.color = color
         
         self.controller = controller
 
