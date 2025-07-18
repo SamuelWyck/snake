@@ -197,7 +197,20 @@ class Snake:
 
 
     def body_collide(self):
-        for segment in self.body:
-            if segment.rect.colliderect(self.rect):
-                return True
-        return False
+        hit_segment = self.rect.collideobjects(
+            self.body, 
+            key=lambda segment: segment.rect
+        )
+        return hit_segment != None
+    
+
+
+    def collide(self, collider_rect):
+        if collider_rect.colliderect(self.rect):
+            return True
+        
+        hit_segment = collider_rect.collideobjects(
+            self.body,
+            key=lambda segment : segment.rect
+        )
+        return hit_segment != None
