@@ -4,12 +4,12 @@ from level_objects.proto_objects.receiver import Receiver
 
 
 class Door(LevelTile, Receiver):
-    def __init__(self, topleft, size, color, image):
+    def __init__(self, topleft, size, color, image, is_open):
         super().__init__(topleft, size)
 
         self.image = image
         self.color = color
-        self.is_open = False
+        self.is_open = is_open
     
 
 
