@@ -3,6 +3,7 @@ from asset_loaders.image_loader import Images
 from level_objects.static_objects.wall import Wall
 from level_objects.static_objects.door import Door
 from level_objects.static_objects.pressure_plate.pressure_plate import PressurePlate
+from level_objects.static_objects.sticky_pressure_plate import StickyPressurePlate
 from utils.color import Color
 
 
@@ -19,7 +20,8 @@ class TileConfig:
     tile_map = {
         "W": Wall,
         "D": Door,
-        "P": PressurePlate
+        "P": PressurePlate,
+        "SP": StickyPressurePlate
     }
     tile_args_map = {
         "W": {
@@ -34,13 +36,16 @@ class TileConfig:
         },
         "P": {
             "NOCOLOR": [Color.NO_COLOR, [Images.pressure_plate_img, Images.pressure_plate_pressed_img]]
+        },
+        "SP": {
+            "NOCOLOR": [Color.NO_COLOR, [Images.pressure_plate_img, Images.pressure_plate_pressed_img]]
         }
     }
 
     static_tiles = set([Wall])
 
 
-    tiles_to_explore = set(["P"])
+    tiles_to_explore = set(["P", "SP"])
     tiles_to_link = {}
 
 
