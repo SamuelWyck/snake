@@ -17,9 +17,12 @@ class TileConfig:
     transmitter_key = "transmitters"
     receiver_key = "receivers"
 
+    start_door_open = True
+
     tile_map = {
         "W": Wall,
-        "D": Door,
+        "DO": Door,
+        "DC": Door,
         "P": PressurePlate,
         "SP": StickyPressurePlate
     }
@@ -31,8 +34,11 @@ class TileConfig:
             "r": [Color.RED, Images.wall_img],
             "NOCOLOR": [Color.NO_COLOR, Images.wall_img]   
         },
-        "D": {
-            "NOCOLOR": [Color.NO_COLOR, Images.door_img]
+        "DO": {
+            "NOCOLOR": [Color.NO_COLOR, Images.door_img, start_door_open]
+        },
+        "DC": {
+            "NOCOLOR": [Color.NO_COLOR, Images.door_img, not start_door_open]
         },
         "P": {
             "NOCOLOR": [Color.NO_COLOR, [Images.pressure_plate_img, Images.pressure_plate_pressed_img]]
