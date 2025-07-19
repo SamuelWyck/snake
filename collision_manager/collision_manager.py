@@ -1,6 +1,6 @@
 import pygame
-from level_objects.static_objects.pressure_plate.pressure_plate import PressurePlate
-from level_objects.static_objects.sticky_pressure_plate import StickyPressurePlate
+from level_objects.dynamic_objects.pressure_plate.pressure_plate import PressurePlate
+from level_objects.dynamic_objects.sticky_pressure_plate import StickyPressurePlate
 
 
 

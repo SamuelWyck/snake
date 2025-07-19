@@ -1,9 +1,9 @@
 from level_objects.proto_objects.receiver import Receiver
 from asset_loaders.image_loader import Images
 from level_objects.static_objects.wall import Wall
-from level_objects.static_objects.door import Door
-from level_objects.static_objects.pressure_plate.pressure_plate import PressurePlate
-from level_objects.static_objects.sticky_pressure_plate import StickyPressurePlate
+from level_objects.dynamic_objects.door import Door
+from level_objects.dynamic_objects.pressure_plate.pressure_plate import PressurePlate
+from level_objects.dynamic_objects.sticky_pressure_plate import StickyPressurePlate
 from level_objects.agent_objects.box import Box
 from utils.color import Color
 

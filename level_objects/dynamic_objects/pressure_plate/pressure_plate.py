@@ -1,11 +1,22 @@
-from level_objects.static_objects.pressure_plate.pressure_plate import PressurePlate
+from level_objects.dynamic_objects.pressure_plate.plate_segment import PlateSegment
+from level_objects.proto_objects.transmitter import Transmitter
 
 
 
-class StickyPressurePlate(PressurePlate):
+class PressurePlate(Transmitter):
     def __init__(self, topleft_positions, tile_size, color, images):
-        super().__init__(topleft_positions, tile_size, color, images)
+        super().__init__()
 
+        self.color = color
+
+        self.hit_segments = set()
+        self.same_activation = False
+
+        self.segments = []
+        for position in topleft_positions:
+            segment = PlateSegment(position, tile_size, images)
+            self.segments.append(segment)
+    
 
 
     def update(self, surface, delta_time):
@@ -22,6 +33,7 @@ class StickyPressurePlate(PressurePlate):
             self.toggle_recivers()
             self.same_activation = True
         elif len(self.hit_segments) != len(self.segments) and self.same_activation:
+            self.toggle_recivers()
             self.same_activation = False
         
         self.hit_segments = set()
