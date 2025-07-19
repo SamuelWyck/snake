@@ -8,10 +8,10 @@ class LevelManager:
         self.level_size = level_size
         self.single_tile_size = single_tile_size
 
-        self.level_tiles = []
         self.dynamic_tiles = []
         self.static_tiles = []
         self.static_tile_map = {}
+        self.agent_tiles = []
 
         self.level_files = [
             os.path.join("level_data_files", "level_1.txt")
@@ -75,8 +75,10 @@ class LevelManager:
         if TileConfig.is_static_tile(tile):
             self.static_tiles.append(tile)
             self.static_tile_map[tile.rect.center] = tile
-        else:
+        elif TileConfig.is_dynamic_tile(tile):
             self.dynamic_tiles.append(tile)
+        else:
+            self.agent_tiles.append(tile)
 
     
 
@@ -143,8 +145,11 @@ class LevelManager:
         
         for tile in self.dynamic_tiles:
             tile.update(surface, delta_time)
+
+        for tile in self.agent_tiles:
+            tile.update(surface, delta_time)
     
 
 
     def get_level_objects(self):
-        return self.static_tile_map, self.dynamic_tiles
+        return self.static_tile_map, self.dynamic_tiles, self.agent_tiles
