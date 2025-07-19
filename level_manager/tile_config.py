@@ -4,6 +4,7 @@ from level_objects.static_objects.wall import Wall
 from level_objects.static_objects.door import Door
 from level_objects.static_objects.pressure_plate.pressure_plate import PressurePlate
 from level_objects.static_objects.sticky_pressure_plate import StickyPressurePlate
+from level_objects.agent_objects.box import Box
 from utils.color import Color
 
 
@@ -24,7 +25,8 @@ class TileConfig:
         "DO": Door,
         "DC": Door,
         "P": PressurePlate,
-        "SP": StickyPressurePlate
+        "SP": StickyPressurePlate,
+        "B": Box
     }
     tile_args_map = {
         "W": {
@@ -45,10 +47,18 @@ class TileConfig:
         },
         "SP": {
             "NOCOLOR": [Color.NO_COLOR, [Images.pressure_plate_img, Images.pressure_plate_pressed_img]]
+        },
+        "B": {
+            "NOCOLOR": [Color.NO_COLOR, Images.box_img]
         }
     }
 
     static_tiles = set([Wall])
+    dynamic_tiles = set([
+        StickyPressurePlate,
+        PressurePlate,
+        Door
+    ])
 
 
     tiles_to_explore = set(["P", "SP"])
@@ -142,3 +152,9 @@ class TileConfig:
     @classmethod
     def is_static_tile(cls, tile):
         return tile.__class__ in cls.static_tiles
+    
+
+
+    @classmethod
+    def is_dynamic_tile(cls, tile):
+        return tile.__class__ in cls.dynamic_tiles
