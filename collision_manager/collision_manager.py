@@ -19,7 +19,7 @@ class CollisionManager:
     
 
     def check_collisions(self, player, level_object_fetcher):   
-        static_tile_map, dynamic_tiles = level_object_fetcher()
+        static_tile_map, dynamic_tiles, agent_tiles = level_object_fetcher()
         
         if player.just_moved():
             if player.rect.center in static_tile_map:
