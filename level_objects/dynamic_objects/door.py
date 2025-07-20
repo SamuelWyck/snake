@@ -1,3 +1,4 @@
+import pygame
 from level_objects.proto_objects.level_tile import LevelTile
 from level_objects.proto_objects.receiver import Receiver
 
@@ -10,6 +11,7 @@ class Door(LevelTile, Receiver):
         self.image = image
         self.color = color
         self.is_open = is_open
+        self.open_rect = pygame.rect.Rect((-10, -10), (0, 0))
     
 
 
@@ -36,3 +38,19 @@ class Door(LevelTile, Receiver):
     
     def toggle(self):
         self.is_open = not self.is_open
+
+    
+
+    def collide(self, rect):
+        if self.is_open:
+            return False
+        if self.rect.colliderect(rect):
+            return True
+        return False
+    
+
+
+    def get_hitbox(self):
+        if self.is_open:
+            return self.open_rect
+        return self.rect
