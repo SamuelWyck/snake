@@ -1,6 +1,8 @@
 import pygame
 from level_objects.dynamic_objects.pressure_plate.pressure_plate import PressurePlate
 from level_objects.dynamic_objects.sticky_pressure_plate import StickyPressurePlate
+from level_objects.agent_objects.box import Box
+from snake.snake import Snake
 
 
 
@@ -19,7 +21,7 @@ class CollisionManager:
     
 
     def check_collisions(self, player, level_object_fetcher):   
-        static_tile_map, dynamic_tiles, agent_tiles = level_object_fetcher()
+        static_tile_map, dynamic_tiles, agents = level_object_fetcher()
         
         if player.just_moved():
             if player.rect.center in static_tile_map:
@@ -34,6 +36,7 @@ class CollisionManager:
                 ...
 
         self.check_dynamic_tiles(player, dynamic_tiles)
+        self.check_agents(player, agents, static_tile_map, dynamic_tiles)
 
     
 
@@ -41,17 +44,34 @@ class CollisionManager:
         for tile in dynamic_tiles:
             if tile.color == collider.color:
                 continue
-            if self.is_compound_tile(tile):
+            if self.is_pressure_plate_tile(tile):
                 for segment in tile.segments:
                     if collider.collide(segment.rect):
                         tile.hit_segments.add(segment)
             else:
-                if collider.collide(tile.rect):
+                if collider.collide(tile.get_hitbox()):
                     ...
 
-    
 
-    def is_compound_tile(self, tile):
+
+    def check_agents(self, collider, agents, static_tiles, dynamic_tiles):
+        for agent in agents:
+            if agent.color == collider.color:
+                continue
+            if agent.__class__ == Box and collider.rect.colliderect(agent.rect):
+                if collider.__class__ == Snake:
+                    agent.move(
+                        collider, 
+                        static_tiles, 
+                        dynamic_tiles, 
+                        agents, 
+                        self.is_pressure_plate_tile,
+                        self.in_bounds
+                    )
+
+
+
+    def is_pressure_plate_tile(self, tile):
         return tile.__class__ in self.compound_tiles
     
 
