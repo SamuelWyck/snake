@@ -96,7 +96,8 @@ class LevelManager:
 
     def traverse_tiles_rec(self, row, col, level, symbol, topleft_positions, visited, explored_tiles):
         row_valid = 0 <= row < len(level)
-        col_valid = 0 <= col < len(level[row]) - 1 #see line 43 to see reason for subtracting one
+        #the last col in each row is an unneeded newline character so subtract len by one to ignore it
+        col_valid = 0 <= col < len(level[row]) - 1
         if not row_valid or not col_valid:
             return
         key = (row, col)
