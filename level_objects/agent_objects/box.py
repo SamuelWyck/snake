@@ -4,28 +4,11 @@ from level_objects.proto_objects.level_tile import LevelTile
 
 class Box(LevelTile):
     def __init__(self, topleft, size, color, image):
-        # width_index = 0
-        # x_coord = 0
-        # y_coord = 1
-
-        # width = size[width_index]
-        # corrected_width = width * .75
-        # remaining_width = width - corrected_width
-        # topleft_correction = remaining_width // 2
-
-        # topleft = (
-        #     topleft[x_coord] + topleft_correction,
-        #     topleft[y_coord] + topleft_correction
-        # )
-        # size = (
-        #     corrected_width,
-        #     corrected_width
-        # )
-
         super().__init__(topleft, size)
 
         self.image = image
         self.color = color
+        self.move_distance = self.rect.width
 
     
 
@@ -36,3 +19,55 @@ class Box(LevelTile):
 
     def draw(self, surface):
         surface.blit(self.image, self.rect.topleft)
+
+    
+
+    def collide(self, rect):
+        return self.rect.colliderect(rect)
+
+    
+
+    def move(self, player, static_tiles, dynamic_tiles, agents, tile_to_skip, in_bounds):
+        old_position = self.move_self(player)
+
+        if self.rect.center in static_tiles:
+            self.rect.center = old_position
+            return False
+        if not in_bounds(self.rect):
+            self.rect.center = old_position
+            return False
+        if player.collide(self.rect):
+            self.rect.center = old_position
+            return False
+        
+        for tile in dynamic_tiles:
+            if tile_to_skip(tile):
+                continue
+            if tile.collide(self.rect):
+                self.rect.center = old_position
+                return False
+
+        for agent in agents:
+            if agent == self:
+                continue
+            if agent.collide(self.rect):
+                self.rect.center = old_position
+                return False
+        
+        return True
+    
+
+
+    def move_self(self, player):
+        old_position = self.rect.center
+
+        if player.last_movement == player.move_right:
+            self.rect.x += self.move_distance
+        elif player.last_movement == player.move_left:
+            self.rect.x -= self.move_distance
+        elif player.last_movement == player.move_up:
+            self.rect.y -= self.move_distance
+        else:
+            self.rect.y += self.move_distance
+
+        return old_position
