@@ -214,3 +214,14 @@ class Snake:
             key=lambda segment : segment.rect
         )
         return hit_segment != None
+    
+
+
+    def get_direction_as_str(self):
+        if self.last_movement == self.move_up:
+            return "up"
+        if self.last_movement == self.move_down:
+            return "down"
+        if self.last_movement == self.move_left:
+            return "left"
+        return "right"
