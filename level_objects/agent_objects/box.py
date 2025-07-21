@@ -60,12 +60,13 @@ class Box(LevelTile):
 
     def move_self(self, player):
         old_position = self.rect.center
+        direction = player.get_direction_as_str()
 
-        if player.last_movement == player.move_right:
+        if direction == "right":
             self.rect.x += self.move_distance
-        elif player.last_movement == player.move_left:
+        elif direction == "left":
             self.rect.x -= self.move_distance
-        elif player.last_movement == player.move_up:
+        elif direction == "up":
             self.rect.y -= self.move_distance
         else:
             self.rect.y += self.move_distance
