@@ -11,7 +11,6 @@ from collision_manager.collision_manager import CollisionManager
 
 
 
-
 class Game:
     def __init__(self):
 
