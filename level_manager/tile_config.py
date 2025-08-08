@@ -81,9 +81,9 @@ class TileConfig:
         "PSH": {
             "b": [*snake_args, Color.BLUE, player_controller],
             "o": [*snake_args, Color.ORANGE, player_controller],
-            "g": [*snake_args, Color.GREEN, player_controller],
+            "g": [*snake_args, Images.green_snake_img, Color.GREEN, player_controller],
             "r": [*snake_args, Color.RED, player_controller],
-            "NOCOLOR": [*snake_args, Color.GREEN, player_controller]
+            "NOCOLOR": [*snake_args, Images.green_snake_img, Color.GREEN, player_controller]
         }
     }
 
