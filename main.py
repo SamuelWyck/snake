@@ -64,13 +64,14 @@ class Game:
                         run = False
                         pygame.quit()
                         sys.exit()
-                    #temp event set up to test player growth
-                    elif event.key == pygame.K_e:
-                        self.player.grow_snake()
                     else:
                         self.player_controller.key_down(event.key)
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     self.player_controller.mouse_down(event.button)
+                elif event.type == pygame.KEYUP:
+                    self.player_controller.key_up(event.key)
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    self.player_controller.mouse_up(event.button)
 
 
 
