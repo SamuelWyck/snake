@@ -268,6 +268,7 @@ class Snake:
     def shrink_back_segment(self):
         # back_body_part = self.body[0]
         # next_index = 1
+        # might remove decrease logic and then dont need this for loop
         back_body_part = None
         next_index = None
         for index, part in enumerate(self.body):
