@@ -4,7 +4,7 @@ from snake.snake_segment import SnakeSegment
 
 
 class Snake:
-    def __init__(self, segment_positions, size, step_size, step_interval, color, controller):
+    def __init__(self, segment_positions, size, step_size, step_interval, image, color, controller):
         head_position = segment_positions[0]
         self.rect = pygame.rect.Rect(head_position, (size, size))
         self.vector = pygame.math.Vector2(self.rect.center)
@@ -35,6 +35,17 @@ class Snake:
         self.body_length = len(segment_positions) - 1 #subtract by one to ignore head
         self.body = []
         self.initialize_body(segment_positions)
+
+        #setup image and image cache
+        self.image = image
+        self.image_rect = image.get_rect()
+        self.image_cache = {}
+        self.image_angles = {
+            self.move_up: 0,
+            self.move_down: 180,
+            self.move_right: -90,
+            self.move_left: 90
+        }
 
 
     
@@ -187,8 +198,16 @@ class Snake:
 
 
     def draw(self, surface):
-        pygame.draw.rect(surface, self.color, self.rect)
-        pygame.draw.circle(surface, (255, 0, 0), self.vector, 10)
+        image_angle = self.image_angles[self.last_movement]
+
+        if image_angle in self.image_cache:
+            image_rot = self.image_cache[image_angle]
+        else:
+            image_rot = pygame.transform.rotate(self.image, image_angle)
+        image_rect = image_rot.get_rect()
+        image_rect.center = self.rect.center
+
+        surface.blit(image_rot, image_rect.topleft)
 
 
 
