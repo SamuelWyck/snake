@@ -24,12 +24,14 @@ class Snake:
         self.move_right = 1
         self.move_down = 2
         self.move_left = 3
-        self.movement = self.move_right
-        self.last_movement = self.move_right
+        self.movement = None
+        self.last_movement = None
     
         self.increase_length = False
+        self.decrease_length = False
 
         #setup the starting body
+        self.min_body_length = 2
         self.body_length = len(segment_positions) - 1 #subtract by one to ignore head
         self.body = []
         self.initialize_body(segment_positions)
@@ -170,8 +172,11 @@ class Snake:
             if not self.increase_length:
                 self.shrink_back_segment()
             else:
-                self.body_length += 1
                 self.increase_length = False
+
+            if self.decrease_length:
+                self.shrink_back_segment()
+                self.decrease_length = False
         
         self.draw(surface)
         remove = self.draw_body(surface)
@@ -198,6 +203,10 @@ class Snake:
             self.movement = self.move_left
         if pressed_inputs["RIGHT"] and self.last_movement != self.move_left:
             self.movement = self.move_right
+        if pressed_inputs["GROW"]:
+            self.grow_snake()
+        if pressed_inputs["SHRINK"]:
+            self.shrink_snake()
     
 
 
@@ -257,8 +266,17 @@ class Snake:
     
 
     def shrink_back_segment(self):
-        back_body_part = self.body[0]
-        next_body_part_pos = self.body[1].back_pos if len(self.body) > 1 else self.rect.center
+        # back_body_part = self.body[0]
+        # next_index = 1
+        back_body_part = None
+        next_index = None
+        for index, part in enumerate(self.body):
+            if not part.remove:
+                back_body_part = part
+                next_index = index + 1
+                break
+
+        next_body_part_pos = self.body[next_index].back_pos if len(self.body) > next_index else self.rect.center
         change_direction = self.get_change_direction(back_body_part.rect.center, next_body_part_pos)
         back_body_part.shrink(self.step_size, change_direction)
 
@@ -283,7 +301,17 @@ class Snake:
 
 
     def grow_snake(self):
-        self.increase_length = True
+        if not self.decrease_length and not self.increase_length:
+            self.increase_length = True
+            self.body_length += 1
+
+    
+
+    def shrink_snake(self):
+        long_enough = self.body_length > self.min_body_length
+        if long_enough and not self.increase_length and not self.decrease_length:
+            self.decrease_length = True
+            self.body_length -= 1
     
 
 
