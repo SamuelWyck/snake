@@ -17,11 +17,13 @@ class TileConfig:
         "UP": pygame.K_w,
         "DOWN": pygame.K_s,
         "RIGHT": pygame.K_d,
-        "LEFT": pygame.K_a
+        "LEFT": pygame.K_a,
+        "GROW": pygame.K_SPACE,
+        "SHRINK": pygame.K_LSHIFT
     }
     player_controller = PlayerController(
         player_controls, 
-        holdable_inputs=set()
+        holdable_inputs=set(["GROW", "SHRINK"])
     )
 
     snake_size = 30
