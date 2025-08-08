@@ -12,6 +12,7 @@ class LevelManager:
         self.static_tiles = []
         self.static_tile_map = {}
         self.agent_tiles = []
+        self.player = None
 
         self.level_files = [
             os.path.join("level_data_files", "level_1.txt")
@@ -28,6 +29,7 @@ class LevelManager:
         level = self.read_level_file(file_path)
         self.parse_level_objects(level)
         TileConfig.link_tiles()
+        return self.player
 
 
 
@@ -46,7 +48,8 @@ class LevelManager:
             #the last col in each row is an unneeded newline character so subtract len by one to skip it
             for col in range(len(level[row]) - 1):
                 symbol = level[row][col]
-                if TileConfig.is_empty_space(symbol) or self.is_traversed_tile(row, col):
+                if TileConfig.is_empty_space(symbol) or (
+                self.is_traversed_tile(row, col) or TileConfig.is_snake_segment_tile(symbol)):
                     continue
                 self.get_tile_object(row, col, symbol, level)
         
@@ -63,6 +66,8 @@ class LevelManager:
 
         if TileConfig.is_explorable_tile(symbol):
             topleft_positions = self.traverse_tiles(row, col, level, symbol)
+        elif TileConfig.is_snake_head_tile(symbol):
+            topleft_positions = self.get_snake_positions(row, col, level)
         else:
             topleft_positions = self.calc_tile_topleft(row, col)
 
@@ -77,8 +82,44 @@ class LevelManager:
             self.static_tile_map[tile.rect.center] = tile
         elif TileConfig.is_dynamic_tile(tile):
             self.dynamic_tiles.append(tile)
+        elif TileConfig.is_player(tile):
+            self.player = tile
         else:
             self.agent_tiles.append(tile)
+
+
+
+    def get_snake_positions(self, row, col, level):
+        starting_row, starting_col = self.get_first_snake_seg_pos(row, col, level)
+
+        topleft_positions = self.traverse_tiles(starting_row, starting_col, level, TileConfig.snake_segment_symbol)
+
+        head_position = self.calc_tile_topleft(row, col)
+        topleft_positions.insert(0, head_position)
+
+        return topleft_positions
+
+
+    
+    def get_first_snake_seg_pos(self, row, col, level):
+        neighbors = [
+            (row - 1, col), (row + 1, col),
+            (row, col - 1), (row, col + 1)
+        ]
+
+        for neighbor in neighbors:
+            n_row, n_col = neighbor
+
+            row_valid = 0 <= n_row < len(level)
+            col_valid = 0 <= n_col < len(level[0])
+            if not row_valid or not col_valid:
+                continue
+
+            symbol = level[n_row][n_col]
+            if symbol == TileConfig.snake_segment_symbol:
+                return n_row, n_col
+        
+        return None
 
     
 
