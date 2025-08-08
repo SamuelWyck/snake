@@ -4,11 +4,13 @@ from snake.snake_segment import SnakeSegment
 
 
 class Snake:
-    def __init__(self, topleft, size, step_size, step_interval, color, controller):
-        self.rect = pygame.rect.Rect(topleft, (size, size))
+    def __init__(self, segment_positions, size, step_size, step_interval, color, controller):
+        head_position = segment_positions[0]
+        self.rect = pygame.rect.Rect(head_position, (size, size))
+        self.vector = pygame.math.Vector2(self.rect.center)
+
         self.size = size
         self.joint_size = (step_size - size) if (step_size - size) > 0 else 0
-        self.vector = pygame.math.Vector2(self.rect.center)
 
         self.step_interval = step_interval
         self.max_step_interval = step_interval
@@ -25,21 +27,130 @@ class Snake:
         self.movement = self.move_right
         self.last_movement = self.move_right
     
-        self.collide_point = self.rect.center
-        self._increase_length = False
+        self.increase_length = False
 
         #setup the starting body
-        self.body_length = 2
+        self.body_length = len(segment_positions) - 1 #subtract by one to ignore head
         self.body = []
-        body_segment = SnakeSegment(
-            self.size,
-            (self.rect.centerx - self.size - self.joint_size, self.rect.centery),
-            self.joint_size,
-            "right"
-        )
-        body_segment.rect.centerx -= self.step_size
-        body_segment.grow(self.step_size, "right")
-        self.body.append(body_segment)
+        self.initialize_body(segment_positions)
+
+
+    
+    def initialize_body(self, segment_postions):
+        last_segment_pos = self.rect.topleft
+        aligned_segments = []
+        vertical = None
+
+        for i in range(1, len(segment_postions)): #start at index 1 to skip head
+            segment_pos = segment_postions[i]
+
+            aligned, vertical = self.segments_aligned(segment_pos, last_segment_pos, vertical)
+            if aligned:
+                aligned_segments.append(segment_pos)
+                continue
+   
+            segment = self.create_body_segment(aligned_segments, last_segment_pos)
+            self.body.append(segment)
+            last_segment_pos = aligned_segments[-1]
+            aligned_segments = [segment_pos] 
+        
+        if aligned_segments:
+            segment = self.create_body_segment(aligned_segments, last_segment_pos)
+            self.body.append(segment)
+        self.body.reverse()
+        
+        #correct center position to sit in the middle of the tile
+        self.rect.centerx += self.joint_size//2
+        self.rect.centery += self.joint_size//2
+        self.vector = pygame.math.Vector2(self.rect.center)
+
+        self.set_movement_direction()
+
+
+
+    def set_movement_direction(self):
+        x_coord = 0
+        y_coord = 1
+
+        first_segment_center = self.body[-1].rect.center
+        head_center = self.rect.center
+
+        if first_segment_center[x_coord] < head_center[x_coord]:
+            self.movement = self.move_right
+        elif first_segment_center[x_coord] > head_center[x_coord]:
+            self.movement = self.move_left
+        elif first_segment_center[y_coord] < head_center[y_coord]:
+            self.movement = self.move_down
+        elif first_segment_center[y_coord] > head_center[y_coord]:
+            self.movement = self.move_up
+        
+        self.last_movement = self.movement
+
+        
+
+    def segments_aligned(self, first_seg_pos, second_seg_pos, vertical):
+        x_coord = 0
+        y_coord = 1
+
+        if vertical is None:
+            if first_seg_pos[x_coord] == second_seg_pos[x_coord]:
+                return True, True
+            elif first_seg_pos[y_coord] == second_seg_pos[y_coord]:
+                return True, False
+            return False, None
+            
+        if vertical and first_seg_pos[x_coord] == second_seg_pos[x_coord]:
+            return True, True
+        
+        if not vertical and first_seg_pos[y_coord] == second_seg_pos[y_coord]:
+            return True, True
+
+        return False, None
+    
+
+
+    def create_body_segment(self, aligned_segments, last_segment_pos):
+        x_coord = 0
+        first_segment_pos = aligned_segments[0]
+        second_segment_pos = aligned_segments[1] if len(aligned_segments) > 1 else aligned_segments[0]
+
+
+        vertical = first_segment_pos[x_coord] == second_segment_pos[x_coord]
+
+        long_side_length = len(aligned_segments) * self.size
+        long_side_length += (len(aligned_segments) - 1) * self.joint_size
+        short_side_length = self.size
+        size = (long_side_length, short_side_length)
+        if vertical:
+            size = (short_side_length, long_side_length)
+
+        center = self.get_segment_center(first_segment_pos, last_segment_pos, size)
+        joint_side = self.get_joint_side(first_segment_pos, last_segment_pos)
+
+        segment = SnakeSegment(size, center, self.joint_size, joint_side)
+        return segment
+        
+
+
+    def get_segment_center(self, segment_pos, last_segment_pos, size):
+        x_coord = 0
+        y_coord = 1
+        width_index = 0
+        height_index = 1
+
+        current_x_pos = segment_pos[x_coord]
+        current_y_pos = segment_pos[y_coord]
+        last_x_pos = last_segment_pos[x_coord]
+        last_y_pos = last_segment_pos[y_coord]
+
+        center_x = current_x_pos + size[width_index]//2
+        center_y = current_y_pos + size[height_index]//2
+        if current_y_pos < last_y_pos:
+            center_y = current_y_pos - size[height_index]//2
+        elif current_x_pos < last_x_pos:
+            center_x = current_x_pos - size[width_index]//2
+
+        return (center_x + self.joint_size//2, center_y + self.joint_size//2)
 
 
 
@@ -55,11 +166,12 @@ class Snake:
                 self.add_body_segment(prev_head_pos)
             else:
                 self.grow_front_segment()
-            self.shrink_back_segment()
             
-            if self._increase_length:
-                self.increase_length()
-                self._increase_length = False
+            if not self.increase_length:
+                self.shrink_back_segment()
+            else:
+                self.body_length += 1
+                self.increase_length = False
         
         self.draw(surface)
         remove = self.draw_body(surface)
@@ -71,7 +183,7 @@ class Snake:
 
     def draw(self, surface):
         pygame.draw.rect(surface, self.color, self.rect)
-        pygame.draw.circle(surface, (255, 0, 0), self.collide_point, 10)
+        pygame.draw.circle(surface, (255, 0, 0), self.vector, 10)
 
 
 
@@ -101,7 +213,6 @@ class Snake:
         elif self.movement == self.move_right:
             self.rect.centerx += self.step_size
 
-        self.collide_point = self.rect.center
         self.vector.x, self.vector.y = self.rect.centerx, self.rect.centery
 
         same_direction = self.last_movement == self.movement
@@ -123,10 +234,13 @@ class Snake:
 
 
     def get_joint_side(self, segment_pos, next_segment_pos):
-        same_y_coord = segment_pos[1] == next_segment_pos[1]
+        x_coord = 0 
+        y_coord = 1
+
+        same_y_coord = segment_pos[y_coord] == next_segment_pos[y_coord]
         if same_y_coord:
-            return "left" if segment_pos[0] > next_segment_pos[0] else "right"
-        return "top" if segment_pos[1] > next_segment_pos[1] else "bottom"
+            return "left" if segment_pos[x_coord] > next_segment_pos[x_coord] else "right"
+        return "top" if segment_pos[y_coord] > next_segment_pos[y_coord] else "bottom"
 
 
 
@@ -159,7 +273,7 @@ class Snake:
         joint_side = self.get_joint_side(prev_head_pos, self.rect.center)
 
         body_segment = SnakeSegment(
-            self.size,
+            (self.size, self.size),
             prev_head_pos,
             self.joint_size,
             joint_side
@@ -169,25 +283,7 @@ class Snake:
 
 
     def grow_snake(self):
-        self._increase_length = True
-
-
-
-    def increase_length(self):
-        back_segment = self.body[0]
-
-        back_side_is_left = back_segment.back_pos[0] < back_segment.rect.centerx
-        back_side_is_bottom = back_segment.back_pos[1] > back_segment.rect.centery
-        width_is_long_side = back_segment.rect.width > back_segment.rect.height
-
-        grow_direction = None
-        if width_is_long_side:
-            grow_direction = "left" if back_side_is_left else "right"
-        else:
-            grow_direction = "bottom" if back_side_is_bottom else "top"
-        
-        back_segment.grow(self.step_size, grow_direction)
-        self.body_length += 1
+        self.increase_length = True
     
 
 
