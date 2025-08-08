@@ -4,8 +4,6 @@ import sys
 from framework.display import Display
 from framework.play_area import PlayArea
 from hud.hud import Hud
-from snake.snake import Snake
-from controllers.player_controller import PlayerController
 from level_manager.level_manager import LevelManager
 from collision_manager.collision_manager import CollisionManager
 
@@ -33,37 +31,13 @@ class Game:
         )
         PlayArea.set_surface(pa_topleft, (pa_width, pa_height))
 
-        #setup player controller
-        player_controls = {
-            "UP": pygame.K_w,
-            "DOWN": pygame.K_s,
-            "RIGHT": pygame.K_d,
-            "LEFT": pygame.K_a
-        }
-        self.player_controller = PlayerController(player_controls, holdable_inputs=set())
-
-        #setup player
-        player_step_size = 40
-        player_size = 30
-        player_topleft = (
-            player_step_size * 4 + ((player_step_size - player_size) // 2),
-            player_step_size * 10 + ((player_step_size - player_size) // 2)
-        )
-        self.player = Snake(
-            player_topleft, 
-            size=player_size, 
-            step_size=player_step_size, 
-            step_interval=25, 
-            color=(0, 255, 0), 
-            controller=self.player_controller
-        )
-
         #setup hud manager
         self.hud = Hud(pa_topleft, (pa_width, pa_height))
 
-        #setup level manager
+        #setup level manager and get player ref
         self.level_manager = LevelManager((pa_width, pa_height), single_tile_size=40)
-        self.level_manager.load_level(1)
+        self.player = self.level_manager.load_level(1)
+        self.player_controller = self.player.controller
 
         #setup collision manager
         self.collision_manager = CollisionManager((pa_width, pa_height))
