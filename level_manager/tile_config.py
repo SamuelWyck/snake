@@ -1,3 +1,4 @@
+import pygame
 from level_objects.proto_objects.receiver import Receiver
 from asset_loaders.image_loader import Images
 from level_objects.static_objects.wall import Wall
@@ -5,11 +6,33 @@ from level_objects.dynamic_objects.door import Door
 from level_objects.dynamic_objects.pressure_plate.pressure_plate import PressurePlate
 from level_objects.dynamic_objects.sticky_pressure_plate import StickyPressurePlate
 from level_objects.agent_objects.box import Box
+from snake.snake import Snake
+from controllers.player_controller import PlayerController
 from utils.color import Color
 
 
 
 class TileConfig:
+    player_controls = {
+        "UP": pygame.K_w,
+        "DOWN": pygame.K_s,
+        "RIGHT": pygame.K_d,
+        "LEFT": pygame.K_a
+    }
+    player_controller = PlayerController(
+        player_controls, 
+        holdable_inputs=set()
+    )
+
+    snake_size = 30
+    snake_step_size = 40
+    snake_step_interval = 25
+    snake_args = [
+        snake_size,
+        snake_step_size,
+        snake_step_interval
+    ]
+
     empty_symbol = "O"
 
     tile_delimiter = ","
@@ -26,7 +49,9 @@ class TileConfig:
         "DC": Door,
         "P": PressurePlate,
         "SP": StickyPressurePlate,
-        "B": Box
+        "B": Box,
+        "SH": Snake,
+        "PSH": Snake
     }
     tile_args_map = {
         "W": {
@@ -50,6 +75,13 @@ class TileConfig:
         },
         "B": {
             "NOCOLOR": [Color.NO_COLOR, Images.box_img]
+        },
+        "PSH": {
+            "b": [*snake_args, Color.BLUE, player_controller],
+            "o": [*snake_args, Color.ORANGE, player_controller],
+            "g": [*snake_args, Color.GREEN, player_controller],
+            "r": [*snake_args, Color.RED, player_controller],
+            "NOCOLOR": [*snake_args, Color.GREEN, player_controller]
         }
     }
 
@@ -62,6 +94,8 @@ class TileConfig:
 
 
     tiles_to_explore = set(["P", "SP"])
+    snake_head_symbols = set(["SH", "PSH"])
+    snake_segment_symbol = "SS"
     tiles_to_link = {}
 
 
@@ -72,7 +106,11 @@ class TileConfig:
 
         tile_class = cls.tile_map[tile_symbol]
         tile_args = cls.tile_args_map[tile_symbol][tile_color]
-        tile = tile_class(topleft, size, *tile_args)
+
+        if tile_symbol in cls.snake_head_symbols:
+            tile = tile_class(topleft, *tile_args)
+        else:
+            tile = tile_class(topleft, size, *tile_args)
 
         if tile_id:
             cls.store_tile_with_id(tile_id, tile)
@@ -93,10 +131,10 @@ class TileConfig:
         color = "NOCOLOR"
 
         if len(symbol_parts) == 2:
-            if symbol_parts[1] in cls.tile_args_map[symbol]:
-                color = symbol_parts[1]
+            if symbol_parts[color_index] in cls.tile_args_map[symbol]:
+                color = symbol_parts[color_index]
             else:
-                id = symbol_parts[1]
+                id = symbol_parts[color_index]
         elif len(symbol_parts) == 3:
             id = symbol_parts[id_index]
             color = symbol_parts[color_index]
@@ -150,6 +188,18 @@ class TileConfig:
 
 
     @classmethod
+    def is_snake_head_tile(cls, tile_symbol):
+        return tile_symbol in cls.snake_head_symbols
+    
+
+
+    @classmethod
+    def is_snake_segment_tile(cls, tile_symbol):
+        return tile_symbol == cls.snake_segment_symbol
+
+
+
+    @classmethod
     def is_static_tile(cls, tile):
         return tile.__class__ in cls.static_tiles
     
@@ -158,3 +208,16 @@ class TileConfig:
     @classmethod
     def is_dynamic_tile(cls, tile):
         return tile.__class__ in cls.dynamic_tiles
+    
+
+
+    @classmethod
+    def is_player(cls, tile):
+        if tile.__class__ != Snake:
+            return False
+        
+        controller = tile.controller
+        if controller.__class__ == PlayerController:
+            return True
+        
+        return False
