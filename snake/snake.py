@@ -285,16 +285,9 @@ class Snake:
     
 
     def shrink_back_segment(self):
-        # back_body_part = self.body[0]
-        # next_index = 1
-        # might remove decrease logic and then dont need this for loop
-        back_body_part = None
-        next_index = None
-        for index, part in enumerate(self.body):
-            if not part.remove:
-                back_body_part = part
-                next_index = index + 1
-                break
+        back_index = 0 if not self.body[0].remove else 1
+        next_index = back_index + 1
+        back_body_part = self.body[back_index]
 
         next_body_part_pos = self.body[next_index].back_pos if len(self.body) > next_index else self.rect.center
         change_direction = self.get_change_direction(back_body_part.rect.center, next_body_part_pos)
