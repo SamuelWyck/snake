@@ -1,5 +1,5 @@
 import pygame
-from snake.snake_segment import SnakeSegment
+from level_objects.agent_objects.snake.snake_segment import SnakeSegment
 
 
 
@@ -189,8 +189,8 @@ class Snake:
                 self.shrink_back_segment()
                 self.decrease_length = False
         
-        self.draw(surface)
         remove = self.draw_body(surface)
+        self.draw(surface)
 
         if remove:
             self.handle_segment_removal()
