@@ -19,6 +19,7 @@ class LevelManager:
         ]
 
         self.traversed_tile_positions = set()
+        self.found_island_tiles = set()
 
 
     
@@ -49,7 +50,8 @@ class LevelManager:
             for col in range(len(level[row]) - 1):
                 symbol = level[row][col]
                 if TileConfig.is_empty_space(symbol) or (
-                self.is_traversed_tile(row, col) or TileConfig.is_snake_segment_tile(symbol)):
+                self.is_traversed_tile(row, col)) or (
+                TileConfig.is_snake_segment_tile(symbol)) or (self.is_found_island_tile(row, col)):
                     continue
                 self.get_tile_object(row, col, symbol, level)
         
@@ -66,6 +68,8 @@ class LevelManager:
 
         if TileConfig.is_explorable_tile(symbol):
             topleft_positions = self.traverse_tiles(row, col, level, symbol)
+        elif TileConfig.is_explorable_island_tile(symbol):
+            topleft_positions = self.link_isolated_tiles(row, level, symbol)
         elif TileConfig.is_snake_head_tile(symbol):
             topleft_positions = self.get_snake_positions(row, col, level)
         else:
@@ -173,11 +177,32 @@ class LevelManager:
             self.single_tile_size * col,
             self.single_tile_size * row
         )
+    
+
+
+    def link_isolated_tiles(self, start_row, level, target_symbol):
+        found_topleft_positions = []
+        for row in range(start_row, len(level)):
+            for col in range(len(level[row])):
+                symbol = level[row][col]
+                if symbol != target_symbol:
+                    continue
+                
+                self.found_island_tiles.add((row, col))
+                topleft = self.calc_tile_topleft(row, col)
+                found_topleft_positions.append(topleft)
+
+        return found_topleft_positions
 
 
 
     def is_traversed_tile(self, row, col):
         return (row, col) in self.traversed_tile_positions
+    
+
+
+    def is_found_island_tile(self, row, col):
+        return (row, col) in self.found_island_tiles
     
 
 
