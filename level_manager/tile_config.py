@@ -6,7 +6,8 @@ from level_objects.dynamic_objects.door import Door
 from level_objects.dynamic_objects.pressure_plate.pressure_plate import PressurePlate
 from level_objects.dynamic_objects.sticky_pressure_plate import StickyPressurePlate
 from level_objects.agent_objects.box import Box
-from snake.snake import Snake
+from level_objects.agent_objects.spike_ball import SpikeBall
+from level_objects.agent_objects.snake.snake import Snake
 from controllers.player_controller import PlayerController
 from utils.color import Color
 
@@ -35,6 +36,9 @@ class TileConfig:
         snake_step_interval
     ]
 
+    spike_ball_size = 30
+    spike_ball_vel = 2
+
     empty_symbol = "O"
 
     tile_delimiter = ","
@@ -53,7 +57,8 @@ class TileConfig:
         "SP": StickyPressurePlate,
         "B": Box,
         "SH": Snake,
-        "PSH": Snake
+        "PSH": Snake,
+        "S": SpikeBall
     }
     tile_args_map = {
         "W": {
@@ -84,6 +89,13 @@ class TileConfig:
             "g": [*snake_args, Images.green_snake_img, Color.GREEN, player_controller],
             "r": [*snake_args, Color.RED, player_controller],
             "NOCOLOR": [*snake_args, Images.green_snake_img, Color.GREEN, player_controller]
+        },
+        "S": {
+            "b": [spike_ball_size, spike_ball_vel, Color.BLUE, Images.spike_ball_img],
+            "o": [spike_ball_size, spike_ball_vel, Color.ORANGE, Images.spike_ball_img],
+            "g": [spike_ball_size, spike_ball_vel, Color.GREEN, Images.spike_ball_img],
+            "r": [spike_ball_size, spike_ball_vel, Color.RED, Images.spike_ball_img],
+            "NOCOLOR": [spike_ball_size, spike_ball_vel, Color.NO_COLOR, Images.spike_ball_img]
         }
     }
 
@@ -96,6 +108,7 @@ class TileConfig:
 
 
     tiles_to_explore = set(["P", "SP"])
+    island_tiles_to_find = set(["S"])
     snake_head_symbols = set(["SH", "PSH"])
     snake_segment_symbol = "SS"
     tiles_to_link = {}
@@ -186,6 +199,15 @@ class TileConfig:
         symbol_parts = tile_symbol.split(cls.tile_data_delimiter)
         tile_symbol = symbol_parts[tile_symbol_index]
         return tile_symbol in cls.tiles_to_explore
+
+
+
+    @classmethod
+    def is_explorable_island_tile(cls, tile_symbol):
+        tile_symbol_index = 0
+        symbol_parts = tile_symbol.split(cls.tile_data_delimiter)
+        tile_symbol = symbol_parts[tile_symbol_index]
+        return tile_symbol in cls.island_tiles_to_find
     
 
 
