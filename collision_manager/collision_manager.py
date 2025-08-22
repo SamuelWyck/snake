@@ -2,7 +2,8 @@ import pygame
 from level_objects.dynamic_objects.pressure_plate.pressure_plate import PressurePlate
 from level_objects.dynamic_objects.sticky_pressure_plate import StickyPressurePlate
 from level_objects.agent_objects.box import Box
-from snake.snake import Snake
+from level_objects.agent_objects.snake.snake import Snake
+from level_objects.agent_objects.spike_ball import SpikeBall
 
 
 
@@ -38,6 +39,9 @@ class CollisionManager:
         self.check_dynamic_tiles(player, dynamic_tiles)
         self.check_agents(player, agents, static_tile_map, dynamic_tiles)
 
+        for agent in agents:
+            self.check_agents(agent, agents, static_tile_map, dynamic_tiles)
+
     
 
     def check_dynamic_tiles(self, collider, dynamic_tiles):
@@ -58,8 +62,10 @@ class CollisionManager:
         for agent in agents:
             if agent.color == collider.color:
                 continue
+            if agent == collider:
+                continue
             if agent.__class__ == Box and collider.rect.colliderect(agent.rect):
-                if collider.__class__ == Snake:
+                if collider.__class__ == Snake or collider.__class__ == SpikeBall:
                     agent.move(
                         collider, 
                         static_tiles, 
