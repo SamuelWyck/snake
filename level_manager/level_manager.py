@@ -30,19 +30,21 @@ class LevelManager:
         level_index = level_num - 1
         file_paths = self.level_files[level_index]
 
-        level = self.read_level_file(file_paths["level"])
+        level = self.read_file(file_paths["level"])
         self.parse_level_objects(level)
         TileConfig.link_tiles()
+
+        agents = self.read_file(file_paths["agents"])
+        self.parse_level_objects(agents)
         return self.player
 
 
 
-    def read_level_file(self, file_path):
+    def read_file(self, file_path):
         level = []
         with open(file_path, "r") as file:
             for line in file:
                 level.append(line.split(TileConfig.tile_delimiter))
-        
         return level
 
 
@@ -59,6 +61,7 @@ class LevelManager:
                 self.get_tile_object(row, col, symbol, level)
         
         self.traversed_tile_positions = set()
+        self.found_island_tiles = set()
 
 
     
@@ -183,19 +186,71 @@ class LevelManager:
     
 
 
-    def link_isolated_tiles(self, start_row, level, target_symbol):
+    def link_isolated_tiles(self, start_row, level, start_symbol):
         found_topleft_positions = []
+        symbol_index = 0
+        order_index = 1
+        sorting_needed = False
+
+        target_symbol_parts = start_symbol.split(TileConfig.tile_data_delimiter)
+        target_symbol = target_symbol_parts[symbol_index]
         for row in range(start_row, len(level)):
             for col in range(len(level[row])):
-                symbol = level[row][col]
+                tile_data = level[row][col]
+                symbol_parts = tile_data.split(TileConfig.tile_data_delimiter)
+                symbol = symbol_parts[symbol_index]
                 if symbol != target_symbol:
                     continue
                 
+                order = None
+                if len(symbol_parts) > 1:
+                    order = symbol_parts[order_index]
+                    sorting_needed = True
+
                 self.found_island_tiles.add((row, col))
                 topleft = self.calc_tile_topleft(row, col)
-                found_topleft_positions.append(topleft)
+                point_data = topleft if not order else (topleft, order)
+                found_topleft_positions.append(point_data)
 
-        return found_topleft_positions
+        if not sorting_needed:
+            return found_topleft_positions
+        sorted_positions = self.merge_sort(found_topleft_positions)
+        topleft_positions = []
+        for data in sorted_positions:
+            pos, order = data
+            topleft_positions.append(pos)
+        return topleft_positions
+    
+
+
+    def merge_sort(self, list):
+        if len(list) <= 1:
+            return list
+
+        mid = len(list) // 2
+        left = self.merge_sort(list[:mid])
+        right = self.merge_sort(list[mid:])
+
+        return self.merge(left, right)
+    
+
+
+    def merge(self, left, right):
+        order_index = 1
+        merged_list = []
+        i = 0
+        j = 0
+        while i < len(left) or j < len(right):
+            left_val = left[i] if i < len(left) else (None, float("inf"))
+            right_val = right[j] if j < len(right) else (None, float("inf"))
+            if float(left_val[order_index]) <= float(right_val[order_index]):
+                merged_list.append(left_val)
+                i += 1
+            else:
+                merged_list.append(right_val)
+                j += 1
+        
+        return merged_list
 
 
 
