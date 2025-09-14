@@ -15,7 +15,10 @@ class LevelManager:
         self.player = None
 
         self.level_files = [
-            os.path.join("level_data_files", "level_1.txt")
+            {
+                "level": os.path.join("level_data_files/level_1", "level_1.txt"),
+                "agents": os.path.join("level_data_files/level_1", "agents_1.txt")
+            }
         ]
 
         self.traversed_tile_positions = set()
@@ -25,9 +28,9 @@ class LevelManager:
     
     def load_level(self, level_num):
         level_index = level_num - 1
-        file_path = self.level_files[level_index]
+        file_paths = self.level_files[level_index]
 
-        level = self.read_level_file(file_path)
+        level = self.read_level_file(file_paths["level"])
         self.parse_level_objects(level)
         TileConfig.link_tiles()
         return self.player
