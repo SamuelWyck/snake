@@ -48,6 +48,7 @@ class TileConfig:
     receiver_key = "receivers"
 
     start_door_open = True
+    circular_path = True
 
     tile_map = {
         "W": Wall,
@@ -58,7 +59,8 @@ class TileConfig:
         "B": Box,
         "SH": Snake,
         "PSH": Snake,
-        "S": SpikeBall
+        "S": SpikeBall,
+        "SC": SpikeBall
     }
     tile_args_map = {
         "W": {
@@ -91,11 +93,18 @@ class TileConfig:
             "NOCOLOR": [*snake_args, Images.green_snake_img, Color.GREEN, player_controller]
         },
         "S": {
-            "b": [spike_ball_size, spike_ball_vel, Color.BLUE, Images.spike_ball_img],
-            "o": [spike_ball_size, spike_ball_vel, Color.ORANGE, Images.spike_ball_img],
-            "g": [spike_ball_size, spike_ball_vel, Color.GREEN, Images.spike_ball_img],
-            "r": [spike_ball_size, spike_ball_vel, Color.RED, Images.spike_ball_img],
-            "NOCOLOR": [spike_ball_size, spike_ball_vel, Color.NO_COLOR, Images.spike_ball_img]
+            "b": [spike_ball_size, spike_ball_vel, Color.BLUE, Images.spike_ball_img, not circular_path],
+            "o": [spike_ball_size, spike_ball_vel, Color.ORANGE, Images.spike_ball_img, not circular_path],
+            "g": [spike_ball_size, spike_ball_vel, Color.GREEN, Images.spike_ball_img, not circular_path],
+            "r": [spike_ball_size, spike_ball_vel, Color.RED, Images.spike_ball_img, not circular_path],
+            "NOCOLOR": [spike_ball_size, spike_ball_vel, Color.NO_COLOR, Images.spike_ball_img, not circular_path]
+        },
+        "SC": {
+            "b": [spike_ball_size, spike_ball_vel, Color.BLUE, Images.spike_ball_img, circular_path],
+            "o": [spike_ball_size, spike_ball_vel, Color.ORANGE, Images.spike_ball_img, circular_path],
+            "g": [spike_ball_size, spike_ball_vel, Color.GREEN, Images.spike_ball_img, circular_path],
+            "r": [spike_ball_size, spike_ball_vel, Color.RED, Images.spike_ball_img, circular_path],
+            "NOCOLOR": [spike_ball_size, spike_ball_vel, Color.NO_COLOR, Images.spike_ball_img, circular_path]
         }
     }
 
@@ -108,7 +117,7 @@ class TileConfig:
 
 
     tiles_to_explore = set(["P", "SP"])
-    island_tiles_to_find = set(["S"])
+    island_tiles_to_find = set(["S", "SC"])
     snake_head_symbols = set(["SH", "PSH"])
     snake_segment_symbol = "SS"
     tiles_to_link = {}
@@ -127,7 +136,7 @@ class TileConfig:
         else:
             tile = tile_class(topleft, size, *tile_args)
 
-        if tile_id:
+        if tile_id and tile_symbol not in cls.island_tiles_to_find:
             cls.store_tile_with_id(tile_id, tile)
 
         return tile
