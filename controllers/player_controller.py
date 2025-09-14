@@ -1,6 +1,3 @@
-import pygame
-
-
 
 # controls is a dict of the control names and key codes for each game control
 
@@ -16,10 +13,10 @@ import pygame
 # that the player is allowed to hold down to allow for repeated inputs 
 
 # example of expected shape of holdable_inputs param
-# set(
+# set([
 #     "UP",
 #     "DOWN"
-# )
+# ])
 
 class PlayerController:
     def __init__(self, controls, holdable_inputs=set()):
