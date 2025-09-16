@@ -8,6 +8,7 @@ from level_objects.dynamic_objects.sticky_pressure_plate import StickyPressurePl
 from level_objects.agent_objects.box import Box
 from level_objects.agent_objects.spike_ball import SpikeBall
 from level_objects.agent_objects.snake.snake import Snake
+from level_objects.static_objects.cannon import Cannon
 from controllers.player_controller import PlayerController
 from utils.color import Color
 
@@ -49,6 +50,10 @@ class TileConfig:
 
     start_door_open = True
     circular_path = True
+    angle_up = 180
+    angle_down = 0
+    angle_left = -90
+    angle_right = 90
 
     tile_map = {
         "W": Wall,
@@ -60,7 +65,11 @@ class TileConfig:
         "SH": Snake,
         "PSH": Snake,
         "S": SpikeBall,
-        "SC": SpikeBall
+        "SC": SpikeBall,
+        "CU": Cannon,
+        "CD": Cannon,
+        "CL": Cannon,
+        "CR": Cannon
     }
     tile_args_map = {
         "W": {
@@ -105,15 +114,44 @@ class TileConfig:
             "g": [spike_ball_size, spike_ball_vel, Color.GREEN, Images.spike_ball_img, circular_path],
             "r": [spike_ball_size, spike_ball_vel, Color.RED, Images.spike_ball_img, circular_path],
             "NOCOLOR": [spike_ball_size, spike_ball_vel, Color.NO_COLOR, Images.spike_ball_img, circular_path]
+        },
+        "CU": {
+            "b": [Images.pressure_plate_img, Images.bullet_img, Color.BLUE, angle_up],
+            "o": [Images.pressure_plate_img, Images.bullet_img, Color.ORANGE, angle_up],
+            "g": [Images.pressure_plate_img, Images.bullet_img, Color.GREEN, angle_up],
+            "r": [Images.pressure_plate_img, Images.bullet_img, Color.RED, angle_up],
+            "NOCOLOR": [Images.pressure_plate_img, Images.bullet_img, Color.NO_COLOR, angle_up],
+        },
+        "CD": {
+            "b": [Images.pressure_plate_img, Images.bullet_img, Color.BLUE, angle_down],
+            "o": [Images.pressure_plate_img, Images.bullet_img, Color.ORANGE, angle_down],
+            "g": [Images.pressure_plate_img, Images.bullet_img, Color.GREEN, angle_down],
+            "r": [Images.pressure_plate_img, Images.bullet_img, Color.RED, angle_down],
+            "NOCOLOR": [Images.pressure_plate_img, Images.bullet_img, Color.NO_COLOR, angle_down],
+        },
+        "CL": {
+            "b": [Images.pressure_plate_img, Images.bullet_img, Color.BLUE, angle_left],
+            "o": [Images.pressure_plate_img, Images.bullet_img, Color.ORANGE, angle_left],
+            "g": [Images.pressure_plate_img, Images.bullet_img, Color.GREEN, angle_left],
+            "r": [Images.pressure_plate_img, Images.bullet_img, Color.RED, angle_left],
+            "NOCOLOR": [Images.pressure_plate_img, Images.bullet_img, Color.NO_COLOR, angle_left],
+        },
+        "CR": {
+            "b": [Images.pressure_plate_img, Images.bullet_img, Color.BLUE, angle_right],
+            "o": [Images.pressure_plate_img, Images.bullet_img, Color.ORANGE, angle_right],
+            "g": [Images.pressure_plate_img, Images.bullet_img, Color.GREEN, angle_right],
+            "r": [Images.pressure_plate_img, Images.bullet_img, Color.RED, angle_right],
+            "NOCOLOR": [Images.pressure_plate_img, Images.bullet_img, Color.NO_COLOR, angle_right],
         }
     }
 
-    static_tiles = set([Wall])
+    static_tiles = set([Wall, Cannon])
     dynamic_tiles = set([
         StickyPressurePlate,
         PressurePlate,
         Door
     ])
+    tiles_needing_interactables = set([Cannon])
 
 
     tiles_to_explore = set(["P", "SP"])
@@ -125,11 +163,13 @@ class TileConfig:
 
 
     @classmethod
-    def get_tile(cls, topleft, size, tile_symbol):
+    def get_tile(cls, topleft, size, tile_symbol, interactable_list):
         tile_symbol, tile_color, tile_id = cls.parse_tile_symbol(tile_symbol)
 
         tile_class = cls.tile_map[tile_symbol]
         tile_args = cls.tile_args_map[tile_symbol][tile_color]
+        if tile_class in cls.tiles_needing_interactables:
+            tile_args.append(interactable_list)
 
         if tile_symbol in cls.snake_head_symbols:
             tile = tile_class(topleft, *tile_args)
