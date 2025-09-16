@@ -7,6 +7,7 @@ class Images:
     static_tile_images_path = "assets/images/static_tile_images"
     dynamic_tile_images_path = "assets/images/dynamic_tile_images"
     agent_images_path = "assets/images/agent_images"
+    other_images_path = "assets/images/other_images"
 
 
     # static tile images
@@ -21,3 +22,6 @@ class Images:
     box_img = pygame.image.load(os.path.join(agent_images_path, "box.png")).convert_alpha()
     spike_ball_img = pygame.image.load(os.path.join(agent_images_path, "spike_ball.png")).convert_alpha()
     green_snake_img = pygame.image.load(os.path.join(agent_images_path, "snake_images/snake_green.png")).convert_alpha()
+
+    # other images
+    bullet_img = pygame.image.load(os.path.join(other_images_path, "bullet.png")).convert_alpha()
