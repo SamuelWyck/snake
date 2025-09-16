@@ -203,7 +203,8 @@ class Snake:
         if image_angle in self.image_cache:
             image_rot = self.image_cache[image_angle]
         else:
-            image_rot = pygame.transform.rotate(self.image, image_angle)
+            image_rot = pygame.transform.rotate(self.image, image_angle).convert_alpha()
+            self.image_cache[image_angle] = image_rot
         image_rect = image_rot.get_rect()
         image_rect.center = self.rect.center
 
