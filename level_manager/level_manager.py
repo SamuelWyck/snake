@@ -12,6 +12,7 @@ class LevelManager:
         self.static_tiles = []
         self.static_tile_map = {}
         self.agent_tiles = []
+        self.small_interactables = []
         self.player = None
 
         self.level_files = [
@@ -81,7 +82,7 @@ class LevelManager:
         else:
             topleft_positions = self.calc_tile_topleft(row, col)
 
-        tile = TileConfig.get_tile(topleft_positions, tile_size, symbol)
+        tile = TileConfig.get_tile(topleft_positions, tile_size, symbol, self.small_interactables)
         self.store_tile(tile)
 
     
@@ -273,8 +274,17 @@ class LevelManager:
 
         for tile in self.agent_tiles:
             tile.update(surface, delta_time)
-    
+
+        remove = False
+        for interactable in self.small_interactables:
+            interactable.update(surface, delta_time)
+            if interactable.remove:
+                remove = True
+
+        if remove:
+            self.small_interactables[:] = [item for item in self.small_interactables if not item.remove]
+
 
 
     def get_level_objects(self):
-        return self.static_tile_map, self.dynamic_tiles, self.agent_tiles
+        return self.static_tile_map, self.dynamic_tiles, self.agent_tiles, self.small_interactables
