@@ -7,11 +7,12 @@ class Images:
     static_tile_images_path = "assets/images/static_tile_images"
     dynamic_tile_images_path = "assets/images/dynamic_tile_images"
     agent_images_path = "assets/images/agent_images"
+    interactables_images_path = "assets/images/interactables_images"
     other_images_path = "assets/images/other_images"
 
 
     # static tile images
-    wall_img = pygame.image.load(os.path.join(static_tile_images_path, "wall.png")).convert_alpha()
+    wall_img = pygame.image.load(os.path.join(static_tile_images_path, "wall2.png")).convert_alpha()
 
     # dynamic tile images
     door_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "door.png")).convert_alpha()
@@ -25,4 +26,5 @@ class Images:
     green_snake_img = pygame.image.load(os.path.join(agent_images_path, "snake_images/snake_green.png")).convert_alpha()
 
     # other images
-    bullet_img = pygame.image.load(os.path.join(other_images_path, "bullet.png")).convert_alpha()
+    bullet_img = pygame.image.load(os.path.join(interactables_images_path, "bullet.png")).convert_alpha()
+    background_img = pygame.image.load(os.path.join(other_images_path, "background.png")).convert_alpha()
