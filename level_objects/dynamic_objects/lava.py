@@ -20,3 +20,7 @@ class Lava(LevelTile):
 
     def get_hitbox(self):
         return self.rect
+    
+
+    def collide(self, rect):
+        return False
