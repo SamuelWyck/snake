@@ -17,6 +17,7 @@ class Images:
     door_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "door.png")).convert_alpha()
     pressure_plate_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "pressure_plate.png")).convert_alpha()
     pressure_plate_pressed_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "pressure_plate_pressed.png")).convert_alpha()
+    lava_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "lava.png")).convert_alpha()
 
     # agent images
     box_img = pygame.image.load(os.path.join(agent_images_path, "box.png")).convert_alpha()
