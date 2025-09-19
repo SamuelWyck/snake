@@ -6,6 +6,7 @@ from framework.play_area import PlayArea
 from hud.hud import Hud
 from level_manager.level_manager import LevelManager
 from collision_manager.collision_manager import CollisionManager
+from asset_loaders.image_loader import Images
 
 
 
@@ -77,7 +78,7 @@ class Game:
 
             self.canvas.fill((0, 0, 0))
             self.hud.draw(self.canvas)
-            PlayArea.fill((0, 0, 0))
+            PlayArea.blit(Images.background_img, topleft=(0, 0))
 
             self.level_manager.update(PlayArea.surface, delta_time)
             self.player.update(PlayArea.surface, delta_time)
