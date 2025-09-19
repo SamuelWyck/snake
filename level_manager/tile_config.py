@@ -2,13 +2,14 @@ import pygame
 from level_objects.proto_objects.receiver import Receiver
 from asset_loaders.image_loader import Images
 from level_objects.static_objects.wall import Wall
+from level_objects.static_objects.cannon import Cannon
+from level_objects.dynamic_objects.lava import Lava
 from level_objects.dynamic_objects.door import Door
 from level_objects.dynamic_objects.pressure_plate.pressure_plate import PressurePlate
 from level_objects.dynamic_objects.sticky_pressure_plate import StickyPressurePlate
 from level_objects.agent_objects.box import Box
 from level_objects.agent_objects.spike_ball import SpikeBall
 from level_objects.agent_objects.snake.snake import Snake
-from level_objects.static_objects.cannon import Cannon
 from controllers.player_controller import PlayerController
 from utils.color import Color
 
@@ -69,7 +70,8 @@ class TileConfig:
         "CU": Cannon,
         "CD": Cannon,
         "CL": Cannon,
-        "CR": Cannon
+        "CR": Cannon,
+        "L": Lava
     }
     tile_args_map = {
         "W": {
@@ -120,28 +122,35 @@ class TileConfig:
             "o": [Images.pressure_plate_img, Images.bullet_img, Color.ORANGE, angle_up],
             "g": [Images.pressure_plate_img, Images.bullet_img, Color.GREEN, angle_up],
             "r": [Images.pressure_plate_img, Images.bullet_img, Color.RED, angle_up],
-            "NOCOLOR": [Images.pressure_plate_img, Images.bullet_img, Color.NO_COLOR, angle_up],
+            "NOCOLOR": [Images.pressure_plate_img, Images.bullet_img, Color.NO_COLOR, angle_up]
         },
         "CD": {
             "b": [Images.pressure_plate_img, Images.bullet_img, Color.BLUE, angle_down],
             "o": [Images.pressure_plate_img, Images.bullet_img, Color.ORANGE, angle_down],
             "g": [Images.pressure_plate_img, Images.bullet_img, Color.GREEN, angle_down],
             "r": [Images.pressure_plate_img, Images.bullet_img, Color.RED, angle_down],
-            "NOCOLOR": [Images.pressure_plate_img, Images.bullet_img, Color.NO_COLOR, angle_down],
+            "NOCOLOR": [Images.pressure_plate_img, Images.bullet_img, Color.NO_COLOR, angle_down]
         },
         "CL": {
             "b": [Images.pressure_plate_img, Images.bullet_img, Color.BLUE, angle_left],
             "o": [Images.pressure_plate_img, Images.bullet_img, Color.ORANGE, angle_left],
             "g": [Images.pressure_plate_img, Images.bullet_img, Color.GREEN, angle_left],
             "r": [Images.pressure_plate_img, Images.bullet_img, Color.RED, angle_left],
-            "NOCOLOR": [Images.pressure_plate_img, Images.bullet_img, Color.NO_COLOR, angle_left],
+            "NOCOLOR": [Images.pressure_plate_img, Images.bullet_img, Color.NO_COLOR, angle_left]
         },
         "CR": {
             "b": [Images.pressure_plate_img, Images.bullet_img, Color.BLUE, angle_right],
             "o": [Images.pressure_plate_img, Images.bullet_img, Color.ORANGE, angle_right],
             "g": [Images.pressure_plate_img, Images.bullet_img, Color.GREEN, angle_right],
             "r": [Images.pressure_plate_img, Images.bullet_img, Color.RED, angle_right],
-            "NOCOLOR": [Images.pressure_plate_img, Images.bullet_img, Color.NO_COLOR, angle_right],
+            "NOCOLOR": [Images.pressure_plate_img, Images.bullet_img, Color.NO_COLOR, angle_right]
+        },
+        "L": {
+            "b": [Color.BLUE, Images.lava_img],
+            "o": [Color.ORANGE, Images.lava_img],
+            "g": [Color.GREEN, Images.lava_img],
+            "r": [Color.RED, Images.lava_img],
+            "NOCOLOR": [Color.NO_COLOR, Images.lava_img]
         }
     }
 
@@ -149,7 +158,8 @@ class TileConfig:
     dynamic_tiles = set([
         StickyPressurePlate,
         PressurePlate,
-        Door
+        Door,
+        Lava
     ])
     tiles_needing_interactables = set([Cannon])
 
