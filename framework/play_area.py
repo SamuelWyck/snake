@@ -7,6 +7,9 @@ class PlayArea:
     size = (0, 0)
     surface = pygame.Surface(size)
 
+    backing_surface = pygame.Surface(size)
+    use_backing_surface = False
+
 
 
     @classmethod
@@ -39,6 +42,7 @@ class PlayArea:
         cls.size = size
 
         cls.surface = pygame.Surface(size)
+        cls.backing_surface = pygame.Surface(size)
 
 
 
@@ -59,12 +63,18 @@ class PlayArea:
         new_surface.blit(pygame.transform.smoothscale(cls.surface, size), (0, 0))
 
         cls.surface = new_surface
+        cls.backing_surface = pygame.Surface(size)
 
     
 
     @classmethod
-    def draw_surface(cls, surface):
-        surface.blit(cls.surface, cls.topleft)
+    def draw_to_surface(cls, surface):
+        if not cls.use_backing_surface:
+            surface.blit(cls.surface, cls.topleft)
+            return
+
+        cls.backing_surface.blit(cls.surface, (0, 0))
+        surface.blit(cls.backing_surface, cls.topleft)
 
 
 
@@ -75,5 +85,34 @@ class PlayArea:
     
 
     @classmethod
+    def backing_surface_blit(cls, surface, topleft):
+        cls.backing_surface.blit(surface, topleft)
+
+    
+
+    @classmethod
     def fill(cls, color):
         cls.surface.fill(color)
+
+
+
+    @classmethod
+    def backing_surface_fill(cls, color):
+        cls.backing_surface.fill(color)
+
+    
+
+    @classmethod
+    def set_surface_colorkey(cls, color):
+        cls.surface.set_colorkey(color)
+
+    
+
+    def get_surface_colorkey(cls):
+        return cls.surface.get_colorkey()
+
+    
+
+    @classmethod
+    def set_use_backing_surface(cls, use_backing_surface):
+        cls.use_backing_surface = use_backing_surface
