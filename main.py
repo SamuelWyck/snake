@@ -7,6 +7,7 @@ from hud.hud import Hud
 from level_manager.level_manager import LevelManager
 from collision_manager.collision_manager import CollisionManager
 from asset_loaders.image_loader import Images
+from utils.color import Color
 
 
 
@@ -31,6 +32,8 @@ class Game:
             (self.canvas_height - pa_height)//2
         )
         PlayArea.set_surface(pa_topleft, (pa_width, pa_height))
+        PlayArea.set_surface_colorkey(Color.COLOR_KEY)
+        PlayArea.set_use_backing_surface(True)
 
         #setup hud manager
         self.hud = Hud(pa_topleft, (pa_width, pa_height))
@@ -88,7 +91,8 @@ class Game:
                 self.level_manager.get_level_objects
             )
 
-            PlayArea.draw_surface(self.canvas)
+            PlayArea.backing_surface_blit(Images.wall_texture_img, (0, 0))
+            PlayArea.draw_to_surface(self.canvas)
             self.screen.blit(pygame.transform.smoothscale(self.canvas, (self.screen_width, self.screen_height)), (0, 0))
             pygame.display.update()
 
