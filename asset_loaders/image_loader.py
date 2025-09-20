@@ -12,7 +12,7 @@ class Images:
 
 
     # static tile images
-    wall_img = pygame.image.load(os.path.join(static_tile_images_path, "wall2.png")).convert_alpha()
+    wall_img = pygame.image.load(os.path.join(static_tile_images_path, "wall.png")).convert_alpha()
 
     # dynamic tile images
     door_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "door.png")).convert_alpha()
@@ -28,3 +28,4 @@ class Images:
     # other images
     bullet_img = pygame.image.load(os.path.join(interactables_images_path, "bullet.png")).convert_alpha()
     background_img = pygame.image.load(os.path.join(other_images_path, "background.png")).convert_alpha()
+    wall_texture_img = pygame.image.load(os.path.join(other_images_path, "wall_texture.png")).convert_alpha()
