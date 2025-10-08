@@ -23,7 +23,5 @@ class Wall(LevelTile):
     
 
 
-    def collide(self, collider):
-        if collider.color == self.color:
-            return False
-        return True
+    def collide(self, rect):
+        return self.rect.colliderect(rect)
