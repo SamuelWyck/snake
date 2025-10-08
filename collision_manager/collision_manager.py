@@ -22,25 +22,21 @@ class CollisionManager:
     
 
     def check_collisions(self, player, level_object_fetcher):   
-        static_tile_map, dynamic_tiles, agents, interactables = level_object_fetcher()
+        static_tiles, dynamic_tiles, agents, interactables = level_object_fetcher()
         
         if player.just_moved():
-            if player.rect.center in static_tile_map:
-                tile = static_tile_map[player.rect.center]
-                if tile.collide(player):
+            for tile in static_tiles:
+                if player.rect.colliderect(tile.rect):
                     ...
-            
-            if player.body_collide():
-                ...
 
             if not self.in_bounds(player.rect):
                 ...
 
         self.check_dynamic_tiles(player, dynamic_tiles)
-        self.check_agents(player, agents, static_tile_map, dynamic_tiles)
+        self.check_agents(player, agents, static_tiles, dynamic_tiles)
 
         for agent in agents:
-            self.check_agents(agent, agents, static_tile_map, dynamic_tiles)
+            self.check_agents(agent, agents, static_tiles, dynamic_tiles)
 
     
 
