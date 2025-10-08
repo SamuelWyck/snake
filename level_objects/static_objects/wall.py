@@ -4,11 +4,11 @@ from level_objects.proto_objects.level_tile import LevelTile
 
 
 class Wall(LevelTile):
-    def __init__(self, topleft, size, color, color_key):
+    def __init__(self, topleft, size, color, image_color):
         super().__init__(topleft, size)
 
         self.image = pygame.Surface(size)
-        self.image.fill(color_key)
+        self.image.fill(image_color)
         self.color = color
     
 
