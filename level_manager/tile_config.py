@@ -42,6 +42,7 @@ class TileConfig:
     spike_ball_vel = 2
 
     empty_symbol = "O"
+    wall_symbol = "W"
 
     tile_delimiter = ","
     tile_data_delimiter = "-"
@@ -75,11 +76,11 @@ class TileConfig:
     }
     tile_args_map = {
         "W": {
-            "b": [Color.BLUE, Images.wall_img],
-            "o": [Color.ORANGE, Images.wall_img],
-            "g": [Color.GREEN, Images.wall_img],
-            "r": [Color.RED, Images.wall_img],
-            "NOCOLOR": [Color.NO_COLOR, Images.wall_img]   
+            "b": [Color.BLUE, Color.COLOR_KEY],
+            "o": [Color.ORANGE, Color.COLOR_KEY],
+            "g": [Color.GREEN, Color.COLOR_KEY],
+            "r": [Color.RED, Color.COLOR_KEY],
+            "NOCOLOR": [Color.NO_COLOR, Color.COLOR_KEY]   
         },
         "DO": {
             "NOCOLOR": [Color.NO_COLOR, Images.door_img, start_door_open]
@@ -291,6 +292,15 @@ class TileConfig:
     @classmethod
     def is_dynamic_tile(cls, tile):
         return tile.__class__ in cls.dynamic_tiles
+    
+
+
+    @classmethod
+    def is_wall_tile(cls, tile_symbol):
+        tile_symbol_index = 0
+        symbol_parts = tile_symbol.split(cls.tile_data_delimiter)
+        tile_symbol = symbol_parts[tile_symbol_index]
+        return tile_symbol == cls.wall_symbol
     
 
 
