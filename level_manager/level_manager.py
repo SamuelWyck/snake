@@ -24,6 +24,7 @@ class LevelManager:
 
         self.traversed_tile_positions = set()
         self.found_island_tiles = set()
+        self.found_wall_tiles = set()
 
 
     
@@ -57,12 +58,14 @@ class LevelManager:
                 symbol = level[row][col]
                 if TileConfig.is_empty_space(symbol) or (
                 self.is_traversed_tile(row, col)) or (
-                TileConfig.is_snake_segment_tile(symbol)) or (self.is_found_island_tile(row, col)):
+                TileConfig.is_snake_segment_tile(symbol)) or (
+                self.is_found_island_tile(row, col)) or (self.is_found_wall_tile(row, col)):
                     continue
                 self.get_tile_object(row, col, symbol, level)
         
         self.traversed_tile_positions = set()
         self.found_island_tiles = set()
+        self.found_wall_tiles = set()
 
 
     
@@ -79,6 +82,8 @@ class LevelManager:
             topleft_positions = self.link_isolated_tiles(row, level, symbol)
         elif TileConfig.is_snake_head_tile(symbol):
             topleft_positions = self.get_snake_positions(row, col, level)
+        elif TileConfig.is_wall_tile(symbol):
+            topleft_positions, tile_size = self.explore_wall(row, col, level, symbol)
         else:
             topleft_positions = self.calc_tile_topleft(row, col)
 
@@ -97,6 +102,61 @@ class LevelManager:
             self.player = tile
         else:
             self.agent_tiles.append(tile)
+
+    
+
+    def explore_wall(self, row, col, level, symbol):
+        topleft = self.calc_tile_topleft(row, col)
+
+        vertical_positions = []
+        horizontal_postions = []
+        vertical_pos_change = (1, 0)
+        horizontal_pos_change = (0, 1)
+
+        self.explore_wal_rec(row, col, level, symbol, vertical_pos_change, self.found_wall_tiles, set(), vertical_positions)
+        self.explore_wal_rec(row, col, level, symbol, horizontal_pos_change, self.found_wall_tiles, set(), horizontal_postions)
+        
+        longer_direction = vertical_positions
+        vertical_longer = True
+        if len(horizontal_postions) > len(vertical_positions):
+            longer_direction = horizontal_postions
+            vertical_longer = False
+        
+        for pos in longer_direction:
+            self.found_wall_tiles.add(pos)
+        
+        tile_size = (
+            self.single_tile_size, 
+            self.single_tile_size * len(longer_direction)
+        ) if vertical_longer else (self.single_tile_size * len(longer_direction), self.single_tile_size)
+
+        return topleft, tile_size
+
+
+    
+    def explore_wal_rec(self, row, col, level, target_symbol, pos_change, prev_visited, new_visited, found_tiles):
+        row_valid = 0 <= row < len(level)
+        col_valid = 0 <= col < len(level[0])
+        key = (row, col)
+        if not row_valid or not col_valid:
+            return
+        if key in prev_visited or key in new_visited:
+            return
+        symbol = level[row][col]
+        if symbol != target_symbol:
+            return
+        
+        new_visited.add(key)
+        found_tiles.append(key)
+
+        row_change_index = 0
+        col_change_index = 1
+        row_change = pos_change[row_change_index]
+        col_change = pos_change[col_change_index]
+
+        new_row = row + row_change
+        new_col = col + col_change
+        self.explore_wal_rec(new_row, new_col, level, target_symbol, pos_change, prev_visited, new_visited, found_tiles)
 
 
 
@@ -262,6 +322,11 @@ class LevelManager:
 
     def is_found_island_tile(self, row, col):
         return (row, col) in self.found_island_tiles
+    
+
+
+    def is_found_wall_tile(self, row, col):
+        return (row, col) in self.found_wall_tiles
     
 
 
