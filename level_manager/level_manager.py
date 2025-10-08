@@ -10,7 +10,6 @@ class LevelManager:
 
         self.dynamic_tiles = []
         self.static_tiles = []
-        self.static_tile_map = {}
         self.agent_tiles = []
         self.small_interactables = []
         self.player = None
@@ -95,7 +94,6 @@ class LevelManager:
     def store_tile(self, tile):
         if TileConfig.is_static_tile(tile):
             self.static_tiles.append(tile)
-            self.static_tile_map[tile.rect.center] = tile
         elif TileConfig.is_dynamic_tile(tile):
             self.dynamic_tiles.append(tile)
         elif TileConfig.is_player(tile):
@@ -352,4 +350,4 @@ class LevelManager:
 
 
     def get_level_objects(self):
-        return self.static_tile_map, self.dynamic_tiles, self.agent_tiles, self.small_interactables
+        return self.static_tiles, self.dynamic_tiles, self.agent_tiles, self.small_interactables
