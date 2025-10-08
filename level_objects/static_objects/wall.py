@@ -1,4 +1,4 @@
-import pygame, random
+import pygame
 from level_objects.proto_objects.level_tile import LevelTile
 
 
