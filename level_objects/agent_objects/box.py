@@ -30,9 +30,6 @@ class Box(LevelTile):
     def move(self, player, static_tiles, dynamic_tiles, agents, tile_to_skip, in_bounds):
         old_position = self.move_self(player)
 
-        if self.rect.center in static_tiles:
-            self.rect.center = old_position
-            return False
         if not in_bounds(self.rect):
             self.rect.center = old_position
             return False
@@ -40,6 +37,13 @@ class Box(LevelTile):
             self.rect.center = old_position
             return False
         
+        for tile in static_tiles:
+            if tile_to_skip(tile):
+                continue
+            if tile.collide(self.rect):
+                self.rect.center = old_position
+                return False
+
         for tile in dynamic_tiles:
             if tile_to_skip(tile):
                 continue
