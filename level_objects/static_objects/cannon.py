@@ -60,5 +60,5 @@ class Cannon(LevelTile):
         self.bullet_list.append(bullet)
             
     
-    def collide(self, player):
-        return True
+    def collide(self, rect):
+        return self.rect.colliderect(rect)
