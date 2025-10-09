@@ -4,6 +4,8 @@ import pygame
 
 class Border:
     def __init__(self, topleft, size, width, images):
+        horizontal_img_index = 0
+        vertical_img_index = 1
         width_index = 0
         height_index = 1
         x_index = 0
@@ -34,21 +36,19 @@ class Border:
         )
 
         rects = [top_rect, right_rect, bottom_rect, left_rect]
+        horizontal_img = images[horizontal_img_index]
+        vertical_img = images[vertical_img_index]
 
         self.sides = []
         for i in range(len(rects)):
+            image = horizontal_img if i % 2 == 0 else vertical_img
             self.sides.append(
-                (rects[i], images[i])
+                (rects[i], image)
             )
-
-        self.color = (255, 0, 0)
     
 
 
     def draw(self, surface):
         for side in self.sides:
             side_rect, side_image = side
-            if not side_image:
-                pygame.draw.rect(surface, self.color, side_rect)
-                continue
             surface.blit(side_image, side_rect.topleft)
