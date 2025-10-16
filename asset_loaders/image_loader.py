@@ -31,3 +31,4 @@ class Images:
     wall_texture_img = pygame.image.load(os.path.join(other_images_path, "wall_texture.png")).convert_alpha()
     horizontal_border_img = pygame.image.load(os.path.join(other_images_path, "horizontal_border.png")).convert()
     vertical_border_img = pygame.image.load(os.path.join(other_images_path, "vertical_border.png")).convert_alpha()
+    mouse_img = pygame.image.load(os.path.join(other_images_path, "mouse.png")).convert_alpha()
