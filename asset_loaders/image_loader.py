@@ -12,7 +12,6 @@ class Images:
 
 
     # static tile images
-    wall_img = pygame.image.load(os.path.join(static_tile_images_path, "wall.png")).convert_alpha()
 
     # dynamic tile images
     door_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "door.png")).convert_alpha()
