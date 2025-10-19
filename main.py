@@ -3,7 +3,7 @@ import time
 import sys
 from framework.display import Display
 from framework.play_area import PlayArea
-from framework.mouse import Mouse, Test
+from framework.mouse import Mouse
 from hud.hud import Hud
 from level_manager.level_manager import LevelManager
 from collision_manager.collision_manager import CollisionManager
@@ -49,7 +49,6 @@ class Game:
 
         #setup mouse
         self.mouse = Mouse(self.canvas.size, self.screen.size, Images.mouse_img)
-        self.test = Test()
 
     
 
@@ -102,7 +101,6 @@ class Game:
             PlayArea.backing_surface_blit(Images.wall_texture_img, (0, 0))
             PlayArea.draw_to_surface(self.canvas)
 
-            self.test.update(self.canvas, mouse_pos)
             self.mouse.draw(self.canvas)
 
             self.screen.blit(pygame.transform.smoothscale(self.canvas, (self.screen_width, self.screen_height)), (0, 0))
