@@ -15,7 +15,7 @@ class Mouse:
 
         self.image = mouse_img
         self.rect = self.image.get_rect()
-        self.rect.center = self.get_start_pos()
+        self.rect.topleft = self.get_start_pos()
         
         pygame.mouse.get_rel()
         self.sensitivity = 1
@@ -60,8 +60,8 @@ class Mouse:
         relative_x *= self.sensitivity
         relative_y *= self.sensitivity
 
-        self.rect.centerx += relative_x
-        self.rect.centery += relative_y
+        self.rect.x += relative_x
+        self.rect.y += relative_y
 
         self.clamp_pos()
 
@@ -75,27 +75,14 @@ class Mouse:
         #     self.rect.centery = 0
         # elif self.rect.centery > self.canvas_height:
         #     self.rect.centery = self.canvas_height
-        self.rect.centerx = pygame.math.clamp(self.rect.centerx, 0, self.canvas_width)
-        self.rect.centery = pygame.math.clamp(self.rect.centery, 0, self.canvas_height)
+        self.rect.x = pygame.math.clamp(self.rect.x, 0, self.canvas_width)
+        self.rect.y = pygame.math.clamp(self.rect.y, 0, self.canvas_height)
         
 
     
     def get_pos(self):
-        return tuple(self.rect.center)
+        return tuple(self.rect.topleft)
     
 
     def draw(self, surface):
         surface.blit(self.image, self.rect.topleft)
-    
-
-
-class Test:
-    def __init__(self):
-        self.rect = pygame.rect.Rect((10, 10), (100, 100))
-
-    
-    def update(self, surface, pos):
-        color = (255, 0, 0)
-        if self.rect.collidepoint(pos):
-            color = (0, 255, 0)
-        pygame.draw.rect(surface, color, self.rect)
