@@ -4,6 +4,7 @@ from level_objects.dynamic_objects.sticky_pressure_plate import StickyPressurePl
 from level_objects.agent_objects.box import Box
 from level_objects.agent_objects.snake.snake import Snake
 from level_objects.agent_objects.spike_ball import SpikeBall
+from utils.color import Color
 
 
 
@@ -25,9 +26,7 @@ class CollisionManager:
         static_tiles, dynamic_tiles, agents, interactables = level_object_fetcher()
         
         if player.just_moved():
-            for tile in static_tiles:
-                if player.rect.colliderect(tile.rect):
-                    ...
+            self.check_static_tiles(player, static_tiles)
 
             if not self.in_bounds(player.rect):
                 ...
@@ -37,12 +36,14 @@ class CollisionManager:
 
         for agent in agents:
             self.check_agents(agent, agents, static_tiles, dynamic_tiles)
-
+            self.check_dynamic_tiles(agent, dynamic_tiles)
+            self.check_static_tiles(agent, static_tiles)
     
+
 
     def check_dynamic_tiles(self, collider, dynamic_tiles):
         for tile in dynamic_tiles:
-            if tile.color == collider.color:
+            if tile.color == collider.color and tile.color != Color.NO_COLOR:
                 continue
             if self.is_pressure_plate_tile(tile):
                 for segment in tile.segments:
@@ -56,7 +57,7 @@ class CollisionManager:
 
     def check_agents(self, collider, agents, static_tiles, dynamic_tiles):
         for agent in agents:
-            if agent.color == collider.color:
+            if agent.color == collider.color and agent.color != Color.NO_COLOR:
                 continue
             if agent == collider:
                 continue
@@ -70,6 +71,14 @@ class CollisionManager:
                         self.is_pressure_plate_tile,
                         self.in_bounds
                     )
+
+
+
+    def check_static_tiles(self, collider, static_tiles):
+        for tile in static_tiles:
+            if collider.rect.colliderect(tile.rect):
+                return True
+        return False
 
 
 
