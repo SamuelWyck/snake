@@ -1,4 +1,5 @@
 from level_objects.proto_objects.level_tile import LevelTile
+from level_objects.agent_objects.snake.snake import Snake
 
 
 
@@ -27,13 +28,13 @@ class Box(LevelTile):
 
     
 
-    def move(self, player, static_tiles, dynamic_tiles, agents, tile_to_skip, in_bounds):
-        old_position = self.move_self(player)
+    def move(self, collider, static_tiles, dynamic_tiles, agents, tile_to_skip, in_bounds):
+        old_position = self.move_self(collider)
 
         if not in_bounds(self.rect):
             self.rect.center = old_position
             return False
-        if player.collide(self.rect):
+        if collider.collide(self.rect):
             self.rect.center = old_position
             return False
         
@@ -62,9 +63,20 @@ class Box(LevelTile):
     
 
 
-    def move_self(self, player):
+    def move_self(self, collider):
         old_position = self.rect.center
-        direction = player.get_direction_as_str()
+
+        direction = None
+        if collider.__class__ != Snake:
+            direction = "right"
+            if collider.rect.centerx > self.rect.centerx:
+                direction = "left"
+            elif collider.rect.centery < self.rect.centery:
+                direction = "down"
+            elif collider.rect.centery > self.rect.centery:
+                direction = "up"
+        else:
+            direction = collider.get_direction_as_str()
 
         if direction == "right":
             self.rect.x += self.move_distance
