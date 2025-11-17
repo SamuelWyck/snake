@@ -26,18 +26,26 @@ class CollisionManager:
         static_tiles, dynamic_tiles, agents, interactables = level_object_fetcher()
         
         if player.just_moved():
-            self.check_static_tiles(player, static_tiles)
+            if self.check_static_tiles(player, static_tiles):
+                return True
 
             if not self.in_bounds(player.rect):
-                ...
+                return True
 
-        self.check_dynamic_tiles(player, dynamic_tiles)
-        self.check_agents(player, agents, static_tiles, dynamic_tiles)
+        if self.check_dynamic_tiles(player, dynamic_tiles):
+            return True
+        if self.check_agents(player, agents, static_tiles, dynamic_tiles):
+            return True
 
         for agent in agents:
-            self.check_agents(agent, agents, static_tiles, dynamic_tiles)
-            self.check_dynamic_tiles(agent, dynamic_tiles)
-            self.check_static_tiles(agent, static_tiles)
+            if self.check_agents(agent, agents, static_tiles, dynamic_tiles):
+                return True
+            if self.check_dynamic_tiles(agent, dynamic_tiles):
+                return True
+            if self.check_static_tiles(agent, static_tiles):
+                return True
+
+        return False
     
 
 
@@ -51,7 +59,8 @@ class CollisionManager:
                         tile.hit_segments.add(segment)
             else:
                 if collider.collide(tile.get_hitbox()):
-                    ...
+                    return True
+        return False
 
 
 
@@ -63,14 +72,14 @@ class CollisionManager:
                 continue
             if agent.__class__ == Box and collider.rect.colliderect(agent.rect):
                 if collider.__class__ == Snake or collider.__class__ == SpikeBall:
-                    agent.move(
-                        collider, 
-                        static_tiles, 
-                        dynamic_tiles, 
-                        agents, 
-                        self.is_pressure_plate_tile,
-                        self.in_bounds
-                    )
+                    if not agent.move(
+                        collider, static_tiles, dynamic_tiles, agents, self.is_pressure_plate_tile,self.in_bounds
+                    ):
+                        return True
+            elif agent.__class__ == SpikeBall and collider.__class__ == Snake:
+                if collider.collide(agent.rect):
+                    return True
+        return False
 
 
 
