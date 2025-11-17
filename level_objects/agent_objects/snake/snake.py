@@ -59,6 +59,7 @@ class Snake:
         self.increase_length = False
         self.decrease_length = False
         self.color = self.start_color
+        self.step_interval = self.max_step_interval
         
         self.body_length = len(self.starting_segments) - 1
         self.body = []
