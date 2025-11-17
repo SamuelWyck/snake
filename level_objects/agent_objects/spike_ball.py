@@ -28,8 +28,16 @@ class SpikeBall(LevelTile):
         self.target_index = 0
         self.target_index_change = 1
         self.vector = pygame.math.Vector2(self.rect.center)
-
     
+
+
+    def reset(self):
+        self.rect.center = self.target_points[0]
+        self.target_index = 0
+        self.target_index_change = 1
+        self.vector = pygame.math.Vector2(self.rect.center)
+    
+
 
     def update(self, surface, delta_time):
         velocity = self.velocity * delta_time
