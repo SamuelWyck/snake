@@ -15,6 +15,7 @@ class Snake:
         self.step_interval = step_interval
         self.max_step_interval = step_interval
         self.step_size = step_size
+        self.start_color = color
         self.color = color
         
         self.controller = controller
@@ -31,6 +32,7 @@ class Snake:
         self.decrease_length = False
 
         #setup the starting body
+        self.starting_segments = segment_positions
         self.min_body_length = 2
         self.body_length = len(segment_positions) - 1 #subtract by one to ignore head
         self.body = []
@@ -46,6 +48,21 @@ class Snake:
             self.move_right: -90,
             self.move_left: 90
         }
+
+
+    
+    def reset(self):
+        head_position = self.starting_segments[0]
+        self.rect = pygame.rect.Rect(head_position, (self.size, self.size))
+        self.vector = pygame.math.Vector2(self.rect.center)
+
+        self.increase_length = False
+        self.decrease_length = False
+        self.color = self.start_color
+        
+        self.body_length = len(self.starting_segments) - 1
+        self.body = []
+        self.initialize_body(self.starting_segments)
 
 
     
