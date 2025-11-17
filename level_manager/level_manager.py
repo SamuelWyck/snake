@@ -24,6 +24,16 @@ class LevelManager:
         self.traversed_tile_positions = set()
         self.found_island_tiles = set()
         self.found_wall_tiles = set()
+    
+
+
+    def reset_level(self):
+        for agent in self.agent_tiles:
+            agent.reset()
+        for tile in self.dynamic_tiles:
+            if hasattr(tile, "reset"):
+                tile.reset()
+        self.player.reset()
 
 
     
