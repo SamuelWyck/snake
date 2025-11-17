@@ -11,6 +11,7 @@ class Door(LevelTile, Receiver):
         self.image = image
         self.color = color
         self.is_open = is_open
+        self.starting_status = is_open
         self.open_rect = pygame.rect.Rect((-10, -10), (0, 0))
     
 
@@ -38,6 +39,11 @@ class Door(LevelTile, Receiver):
     
     def toggle(self):
         self.is_open = not self.is_open
+    
+
+
+    def reset(self):
+        self.is_open = self.starting_status
 
     
 
