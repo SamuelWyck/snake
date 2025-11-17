@@ -17,7 +17,7 @@ class LevelManager:
         self.level_files = [
             {
                 "level": os.path.join("level_data_files/level_1", "level_1.txt"),
-                "agents": os.path.join("level_data_files/level_1", "agents_1.txt")
+                "agents": os.path.join("level_data_files/level_1", "agents_interactables_1.txt")
             }
         ]
 
