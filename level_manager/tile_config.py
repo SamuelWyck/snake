@@ -10,6 +10,7 @@ from level_objects.dynamic_objects.sticky_pressure_plate import StickyPressurePl
 from level_objects.agent_objects.box import Box
 from level_objects.agent_objects.spike_ball import SpikeBall
 from level_objects.agent_objects.snake.snake import Snake
+from level_objects.interactables.pickup import Pickup
 from controllers.player_controller import PlayerController
 from utils.color import Color
 
@@ -72,7 +73,17 @@ class TileConfig:
         "CD": Cannon,
         "CL": Cannon,
         "CR": Cannon,
-        "L": Lava
+        "L": Lava,
+        "P1": Pickup,
+        "PN1": Pickup,
+        "P2": Pickup,
+        "PN2": Pickup,
+        "P3": Pickup,
+        "PN3": Pickup,
+        "P4": Pickup,
+        "PN4": Pickup,
+        "P5": Pickup,
+        "PN5": Pickup
     }
     tile_args_map = {
         "W": {
@@ -152,7 +163,17 @@ class TileConfig:
             "g": [Color.GREEN, Images.lava_img],
             "r": [Color.RED, Images.lava_img],
             "NOCOLOR": [Color.NO_COLOR, Images.lava_img]
-        }
+        },
+        "P1": {"b": ["1", Color.BLUE], "o": ["1", Color.ORANGE], "g": ["1", Color.GREEN], "r": ["1", Color.RED]},
+        "PN1": {"b": ["-1", Color.BLUE], "o": ["-1", Color.ORANGE], "g": ["-1", Color.GREEN], "r": ["-1", Color.RED]},
+        "P2": {"b": ["2", Color.BLUE], "o": ["2", Color.ORANGE], "g": ["2", Color.GREEN], "r": ["2", Color.RED]},
+        "PN2": {"b": ["-2", Color.BLUE], "o": ["-2", Color.ORANGE], "g": ["-2", Color.GREEN], "r": ["-2", Color.RED]},
+        "P3": {"b": ["3", Color.BLUE], "o": ["3", Color.ORANGE], "g": ["3", Color.GREEN], "r": ["3", Color.RED]},
+        "PN3": {"b": ["-3", Color.BLUE], "o": ["-3", Color.ORANGE], "g": ["-3", Color.GREEN], "r": ["-3", Color.RED]},
+        "P4": {"b": ["4", Color.BLUE], "o": ["4", Color.ORANGE], "g": ["4", Color.GREEN], "r": ["4", Color.RED]},
+        "PN4": {"b": ["-4", Color.BLUE], "o": ["-4", Color.ORANGE], "g": ["-4", Color.GREEN], "r": ["-4", Color.RED]},
+        "P5": {"b": ["5", Color.BLUE], "o": ["5", Color.ORANGE], "g": ["5", Color.GREEN], "r": ["5", Color.RED]},
+        "PN5": {"b": ["-5", Color.BLUE], "o": ["-5", Color.ORANGE], "g": ["-5", Color.GREEN], "r": ["-5", Color.RED]}
     }
 
     static_tiles = set([Wall, Cannon])
@@ -162,6 +183,7 @@ class TileConfig:
         Door,
         Lava
     ])
+    interactables = set([Pickup])
     tiles_needing_interactables = set([Cannon])
 
 
@@ -314,3 +336,9 @@ class TileConfig:
             return True
         
         return False
+
+
+
+    @classmethod
+    def is_interactable(cls, tile):
+        return tile.__class__ in cls.interactables
