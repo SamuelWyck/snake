@@ -10,6 +10,7 @@ class Box(LevelTile):
         self.image = image
         self.color = color
         self.move_distance = self.rect.width
+        self.original_topleft = topleft
 
     
 
@@ -88,3 +89,8 @@ class Box(LevelTile):
             self.rect.y += self.move_distance
 
         return old_position
+    
+
+
+    def reset(self):
+        self.rect.topleft = self.original_topleft
