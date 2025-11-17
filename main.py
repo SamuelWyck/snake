@@ -93,10 +93,14 @@ class Game:
             self.level_manager.update(PlayArea.surface, delta_time)
             self.player.update(PlayArea.surface, delta_time)
 
-            self.collision_manager.check_collisions(
+            collision = self.collision_manager.check_collisions(
                 self.player, 
                 self.level_manager.get_level_objects
             )
+            if collision:
+                self.level_manager.reset_level()
+                self.player_controller.reset_inputs()
+                continue
 
             PlayArea.backing_surface_blit(Images.wall_texture_img, (0, 0))
             PlayArea.draw_to_surface(self.canvas)
