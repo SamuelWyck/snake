@@ -108,6 +108,8 @@ class LevelManager:
             self.dynamic_tiles.append(tile)
         elif TileConfig.is_player(tile):
             self.player = tile
+        elif TileConfig.is_interactable(tile):
+            self.small_interactables.append(tile)
         else:
             self.agent_tiles.append(tile)
 
