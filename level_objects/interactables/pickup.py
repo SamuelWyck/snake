@@ -10,6 +10,7 @@ class Pickup(LevelTile):
 
         self.color = color
         self.value = int(value)
+        self.original_position = self.rect.center
 
         self.image = Fonts.pickup_outline_font.render(value, 1, Color.WHITE)
         self.image_rect = self.image.get_rect()
