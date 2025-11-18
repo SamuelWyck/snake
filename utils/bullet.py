@@ -3,7 +3,7 @@ import pygame, math
 
 
 class Bullet:
-    def __init__(self, center_coords, target_coords, screen_dimensions, image, speed, color, stop_at_target=False):
+    def __init__(self, parent, center_coords, target_coords, screen_dimensions, image, speed, color, stop_at_target=False):
         self.target_vector = pygame.math.Vector2(target_coords)
         self.vector = pygame.math.Vector2(center_coords)
 
@@ -20,6 +20,7 @@ class Bullet:
         self.speed = speed
         self.remove = False
         self.color = color
+        self.parent = parent
 
         if stop_at_target:
             line_slope = opposite_side / adjacent_side if adjacent_side != 0 else 0
