@@ -33,6 +33,13 @@ class LevelManager:
         for tile in self.dynamic_tiles:
             if hasattr(tile, "reset"):
                 tile.reset()
+        
+        while self.player.eaten_pickups:
+            pickup = self.player.eaten_pickups.popleft()
+            pickup.rect.center = pickup.original_position
+            pickup.remove = False
+            self.small_interactables.append(pickup)
+
         self.player.reset()
 
 
