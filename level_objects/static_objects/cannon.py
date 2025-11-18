@@ -49,6 +49,7 @@ class Cannon(LevelTile):
 
     def shoot_bullet(self):
         bullet = Bullet(
+            self,
             center_coords=self.rect.center,
             target_coords=self.bullet_target_coords,
             screen_dimensions=self.screen_dimensions,
