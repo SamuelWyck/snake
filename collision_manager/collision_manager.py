@@ -103,6 +103,7 @@ class CollisionManager:
             if interactable.__class__ == Pickup:
                 if interactable.collide(player):
                     interactable.remove = True
+                    player.eat_pickup(interactable)
                 continue
             if not self.in_bounds(interactable.rect):
                 interactable.remove = True
