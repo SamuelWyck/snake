@@ -35,4 +35,6 @@ class Pickup(LevelTile):
     def collide(self, collider):
         if collider.__class__ != Snake:
             return False
-        return collider.rect.colldierect(self.rect)
+        if self.color == collider.color and self.color != Color.NO_COLOR:
+            return False
+        return collider.rect.colliderect(self.rect)
