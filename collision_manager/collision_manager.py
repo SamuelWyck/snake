@@ -4,6 +4,7 @@ from level_objects.dynamic_objects.sticky_pressure_plate import StickyPressurePl
 from level_objects.agent_objects.box import Box
 from level_objects.agent_objects.snake.snake import Snake
 from level_objects.agent_objects.spike_ball import SpikeBall
+from level_objects.dynamic_objects.lava import Lava
 from utils.color import Color
 
 
@@ -24,7 +25,7 @@ class CollisionManager:
 
     def check_collisions(self, player, level_object_fetcher):   
         static_tiles, dynamic_tiles, agents, interactables = level_object_fetcher()
-        
+
         if player.just_moved():
             if self.check_static_tiles(player, static_tiles):
                 return True
@@ -58,7 +59,7 @@ class CollisionManager:
                     if collider.collide(segment.rect):
                         tile.hit_segments.add(segment)
             else:
-                if collider.collide(tile.get_hitbox()):
+                if collider.__class__ == Snake and collider.collide(tile.get_hitbox()):
                     return True
         return False
 
@@ -73,7 +74,7 @@ class CollisionManager:
             if agent.__class__ == Box and collider.rect.colliderect(agent.rect):
                 if collider.__class__ == Snake or collider.__class__ == SpikeBall:
                     if not agent.move(
-                        collider, static_tiles, dynamic_tiles, agents, self.is_pressure_plate_tile,self.in_bounds
+                        collider, static_tiles, dynamic_tiles, agents, self.is_box_skippable, self.in_bounds
                     ):
                         return True
             elif agent.__class__ == SpikeBall and collider.__class__ == Snake:
@@ -93,6 +94,11 @@ class CollisionManager:
 
     def is_pressure_plate_tile(self, tile):
         return tile.__class__ in self.compound_tiles
+    
+
+
+    def is_box_skippable(self, tile):
+        return tile.__class__ in self.compound_tiles or tile.__class__ == Lava
     
 
 
