@@ -1,10 +1,11 @@
 import pygame
 from level_objects.agent_objects.snake.snake_segment import SnakeSegment
+from collections import deque
 
 
 
 class Snake:
-    def __init__(self, segment_positions, size, step_size, step_interval, image, color, controller):
+    def __init__(self, segment_positions, size, step_size, step_interval, head_img, eyes_img, color, controller):
         head_position = segment_positions[0]
         self.rect = pygame.rect.Rect(head_position, (size, size))
         self.vector = pygame.math.Vector2(self.rect.center)
@@ -33,21 +34,37 @@ class Snake:
 
         #setup the starting body
         self.starting_segments = segment_positions
+        self.eaten_pickups = deque([])
         self.min_body_length = 2
         self.body_length = len(segment_positions) - 1 #subtract by one to ignore head
         self.body = []
         self.initialize_body(segment_positions)
 
         #setup image and image cache
-        self.image = image
-        self.image_rect = image.get_rect()
-        self.image_cache = {}
+        self.head_img = head_img
+        self.eyes_img = eyes_img
+        self.image = self.get_head_image()
+        
+        self.image_cache = {
+            0: {self.color: self.image},
+            180: {},
+            -90: {},
+            90: {}
+        }
         self.image_angles = {
             self.move_up: 0,
             self.move_down: 180,
             self.move_right: -90,
             self.move_left: 90
         }
+
+
+    
+    def get_head_image(self):
+        head_img = self.head_img.copy()
+        head_img.fill(self.color, special_flags=pygame.BLEND_MIN)
+        head_img.blit(self.eyes_img, (0, 0))
+        return head_img
 
 
     
@@ -64,6 +81,7 @@ class Snake:
         self.body_length = len(self.starting_segments) - 1
         self.body = []
         self.initialize_body(self.starting_segments)
+        self.image = self.image_cache[0][self.color]
 
 
     
@@ -218,11 +236,11 @@ class Snake:
     def draw(self, surface):
         image_angle = self.image_angles[self.last_movement]
 
-        if image_angle in self.image_cache:
-            image_rot = self.image_cache[image_angle]
+        if self.color in self.image_cache[image_angle]:
+            image_rot = self.image_cache[image_angle][self.color]
         else:
             image_rot = pygame.transform.rotate(self.image, image_angle).convert_alpha()
-            self.image_cache[image_angle] = image_rot
+            self.image_cache[image_angle][self.color] = image_rot
         image_rect = image_rot.get_rect()
         image_rect.center = self.rect.center
 
@@ -381,3 +399,10 @@ class Snake:
         if self.last_movement == self.move_left:
             return "left"
         return "right"
+
+
+
+    def eat_pickup(self, pickup):
+        self.color = pickup.color
+        self.image = self.get_head_image()
+        self.eaten_pickups.append(pickup)
