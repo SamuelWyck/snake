@@ -36,7 +36,9 @@ class TileConfig:
     snake_args = [
         snake_size,
         snake_step_size,
-        snake_step_interval
+        snake_step_interval,
+        Images.snake_head_img,
+        Images.snake_eyes_img
     ]
 
     spike_ball_size = 30
@@ -111,9 +113,9 @@ class TileConfig:
         "PSH": {
             "b": [*snake_args, Color.BLUE, player_controller],
             "o": [*snake_args, Color.ORANGE, player_controller],
-            "g": [*snake_args, Images.green_snake_img, Color.GREEN, player_controller],
+            "g": [*snake_args, Color.GREEN, player_controller],
             "r": [*snake_args, Color.RED, player_controller],
-            "NOCOLOR": [*snake_args, Images.green_snake_img, Color.GREEN, player_controller]
+            "NOCOLOR": [*snake_args, Color.GREEN, player_controller]
         },
         "S": {
             "b": [spike_ball_size, spike_ball_vel, Color.BLUE, Images.spike_ball_img, not circular_path],
