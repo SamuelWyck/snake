@@ -1,3 +1,3 @@
 # snake
 
-The game snake made with python and pygame.
+A puzzle game based off of the classic game SNAKE.
