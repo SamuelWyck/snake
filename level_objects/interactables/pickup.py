@@ -39,3 +39,9 @@ class Pickup(LevelTile):
         if self.color == collider.color and self.color != Color.NO_COLOR:
             return False
         return collider.rect.colliderect(self.rect)
+    
+
+
+    def set_center_position(self, position):
+        self.rect.center = position
+        self.image_rect.center = self.rect.center
