@@ -22,13 +22,9 @@ class TileConfig:
         "DOWN": pygame.K_s,
         "RIGHT": pygame.K_d,
         "LEFT": pygame.K_a,
-        "GROW": pygame.K_SPACE,
         "SHRINK": pygame.K_LSHIFT
     }
-    player_controller = PlayerController(
-        player_controls, 
-        holdable_inputs=set(["GROW", "SHRINK"])
-    )
+    player_controller = PlayerController(player_controls)
 
     snake_size = 30
     snake_step_size = 40
@@ -344,3 +340,9 @@ class TileConfig:
     @classmethod
     def is_interactable(cls, tile):
         return tile.__class__ in cls.interactables
+    
+
+
+    @classmethod
+    def is_pickup(cls, tile):
+        return tile.__class__ == Pickup
