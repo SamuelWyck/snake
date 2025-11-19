@@ -50,6 +50,10 @@ class CollisionManager:
         if self.check_interactables(interactables, player, static_tiles, dynamic_tiles, agents):
             return True
 
+        if len(player.pickups_to_drop) != 0:
+            pickup = player.pickups_to_drop.pop()
+            interactables.append(pickup)
+
         return False
     
 
@@ -101,9 +105,8 @@ class CollisionManager:
             if interactable.remove:
                 continue
             if interactable.__class__ == Pickup:
-                if interactable.collide(player):
+                if interactable.collide(player) and player.eat_pickup(interactable):
                     interactable.remove = True
-                    player.eat_pickup(interactable)
                 continue
             if not self.in_bounds(interactable.rect):
                 interactable.remove = True
