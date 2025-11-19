@@ -58,16 +58,22 @@ class SnakeSegment:
 
 
     def shrink(self, shrink_amount, next_segment_direction):
+        x_index = 0
+        y_index = 1
         if next_segment_direction == "top":
             self.rect.height -= shrink_amount
+            self.back_pos[y_index] -= shrink_amount
         elif next_segment_direction == "right":
             self.rect.width -= shrink_amount
             self.rect.centerx += shrink_amount
+            self.back_pos[x_index] += shrink_amount
         elif next_segment_direction == "bottom":
             self.rect.height -= shrink_amount
             self.rect.centery += shrink_amount
+            self.back_pos[y_index] += shrink_amount
         elif next_segment_direction == "left":
             self.rect.width -= shrink_amount
+            self.back_pos[x_index] -= shrink_amount
 
         if self.rect.width <= 0 or self.rect.height <= 0:
             self.remove = True
