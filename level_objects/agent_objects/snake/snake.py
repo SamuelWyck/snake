@@ -1,6 +1,6 @@
 import pygame
 from level_objects.agent_objects.snake.snake_segment import SnakeSegment
-from collections import deque
+from utils.color import Color
 
 
 
@@ -29,12 +29,13 @@ class Snake:
         self.movement = None
         self.last_movement = None
     
-        self.increase_length = False
-        self.decrease_length = False
+        self.length_increase = 0
+        self.length_decrease = 0
 
         #setup the starting body
         self.starting_segments = segment_positions
-        self.eaten_pickups = deque([])
+        self.eaten_pickups = []
+        self.pickups_to_drop = []
         self.min_body_length = 2
         self.body_length = len(segment_positions) - 1 #subtract by one to ignore head
         self.body = []
@@ -73,8 +74,8 @@ class Snake:
         self.rect = pygame.rect.Rect(head_position, (self.size, self.size))
         self.vector = pygame.math.Vector2(self.rect.center)
 
-        self.increase_length = False
-        self.decrease_length = False
+        self.length_increase = 0
+        self.length_decrease = 0
         self.color = self.start_color
         self.step_interval = self.max_step_interval
         
@@ -216,14 +217,16 @@ class Snake:
             else:
                 self.grow_front_segment()
             
-            if not self.increase_length:
+            if self.length_increase == 0:
                 self.shrink_back_segment()
             else:
-                self.increase_length = False
+                self.length_increase -= 1
+                self.body_length += 1
 
-            if self.decrease_length:
+            if self.length_decrease != 0 and self.length_increase == 0:
                 self.shrink_back_segment()
-                self.decrease_length = False
+                self.length_decrease -= 1
+                self.body_length -= 1
         
         remove = self.draw_body(surface)
         self.draw(surface)
@@ -259,8 +262,6 @@ class Snake:
             self.movement = self.move_left
         if pressed_inputs["RIGHT"] and self.last_movement != self.move_left:
             self.movement = self.move_right
-        if pressed_inputs["GROW"]:
-            self.grow_snake()
         if pressed_inputs["SHRINK"]:
             self.shrink_snake()
     
@@ -350,19 +351,40 @@ class Snake:
     
 
 
-    def grow_snake(self):
-        if not self.decrease_length and not self.increase_length:
-            self.increase_length = True
-            self.body_length += 1
+    # def grow_snake(self):
+    #     self.length_increase += 1
 
     
 
     def shrink_snake(self):
-        long_enough = self.body_length > self.min_body_length
-        if long_enough and not self.increase_length and not self.decrease_length:
-            self.decrease_length = True
-            self.body_length -= 1
-    
+        if len(self.eaten_pickups) == 0:
+            return
+        
+        snake_back_position = self.get_snake_back_pos()
+        pickup = self.eaten_pickups.pop()
+
+        pickup.set_center_position(snake_back_position)
+        pickup.remove = False
+        if pickup.value < 0:
+            self.length_increase += abs(pickup.value)
+        else:
+            self.length_decrease += pickup.value
+        self.pickups_to_drop.append(pickup)
+        
+        last_pickup_idx = len(self.eaten_pickups) - 1
+        self.color = self.eaten_pickups[last_pickup_idx].color if len(self.eaten_pickups) != 0 else self.start_color
+        if self.color not in self.image_cache[0]:
+            self.image = self.get_head_image()
+        else:
+            self.image = self.image_cache[0][self.color]
+
+
+
+    def get_snake_back_pos(self):
+        back_seg_index = 0
+        back_seg = self.body[back_seg_index] if not self.body[back_seg_index].remove else self.body[back_seg_index + 1]
+        return tuple(back_seg.back_pos)
+
 
 
     def just_moved(self):
@@ -403,6 +425,18 @@ class Snake:
 
 
     def eat_pickup(self, pickup):
+        if pickup.color == self.color and pickup.color != Color.NO_COLOR:
+            return False
+        if self.body_length + pickup.value < self.min_body_length:
+            return False
+        
+        increase_length = pickup.value >= 0
+        if increase_length:
+            self.length_increase += pickup.value
+        else:
+            self.length_decrease += abs(pickup.value)
+
         self.color = pickup.color
         self.image = self.get_head_image()
         self.eaten_pickups.append(pickup)
+        return True
