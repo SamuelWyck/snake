@@ -5,6 +5,7 @@ from level_objects.agent_objects.box import Box
 from level_objects.agent_objects.snake.snake import Snake
 from level_objects.agent_objects.spike_ball import SpikeBall
 from level_objects.dynamic_objects.lava import Lava
+from level_objects.static_objects.goal import Goal
 from level_objects.interactables.pickup import Pickup
 from utils.color import Color
 
@@ -146,7 +147,7 @@ class CollisionManager:
 
 
     def is_box_skippable(self, tile):
-        return tile.__class__ in self.compound_tiles or tile.__class__ == Lava
+        return tile.__class__ in self.compound_tiles or tile.__class__ == Lava or tile.__class__ == Goal
     
 
 
