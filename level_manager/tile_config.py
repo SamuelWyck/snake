@@ -11,6 +11,7 @@ from level_objects.agent_objects.box import Box
 from level_objects.agent_objects.spike_ball import SpikeBall
 from level_objects.agent_objects.snake.snake import Snake
 from level_objects.interactables.pickup import Pickup
+from level_objects.static_objects.goal import Goal
 from controllers.player_controller import PlayerController
 from utils.color import Color
 
@@ -81,7 +82,8 @@ class TileConfig:
         "P4": Pickup,
         "PN4": Pickup,
         "P5": Pickup,
-        "PN5": Pickup
+        "PN5": Pickup,
+        "G": Goal
     }
     tile_args_map = {
         "W": {
@@ -171,10 +173,17 @@ class TileConfig:
         "P4": {"b": ["+4", Color.BLUE], "o": ["+4", Color.ORANGE], "g": ["+4", Color.GREEN], "r": ["+4", Color.RED]},
         "PN4": {"b": ["-4", Color.BLUE], "o": ["-4", Color.ORANGE], "g": ["-4", Color.GREEN], "r": ["-4", Color.RED]},
         "P5": {"b": ["+5", Color.BLUE], "o": ["+5", Color.ORANGE], "g": ["+5", Color.GREEN], "r": ["+5", Color.RED]},
-        "PN5": {"b": ["-5", Color.BLUE], "o": ["-5", Color.ORANGE], "g": ["-5", Color.GREEN], "r": ["-5", Color.RED]}
+        "PN5": {"b": ["-5", Color.BLUE], "o": ["-5", Color.ORANGE], "g": ["-5", Color.GREEN], "r": ["-5", Color.RED]},
+        "G": {
+            "b": [Images.goal_img, Color.BLUE],
+            "o": [Images.goal_img, Color.ORANGE],
+            "g": [Images.goal_img, Color.GREEN],
+            "r": [Images.goal_img, Color.RED],
+            "NOCOLOR": [Images.goal_img, Color.NO_COLOR]
+        }
     }
 
-    static_tiles = set([Wall, Cannon])
+    static_tiles = set([Wall, Cannon, Goal])
     dynamic_tiles = set([
         StickyPressurePlate,
         PressurePlate,
@@ -201,6 +210,10 @@ class TileConfig:
         tile_args = cls.tile_args_map[tile_symbol][tile_color]
         if tile_class in cls.tiles_needing_interactables:
             tile_args.append(interactable_list)
+        elif tile_class == Goal:
+            tile_value = tile_id
+            tile_id = None
+            tile_args.append(tile_value)
 
         if tile_symbol in cls.snake_head_symbols:
             tile = tile_class(topleft, *tile_args)
