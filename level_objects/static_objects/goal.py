@@ -13,7 +13,7 @@ class Goal(LevelTile):
         self.image_rect = self.image.get_rect()
         self.image_rect.center = self.rect.center
 
-        self.length = value
+        self.value = value
         self.color = color
     
 
@@ -33,7 +33,7 @@ class Goal(LevelTile):
             return False
         if self.value != None and player.body_length != self.length:
             return False
-        return True
+        return self.rect.colliderect(player.rect)
     
 
 
