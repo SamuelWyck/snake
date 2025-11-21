@@ -97,7 +97,7 @@ class MainMenu:
                     pygame.quit()
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 0:
+                    if event.button == 1:
                         mouse_btn_just_pressed = True
             
             for button in self.buttons:
@@ -114,9 +114,11 @@ class MainMenu:
             canvas.blit(self.title_img, self.title_rect.topleft)
 
             for button in self.buttons:
-                button.draw(canvas, mouse_position, mouse_btn_just_pressed)
+                button.update(canvas, mouse_position, mouse_btn_just_pressed)
 
             self.mouse.draw(canvas)
 
             screen.blit(pygame.transform.smoothscale(canvas, (self.screen_width, self.screen_height)), (0, 0))
+            pygame.display.update()
+            
             clock.tick(framerate)
