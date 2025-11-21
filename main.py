@@ -4,6 +4,7 @@ import sys
 from framework.display import Display
 from framework.play_area import PlayArea
 from framework.mouse import Mouse
+from framework.ui import Ui
 from hud.hud import Hud
 from level_manager.level_manager import LevelManager
 from collision_manager.collision_manager import CollisionManager
@@ -49,10 +50,23 @@ class Game:
 
         #setup mouse
         self.mouse = Mouse(self.canvas.size, self.screen.size, Images.mouse_img)
+        
+        #setup ui manager
+        self.ui = Ui((self.screen_width, self.screen_height), (self.canvas_width, self.canvas_height), self.mouse)
 
-    
+
 
     def start(self):
+        while True:
+            exit = self.ui.main_menu.run(self.framerate, self.canvas, self.screen)
+            if exit:
+                return
+
+            self.game_loop()
+
+
+    
+    def game_loop(self):
         run = True
         last_time = time.time()
         clock = pygame.time.Clock()
