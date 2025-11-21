@@ -95,7 +95,10 @@ class CollisionManager:
 
     def check_static_tiles(self, collider, static_tiles):
         for tile in static_tiles:
-            if collider.rect.colliderect(tile.rect):
+            if tile.__class__ == Goal and collider.__class__ == Snake:
+                if tile.collide(collider):
+                    return True
+            elif tile.__class__ != Goal and collider.rect.colliderect(tile.rect):
                 return True
         return False
 
