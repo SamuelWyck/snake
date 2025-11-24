@@ -41,8 +41,8 @@ class Goal(LevelTile):
         value_str = str(value) if value != None else "?"
         value_image = Fonts.goal_font.render(value_str, True, Color.WHITE)
 
-        image_outline = image
-        colored_image = pygame.transform.smoothscale_by(image, .8)
+        image_outline = image.copy()
+        colored_image = pygame.transform.smoothscale_by(image_outline, .8)
         image_outline.fill(Color.WHITE, special_flags=pygame.BLEND_ADD)
         if color != None:
             colored_image.fill(Color.WHITE, special_flags=pygame.BLEND_ADD)
