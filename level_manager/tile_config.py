@@ -116,18 +116,18 @@ class TileConfig:
             "NOCOLOR": [*snake_args, Color.GREEN, player_controller]
         },
         "S": {
-            "b": [spike_ball_size, spike_ball_vel, Color.BLUE, Images.spike_ball_img, not circular_path],
-            "o": [spike_ball_size, spike_ball_vel, Color.ORANGE, Images.spike_ball_img, not circular_path],
-            "g": [spike_ball_size, spike_ball_vel, Color.GREEN, Images.spike_ball_img, not circular_path],
-            "r": [spike_ball_size, spike_ball_vel, Color.RED, Images.spike_ball_img, not circular_path],
-            "NOCOLOR": [spike_ball_size, spike_ball_vel, Color.NO_COLOR, Images.spike_ball_img, not circular_path]
+            "b": [spike_ball_size, spike_ball_vel, Color.BLUE, Images.spike_ball_fg_img, Images.spike_ball_bg_img, not circular_path],
+            "o": [spike_ball_size, spike_ball_vel, Color.ORANGE, Images.spike_ball_fg_img, Images.spike_ball_bg_img, not circular_path],
+            "g": [spike_ball_size, spike_ball_vel, Color.GREEN, Images.spike_ball_fg_img, Images.spike_ball_bg_img, not circular_path],
+            "r": [spike_ball_size, spike_ball_vel, Color.RED, Images.spike_ball_fg_img, Images.spike_ball_bg_img, not circular_path],
+            "NOCOLOR": [spike_ball_size, spike_ball_vel, Color.NO_COLOR, Images.spike_ball_fg_img, Images.spike_ball_bg_img, not circular_path]
         },
         "SC": {
-            "b": [spike_ball_size, spike_ball_vel, Color.BLUE, Images.spike_ball_img, circular_path],
-            "o": [spike_ball_size, spike_ball_vel, Color.ORANGE, Images.spike_ball_img, circular_path],
-            "g": [spike_ball_size, spike_ball_vel, Color.GREEN, Images.spike_ball_img, circular_path],
-            "r": [spike_ball_size, spike_ball_vel, Color.RED, Images.spike_ball_img, circular_path],
-            "NOCOLOR": [spike_ball_size, spike_ball_vel, Color.NO_COLOR, Images.spike_ball_img, circular_path]
+            "b": [spike_ball_size, spike_ball_vel, Color.BLUE, Images.spike_ball_fg_img, Images.spike_ball_bg_img, circular_path],
+            "o": [spike_ball_size, spike_ball_vel, Color.ORANGE, Images.spike_ball_fg_img, Images.spike_ball_bg_img, circular_path],
+            "g": [spike_ball_size, spike_ball_vel, Color.GREEN, Images.spike_ball_fg_img, Images.spike_ball_bg_img, circular_path],
+            "r": [spike_ball_size, spike_ball_vel, Color.RED, Images.spike_ball_fg_img, Images.spike_ball_bg_img, circular_path],
+            "NOCOLOR": [spike_ball_size, spike_ball_vel, Color.NO_COLOR, Images.spike_ball_fg_img, Images.spike_ball_bg_img, circular_path]
         },
         "CU": {
             "b": [Images.pressure_plate_img, Images.bullet_img, Color.BLUE, angle_up],
@@ -214,6 +214,8 @@ class TileConfig:
             tile_value = tile_id
             tile_id = None
             tile_args.append(tile_value)
+        elif tile_class == SpikeBall:
+            tile_id = None
 
         if tile_symbol in cls.snake_head_symbols:
             tile = tile_class(topleft, *tile_args)
@@ -235,6 +237,8 @@ class TileConfig:
         symbol_parts = tile_symbol.split(cls.tile_data_delimiter)
 
         symbol = symbol_parts[symbol_index]
+        if symbol in cls.island_tiles_to_find:
+            return cls.parse_spike_ball(tile_symbol)
         id = None
         color = "NOCOLOR"
 
@@ -247,10 +251,30 @@ class TileConfig:
             id = symbol_parts[id_index]
             color = symbol_parts[color_index]
 
-        
         return symbol, color, id
-    
 
+
+
+    @classmethod
+    def parse_spike_ball(cls, tile_symbol, include_order=False):
+        symbol_index = 0
+        color_index = 1
+        id_index = 2
+        order_index = 3
+        symbol_parts = tile_symbol.split(cls.tile_data_delimiter)
+        
+        if len(symbol_parts) == 3:
+            id_index = 1
+            order_index = 2
+            if include_order:
+                return symbol_parts[symbol_index], "NOCOLOR", symbol_parts[id_index], symbol_parts[order_index]
+            return symbol_parts[symbol_index], "NOCOLOR", symbol_parts[id_index]
+        else:
+            if include_order:
+                return symbol_parts[symbol_index], symbol_parts[color_index], symbol_parts[id_index], symbol_parts[order_index]
+            return symbol_parts[symbol_index], symbol_parts[color_index], symbol_parts[id_index]
+
+    
 
     @classmethod
     def store_tile_with_id(cls, tile_id, tile):
