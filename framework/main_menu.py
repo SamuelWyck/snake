@@ -82,7 +82,9 @@ class MainMenu:
         run = True
         last_time = time.time()
         clock = pygame.time.Clock()
+
         mouse_btn_just_pressed = False
+        mouse_btn_just_released = False
 
         while run:
             delta_time = time.time() - last_time
@@ -90,6 +92,7 @@ class MainMenu:
             last_time = time.time()
 
             mouse_btn_just_pressed = False
+            mouse_btn_just_released = False
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -99,6 +102,9 @@ class MainMenu:
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
                         mouse_btn_just_pressed = True
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    if event.button == 1:
+                        mouse_btn_just_released = True
             
             for button in self.buttons:
                 if button.clicked:
@@ -114,11 +120,11 @@ class MainMenu:
             canvas.blit(self.title_img, self.title_rect.topleft)
 
             for button in self.buttons:
-                button.update(canvas, mouse_position, mouse_btn_just_pressed)
+                button.update(canvas, mouse_position, mouse_btn_just_pressed, mouse_btn_just_released)
 
             self.mouse.draw(canvas)
 
             screen.blit(pygame.transform.smoothscale(canvas, (self.screen_width, self.screen_height)), (0, 0))
             pygame.display.update()
-            
+
             clock.tick(framerate)
