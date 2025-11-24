@@ -14,7 +14,7 @@ class MainMenu:
         self.btns_start_x, self.btns_start_y = btns_topleft
 
         self.background_image = background_img
-        self.title_img = Fonts.pickup_outline_font.render(title, True, Color.GREEN)
+        self.title_img = Fonts.title_font.render(title, True, Color.GREEN)
         self.title_rect = self.title_img.get_rect()
         self.title_rect.topleft = self.get_title_topleft()
 
@@ -109,9 +109,9 @@ class MainMenu:
             for button in self.buttons:
                 if button.clicked:
                     callback = self.callback_map[button.id]
-                    exit_menu = callback(canvas=canvas, screen=screen, framerate=framerate)
+                    exit_menu, info = callback(canvas=canvas, screen=screen, framerate=framerate)
                     if exit_menu:
-                        return
+                        return info
             
             self.mouse.update()
             mouse_position = self.mouse.get_pos()
