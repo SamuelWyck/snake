@@ -276,11 +276,8 @@ class LevelManager:
     def link_isolated_tiles(self, start_row, level, start_symbol):
         found_topleft_positions = []
         symbol_index = 0
-        order_index = 1
-        sorting_needed = False
 
-        target_symbol_parts = start_symbol.split(TileConfig.tile_data_delimiter)
-        target_symbol = target_symbol_parts[symbol_index]
+        target_symbol, _, target_id = TileConfig.parse_spike_ball(start_symbol)
         for row in range(start_row, len(level)):
             for col in range(len(level[row])):
                 tile_data = level[row][col]
@@ -288,19 +285,14 @@ class LevelManager:
                 symbol = symbol_parts[symbol_index]
                 if symbol != target_symbol:
                     continue
-                
-                order = None
-                if len(symbol_parts) > 1:
-                    order = symbol_parts[order_index]
-                    sorting_needed = True
+                symbol, _, id, order = TileConfig.parse_spike_ball(tile_data, include_order=True)
+                if id != target_id:
+                    continue
 
                 self.found_island_tiles.add((row, col))
                 topleft = self.calc_tile_topleft(row, col)
-                point_data = topleft if not order else (topleft, order)
-                found_topleft_positions.append(point_data)
+                found_topleft_positions.append((topleft, order))
 
-        if not sorting_needed:
-            return found_topleft_positions
         sorted_positions = self.merge_sort(found_topleft_positions)
         topleft_positions = []
         for data in sorted_positions:
