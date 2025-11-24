@@ -13,12 +13,20 @@ class Ui:
 
     def get_main_menu(self, screen_size, canvas_size, mouse_manager):
         btns_with_callbacks = [
-            (Fonts.pickup_outline_font.render("PLAY", 1, Color.GREEN), Fonts.pickup_outline_font.render("PLAY", 1, Color.ORANGE), lambda **kwargs : True),
-            (Fonts.pickup_outline_font.render("SETTINGS", 1, Color.GREEN), lambda **kwargs : False),
-            (Fonts.pickup_outline_font.render("TUTORIAL", 1, Color.GREEN), lambda **kwargs : False),
-            (Fonts.pickup_outline_font.render("EXIT", 1, Color.GREEN), lambda **kwargs : True)
+            (Fonts.pickup_outline_font.render("PLAY", 1, Color.GREEN), Fonts.pickup_outline_font.render("PLAY", 1, Color.ORANGE), lambda **kwargs : (True, False)),
+            (Fonts.pickup_outline_font.render("SETTINGS", 1, Color.GREEN), lambda **kwargs : (False, False)),
+            # (Fonts.pickup_outline_font.render("TUTORIAL", 1, Color.GREEN), lambda **kwargs : False),
+            (Fonts.pickup_outline_font.render("EXIT", 1, Color.GREEN), lambda **kwargs : (True, True))
         ]
         background_img = pygame.Surface((1536, 864))
         background_img.fill((0, 0, 0))
-        main_menu = MainMenu(btns_with_callbacks, background_img, screen_size, canvas_size, mouse_manager, (0, 0), "PHASE SNAKE")
+        main_menu = MainMenu(
+            btns_with_callbacks, 
+            background_img, 
+            screen_size, 
+            canvas_size, 
+            mouse_manager, 
+            btns_topleft=(30, 550), 
+            title="PHASE SNAKE"
+        )
         return main_menu
