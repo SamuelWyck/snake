@@ -22,7 +22,8 @@ class Images:
 
     # agent images
     box_img = pygame.image.load(os.path.join(agent_images_path, "box.png")).convert_alpha()
-    spike_ball_img = pygame.image.load(os.path.join(agent_images_path, "spike_ball.png")).convert_alpha()
+    spike_ball_fg_img = pygame.image.load(os.path.join(agent_images_path, "spike_ball_foreground.png")).convert_alpha()
+    spike_ball_bg_img = pygame.image.load(os.path.join(agent_images_path, "spike_ball_background.png")).convert_alpha()
     snake_head_img = pygame.image.load(os.path.join(agent_images_path, "snake_head.png")).convert_alpha()
     snake_eyes_img = pygame.image.load(os.path.join(agent_images_path, "snake_eyes.png")).convert_alpha()
 
