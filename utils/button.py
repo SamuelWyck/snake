@@ -14,10 +14,11 @@ class Button:
 
         self.id = id
         self.clicked = False
+        self.mouse_button_pressed = False
 
     
 
-    def update(self, surface, mouse_pos, mouse_btn_clicked):
+    def update(self, surface, mouse_pos, mouse_btn_pressed, mouse_btn_released):
         self.active_image = self.image
         self.active_rect = self.image_rect
         self.clicked = False
@@ -28,7 +29,12 @@ class Button:
             self.active_image = self.hover_image if self.hover_image != None else self.image
             self.active_rect = self.hover_image_rect if self.hover_image != None else self.image_rect
         
-        if mouse_btn_clicked and mouse_hovering:
+        if mouse_btn_pressed and mouse_hovering:
+            self.mouse_button_pressed = True
+        elif mouse_btn_released and mouse_hovering and self.mouse_button_pressed:
+            self.mouse_button_pressed = False
             self.clicked = True
+        elif mouse_btn_released:
+            self.mouse_button_pressed = False
         
         surface.blit(self.active_image, self.active_rect.topleft)
