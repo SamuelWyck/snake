@@ -139,8 +139,8 @@ class LevelManager:
         vertical_pos_change = (1, 0)
         horizontal_pos_change = (0, 1)
 
-        self.explore_wal_rec(row, col, level, symbol, vertical_pos_change, self.found_wall_tiles, set(), vertical_positions)
-        self.explore_wal_rec(row, col, level, symbol, horizontal_pos_change, self.found_wall_tiles, set(), horizontal_postions)
+        self.explore_wall_rec(row, col, level, symbol, vertical_pos_change, self.found_wall_tiles, set(), vertical_positions)
+        self.explore_wall_rec(row, col, level, symbol, horizontal_pos_change, self.found_wall_tiles, set(), horizontal_postions)
         
         longer_direction = vertical_positions
         vertical_longer = True
@@ -160,7 +160,7 @@ class LevelManager:
 
 
     
-    def explore_wal_rec(self, row, col, level, target_symbol, pos_change, prev_visited, new_visited, found_tiles):
+    def explore_wall_rec(self, row, col, level, target_symbol, pos_change, prev_visited, new_visited, found_tiles):
         row_valid = 0 <= row < len(level)
         col_valid = 0 <= col < len(level[0])
         key = (row, col)
@@ -182,7 +182,7 @@ class LevelManager:
 
         new_row = row + row_change
         new_col = col + col_change
-        self.explore_wal_rec(new_row, new_col, level, target_symbol, pos_change, prev_visited, new_visited, found_tiles)
+        self.explore_wall_rec(new_row, new_col, level, target_symbol, pos_change, prev_visited, new_visited, found_tiles)
 
 
 
