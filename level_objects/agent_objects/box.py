@@ -1,5 +1,7 @@
+import pygame
 from level_objects.proto_objects.level_tile import LevelTile
 from level_objects.agent_objects.snake.snake import Snake
+from utils.color import Color
 
 
 
@@ -7,12 +9,21 @@ class Box(LevelTile):
     def __init__(self, topleft, size, color, image):
         super().__init__(topleft, size)
 
-        self.image = image
+        self.image = self.build_image(color, image, size)
         self.color = color
         self.move_distance = self.rect.width
         self.original_topleft = topleft
 
     
+
+    def build_image(self, color, image, size):
+        background_img = pygame.Surface(size)
+        color = color if color != Color.NO_COLOR else Color.GRAY
+        background_img.fill(color)
+        background_img.blit(image, (0, 0))
+        return background_img
+
+
 
     def update(self, surface, delta_time):
         self.draw(surface)
