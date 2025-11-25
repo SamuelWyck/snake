@@ -424,10 +424,16 @@ class Snake:
 
 
 
+    @property
+    def real_length(self):
+        return self.body_length + (-1 * self.length_decrease) + self.length_increase
+
+
+
     def eat_pickup(self, pickup):
         if pickup.color == self.color and pickup.color != Color.NO_COLOR:
             return False
-        if self.body_length + pickup.value < self.min_body_length:
+        if self.real_length + pickup.value < self.min_body_length:
             return False
         
         increase_length = pickup.value >= 0
