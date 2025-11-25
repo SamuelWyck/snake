@@ -106,6 +106,10 @@ class TileConfig:
             "NOCOLOR": [Color.NO_COLOR, [Images.pressure_plate_img, Images.pressure_plate_pressed_img]]
         },
         "B": {
+            "b": [Color.BLUE, Images.box_img],
+            "o": [Color.ORANGE, Images.box_img],
+            "g": [Color.GREEN, Images.box_img],
+            "r": [Color.RED, Images.box_img],
             "NOCOLOR": [Color.NO_COLOR, Images.box_img]
         },
         "PSH": {
