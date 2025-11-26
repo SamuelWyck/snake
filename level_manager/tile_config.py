@@ -38,8 +38,13 @@ class TileConfig:
         Images.snake_eyes_img
     ]
 
+    door_frame_data = [(Images.door_img_1, 6), (Images.door_img_2, 6), (Images.door_img_3, 6)]
+    start_door_open = True
+    vertical_door = True
+
     spike_ball_size = 30
     spike_ball_vel = 2
+    circular_path = True
 
     empty_symbol = "O"
     wall_symbol = "W"
@@ -50,8 +55,6 @@ class TileConfig:
     transmitter_key = "transmitters"
     receiver_key = "receivers"
 
-    start_door_open = True
-    circular_path = True
     angle_up = 180
     angle_down = 0
     angle_left = -90
@@ -61,6 +64,8 @@ class TileConfig:
         "W": Wall,
         "DO": Door,
         "DC": Door,
+        "DVO": Door,
+        "DVC": Door,
         "P": PressurePlate,
         "SP": StickyPressurePlate,
         "B": Box,
@@ -94,10 +99,16 @@ class TileConfig:
             "NOCOLOR": [Color.NO_COLOR, Color.COLOR_KEY]   
         },
         "DO": {
-            "NOCOLOR": [Color.NO_COLOR, Images.door_img, start_door_open]
+            "NOCOLOR": [Color.NO_COLOR, door_frame_data, start_door_open, not vertical_door]
         },
         "DC": {
-            "NOCOLOR": [Color.NO_COLOR, Images.door_img, not start_door_open]
+            "NOCOLOR": [Color.NO_COLOR, door_frame_data, not start_door_open, not vertical_door]
+        },
+        "DVO": {
+            "NOCOLOR": [Color.NO_COLOR, door_frame_data, start_door_open, vertical_door]
+        },
+        "DVC": {
+            "NOCOLOR": [Color.NO_COLOR, door_frame_data, not start_door_open, vertical_door]
         },
         "P": {
             "NOCOLOR": [Color.NO_COLOR, [Images.pressure_plate_img, Images.pressure_plate_pressed_img]]
