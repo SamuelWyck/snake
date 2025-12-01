@@ -46,6 +46,21 @@ class TileConfig:
     spike_ball_vel = 2
     circular_path = True
 
+    lava_frame_data = [
+        (Images.bubble_img_0, 8),
+        (Images.bubble_img_1, 8),
+        (Images.bubble_img_2, 8),
+        (Images.bubble_img_3, 8),
+        (Images.bubble_img_4, 8),
+        (Images.bubble_img_5, 6),
+        (Images.bubble_img_6, 6),
+        (Images.bubble_img_7, 6),
+        (Images.bubble_img_8, 6),
+        (Images.bubble_img_9, 6),
+        (Images.bubble_img_10, 6),
+        (Images.bubble_img_11, 6),
+    ]
+
     empty_symbol = "O"
     wall_symbol = "W"
 
@@ -173,11 +188,11 @@ class TileConfig:
             "NOCOLOR": [Images.pressure_plate_img, Images.bullet_img, Color.NO_COLOR, angle_right]
         },
         "L": {
-            "b": [Color.BLUE, Images.lava_img],
-            "o": [Color.ORANGE, Images.lava_img],
-            "g": [Color.GREEN, Images.lava_img],
-            "r": [Color.RED, Images.lava_img],
-            "NOCOLOR": [Color.NO_COLOR, Images.lava_img]
+            "b": [Color.BLUE, lava_frame_data, Images.lava_img],
+            "o": [Color.ORANGE, lava_frame_data, Images.lava_img],
+            "g": [Color.GREEN, lava_frame_data, Images.lava_img],
+            "r": [Color.RED, lava_frame_data, Images.lava_img],
+            "NOCOLOR": [Color.NO_COLOR, lava_frame_data, Images.lava_img]
         },
         "P1": {"b": ["+1", Color.BLUE], "o": ["+1", Color.ORANGE], "g": ["+1", Color.GREEN], "r": ["+1", Color.RED]},
         "PN1": {"b": ["-1", Color.BLUE], "o": ["-1", Color.ORANGE], "g": ["-1", Color.GREEN], "r": ["-1", Color.RED]},
