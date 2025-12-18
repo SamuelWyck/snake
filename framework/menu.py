@@ -7,7 +7,7 @@ from asset_loaders.font_loader import Fonts
 
 
 
-class MainMenu:
+class Menu:
     def __init__(self, btn_imgs_with_callbacks, background_img, screen_size, canvas_size, mouse_manager, btns_topleft, title):
         self.screen_width, self.screen_height = screen_size
         self.canvas_width, self.canvas_height = canvas_size
@@ -108,6 +108,7 @@ class MainMenu:
             
             for button in self.buttons:
                 if button.clicked:
+                    button.clicked = False
                     callback = self.callback_map[button.id]
                     exit_menu, info = callback(canvas=canvas, screen=screen, framerate=framerate)
                     if exit_menu:
