@@ -70,6 +70,7 @@ class Images:
     # other images
     bullet_img = pygame.image.load(os.path.join(interactables_images_path, "bullet.png")).convert_alpha()
     background_img = pygame.image.load(os.path.join(other_images_path, "background.png")).convert_alpha()
+    canvas_background_img = pygame.image.load(os.path.join(other_images_path, "canvas_background.png")).convert_alpha()
     wall_texture_img = pygame.image.load(os.path.join(other_images_path, "wall_texture.png")).convert_alpha()
     horizontal_border_img = pygame.image.load(os.path.join(other_images_path, "horizontal_border.png")).convert()
     vertical_border_img = pygame.image.load(os.path.join(other_images_path, "vertical_border.png")).convert_alpha()
