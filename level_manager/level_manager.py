@@ -349,13 +349,7 @@ class LevelManager:
 
 
     def update(self, surface, delta_time):
-        for tile in self.static_tiles:
-            tile.update(surface, delta_time)
-        
         for tile in self.dynamic_tiles:
-            tile.update(surface, delta_time)
-
-        for tile in self.agent_tiles:
             tile.update(surface, delta_time)
 
         remove = False
@@ -366,6 +360,12 @@ class LevelManager:
 
         if remove:
             self.small_interactables[:] = [item for item in self.small_interactables if not item.remove]
+
+        for tile in self.static_tiles:
+            tile.update(surface, delta_time)
+
+        for tile in self.agent_tiles:
+            tile.update(surface, delta_time)
 
 
 
