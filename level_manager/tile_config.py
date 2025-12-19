@@ -58,7 +58,34 @@ class TileConfig:
         (Images.bubble_img_8, 6),
         (Images.bubble_img_9, 6),
         (Images.bubble_img_10, 6),
-        (Images.bubble_img_11, 6),
+        (Images.bubble_img_11, 6)
+    ]
+    cannon_frame_data = [
+        (Images.cannon_img_0, 5),
+        (Images.cannon_img_1, 5),
+        (Images.cannon_img_2, 5),
+        (Images.cannon_img_3, 5),
+        (Images.cannon_img_4, 5),
+        (Images.cannon_img_5, 5),
+        (Images.cannon_img_6, 5),
+        (Images.cannon_img_7, 5),
+        (Images.cannon_img_8, 5),
+        (Images.cannon_img_9, 5),
+        (Images.cannon_img_10, 5),
+        (Images.cannon_img_11, 5)
+    ]
+    smoke_frame_data = [
+        (Images.smoke_img_0, 5),
+        (Images.smoke_img_1, 5),
+        (Images.smoke_img_2, 5),
+        (Images.smoke_img_3, 5),
+        (Images.smoke_img_4, 6),
+        (Images.smoke_img_5, 6),
+        (Images.smoke_img_6, 6),
+        (Images.smoke_img_7, 6),
+        (Images.smoke_img_8, 7),
+        (Images.smoke_img_9, 7),
+        (Images.smoke_img_10, 7)
     ]
 
     empty_symbol = "O"
@@ -160,32 +187,32 @@ class TileConfig:
             "NOCOLOR": [spike_ball_size, spike_ball_vel, Color.NO_COLOR, Images.spike_ball_fg_img, Images.spike_ball_bg_img, circular_path]
         },
         "CU": {
-            "b": [Images.pressure_plate_img, Images.bullet_img, Color.BLUE, angle_up],
-            "o": [Images.pressure_plate_img, Images.bullet_img, Color.ORANGE, angle_up],
-            "g": [Images.pressure_plate_img, Images.bullet_img, Color.GREEN, angle_up],
-            "r": [Images.pressure_plate_img, Images.bullet_img, Color.RED, angle_up],
-            "NOCOLOR": [Images.pressure_plate_img, Images.bullet_img, Color.NO_COLOR, angle_up]
+            "b": [Images.cannon_img, cannon_frame_data, smoke_frame_data, Images.bullet_img, Color.BLUE, angle_up],
+            "o": [Images.cannon_img, cannon_frame_data, smoke_frame_data, Images.bullet_img, Color.ORANGE, angle_up],
+            "g": [Images.cannon_img, cannon_frame_data, smoke_frame_data, Images.bullet_img, Color.GREEN, angle_up],
+            "r": [Images.cannon_img, cannon_frame_data, smoke_frame_data, Images.bullet_img, Color.RED, angle_up],
+            "NOCOLOR": [Images.cannon_img, cannon_frame_data, smoke_frame_data, Images.bullet_img, Color.NO_COLOR, angle_up]
         },
         "CD": {
-            "b": [Images.pressure_plate_img, Images.bullet_img, Color.BLUE, angle_down],
-            "o": [Images.pressure_plate_img, Images.bullet_img, Color.ORANGE, angle_down],
-            "g": [Images.pressure_plate_img, Images.bullet_img, Color.GREEN, angle_down],
-            "r": [Images.pressure_plate_img, Images.bullet_img, Color.RED, angle_down],
-            "NOCOLOR": [Images.pressure_plate_img, Images.bullet_img, Color.NO_COLOR, angle_down]
+            "b": [Images.cannon_img, cannon_frame_data, smoke_frame_data, Images.bullet_img, Color.BLUE, angle_down],
+            "o": [Images.cannon_img, cannon_frame_data, smoke_frame_data, Images.bullet_img, Color.ORANGE, angle_down],
+            "g": [Images.cannon_img, cannon_frame_data, smoke_frame_data, Images.bullet_img, Color.GREEN, angle_down],
+            "r": [Images.cannon_img, cannon_frame_data, smoke_frame_data, Images.bullet_img, Color.RED, angle_down],
+            "NOCOLOR": [Images.cannon_img, cannon_frame_data, smoke_frame_data, Images.bullet_img, Color.NO_COLOR, angle_down]
         },
         "CL": {
-            "b": [Images.pressure_plate_img, Images.bullet_img, Color.BLUE, angle_left],
-            "o": [Images.pressure_plate_img, Images.bullet_img, Color.ORANGE, angle_left],
-            "g": [Images.pressure_plate_img, Images.bullet_img, Color.GREEN, angle_left],
-            "r": [Images.pressure_plate_img, Images.bullet_img, Color.RED, angle_left],
-            "NOCOLOR": [Images.pressure_plate_img, Images.bullet_img, Color.NO_COLOR, angle_left]
+            "b": [Images.cannon_img, cannon_frame_data, smoke_frame_data, Images.bullet_img, Color.BLUE, angle_left],
+            "o": [Images.cannon_img, cannon_frame_data, smoke_frame_data, Images.bullet_img, Color.ORANGE, angle_left],
+            "g": [Images.cannon_img, cannon_frame_data, smoke_frame_data, Images.bullet_img, Color.GREEN, angle_left],
+            "r": [Images.cannon_img, cannon_frame_data, smoke_frame_data, Images.bullet_img, Color.RED, angle_left],
+            "NOCOLOR": [Images.cannon_img, cannon_frame_data, smoke_frame_data, Images.bullet_img, Color.NO_COLOR, angle_left]
         },
         "CR": {
-            "b": [Images.pressure_plate_img, Images.bullet_img, Color.BLUE, angle_right],
-            "o": [Images.pressure_plate_img, Images.bullet_img, Color.ORANGE, angle_right],
-            "g": [Images.pressure_plate_img, Images.bullet_img, Color.GREEN, angle_right],
-            "r": [Images.pressure_plate_img, Images.bullet_img, Color.RED, angle_right],
-            "NOCOLOR": [Images.pressure_plate_img, Images.bullet_img, Color.NO_COLOR, angle_right]
+            "b": [Images.cannon_img, cannon_frame_data, smoke_frame_data, Images.bullet_img, Color.BLUE, angle_right],
+            "o": [Images.cannon_img, cannon_frame_data, smoke_frame_data, Images.bullet_img, Color.ORANGE, angle_right],
+            "g": [Images.cannon_img, cannon_frame_data, smoke_frame_data, Images.bullet_img, Color.GREEN, angle_right],
+            "r": [Images.cannon_img, cannon_frame_data, smoke_frame_data, Images.bullet_img, Color.RED, angle_right],
+            "NOCOLOR": [Images.cannon_img, cannon_frame_data, smoke_frame_data, Images.bullet_img, Color.NO_COLOR, angle_right]
         },
         "L": {
             "b": [Color.BLUE, lava_frame_data, Images.lava_img],
