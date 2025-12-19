@@ -1,4 +1,5 @@
 import pygame, math
+from utils.color import Color
 
 
 
@@ -13,6 +14,8 @@ class Bullet:
         angle = math.degrees(radian_angle)
 
         self.image = pygame.transform.rotozoom(image, angle, 1).convert_alpha()
+        color = color if color != Color.NO_COLOR else Color.BLACK
+        self.image.fill(color, special_flags=pygame.BLEND_MAX)
         self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect()
         self.rect.center = center_coords
