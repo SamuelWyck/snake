@@ -97,7 +97,7 @@ class Game:
 
 
 
-            self.canvas.fill((0, 0, 0))
+            self.canvas.blit(Images.canvas_background_img, (0, 0))
             self.hud.draw(self.canvas)
             PlayArea.blit(Images.background_img, topleft=(0, 0))
 
