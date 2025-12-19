@@ -13,6 +13,30 @@ class Images:
 
     # static tile images
     goal_img = pygame.image.load(os.path.join(static_tile_images_path, "goal.png")).convert_alpha()
+    cannon_img = pygame.image.load(os.path.join(static_tile_images_path, "cannon_frames/cannon_fr_0.png")).convert_alpha()
+    cannon_img_0 = pygame.image.load(os.path.join(static_tile_images_path, "cannon_frames/cannon_fr_0.png")).convert_alpha()
+    cannon_img_1 = pygame.image.load(os.path.join(static_tile_images_path, "cannon_frames/cannon_fr_1.png")).convert_alpha()
+    cannon_img_2 = pygame.image.load(os.path.join(static_tile_images_path, "cannon_frames/cannon_fr_2.png")).convert_alpha()
+    cannon_img_3 = pygame.image.load(os.path.join(static_tile_images_path, "cannon_frames/cannon_fr_3.png")).convert_alpha()
+    cannon_img_4 = pygame.image.load(os.path.join(static_tile_images_path, "cannon_frames/cannon_fr_4.png")).convert_alpha()
+    cannon_img_5 = pygame.image.load(os.path.join(static_tile_images_path, "cannon_frames/cannon_fr_5.png")).convert_alpha()
+    cannon_img_6 = pygame.image.load(os.path.join(static_tile_images_path, "cannon_frames/cannon_fr_6.png")).convert_alpha()
+    cannon_img_7 = pygame.image.load(os.path.join(static_tile_images_path, "cannon_frames/cannon_fr_7.png")).convert_alpha()
+    cannon_img_8 = pygame.image.load(os.path.join(static_tile_images_path, "cannon_frames/cannon_fr_8.png")).convert_alpha()
+    cannon_img_9 = pygame.image.load(os.path.join(static_tile_images_path, "cannon_frames/cannon_fr_9.png")).convert_alpha()
+    cannon_img_10 = pygame.image.load(os.path.join(static_tile_images_path, "cannon_frames/cannon_fr_10.png")).convert_alpha()
+    cannon_img_11 = pygame.image.load(os.path.join(static_tile_images_path, "cannon_frames/cannon_fr_11.png")).convert_alpha()
+    smoke_img_0 = pygame.image.load(os.path.join(static_tile_images_path, "smoke_frames/smoke_fr_0.png")).convert_alpha()
+    smoke_img_1 = pygame.image.load(os.path.join(static_tile_images_path, "smoke_frames/smoke_fr_1.png")).convert_alpha()
+    smoke_img_2 = pygame.image.load(os.path.join(static_tile_images_path, "smoke_frames/smoke_fr_2.png")).convert_alpha()
+    smoke_img_3 = pygame.image.load(os.path.join(static_tile_images_path, "smoke_frames/smoke_fr_3.png")).convert_alpha()
+    smoke_img_4 = pygame.image.load(os.path.join(static_tile_images_path, "smoke_frames/smoke_fr_4.png")).convert_alpha()
+    smoke_img_5 = pygame.image.load(os.path.join(static_tile_images_path, "smoke_frames/smoke_fr_5.png")).convert_alpha()
+    smoke_img_6 = pygame.image.load(os.path.join(static_tile_images_path, "smoke_frames/smoke_fr_6.png")).convert_alpha()
+    smoke_img_7 = pygame.image.load(os.path.join(static_tile_images_path, "smoke_frames/smoke_fr_7.png")).convert_alpha()
+    smoke_img_8 = pygame.image.load(os.path.join(static_tile_images_path, "smoke_frames/smoke_fr_8.png")).convert_alpha()
+    smoke_img_9 = pygame.image.load(os.path.join(static_tile_images_path, "smoke_frames/smoke_fr_9.png")).convert_alpha()
+    smoke_img_10 = pygame.image.load(os.path.join(static_tile_images_path, "smoke_frames/smoke_fr_10.png")).convert_alpha()
 
 
 
