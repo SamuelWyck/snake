@@ -1,7 +1,7 @@
 import pygame
 import time
 import sys
-from utils.button import Button
+from framework.user_interface.button import Button
 from utils.color import Color
 from asset_loaders.font_loader import Fonts
 
