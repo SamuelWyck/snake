@@ -6,6 +6,12 @@ from utils.color import Color
 from asset_loaders.font_loader import Fonts
 
 
+# Btn_imgs_with_callbacks will be a list of tuples. If the tuple is length 2 the first item is a btn image and the 
+# second is the btn's callback. If the tuple is length 3 the first two items withh be btn imgs (hover and non-hover)
+# and the third item will be the callback. 
+# The callback is expected to return a tuple of length 2. The first item being a bool indicating if the menu should exit.
+# The second item will be some information that the callback wants passed along.
+
 
 class Menu:
     def __init__(self, btn_imgs_with_callbacks, background_img, screen_size, canvas_size, mouse_manager, btns_topleft, title):
