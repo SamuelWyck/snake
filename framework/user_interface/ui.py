@@ -1,5 +1,5 @@
 import pygame
-from framework.menu import Menu
+from framework.user_interface.menu import Menu
 from asset_loaders.font_loader import Fonts
 from utils.color import Color
 
