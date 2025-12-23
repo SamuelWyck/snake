@@ -22,7 +22,6 @@ class Slider:
         self.slide.centery = self.slide_bar.centery
         self.slide.centerx = self.slide_bar.x + (self.slide_bar.width // 2)
 
-
     
 
     def update(self, surface, mouse_pos, mouse_btn_pressed, mouse_btn_released):
