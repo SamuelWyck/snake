@@ -4,7 +4,7 @@ import sys
 from framework.display import Display
 from framework.play_area import PlayArea
 from framework.mouse import Mouse
-from framework.ui import Ui
+from framework.user_interface.ui import Ui
 from hud.hud import Hud
 from level_manager.level_manager import LevelManager
 from collision_manager.collision_manager import CollisionManager
