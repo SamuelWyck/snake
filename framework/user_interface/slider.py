@@ -10,7 +10,7 @@ class Slider:
 
         self.callback = callback
         self.mouse_btn_pressed = False
-        self.value_precision = 4
+        self.value_precision = 4 # round slider value to 4 decimal places
 
         self.slide_bar = pygame.rect.Rect(topleft, size)
         self.side_padding = self.slide_bar.height * .1 # Padding to keep a uniform gap at edge of slide
