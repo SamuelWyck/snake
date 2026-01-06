@@ -19,7 +19,7 @@ class StickyPressurePlate(PressurePlate):
         
 
         if len(self.hit_segments) == len(self.segments) and not self.same_activation:
-            self.toggle_recivers()
+            self.toggle_receivers()
             self.same_activation = True
         elif len(self.hit_segments) != len(self.segments) and self.same_activation:
             self.same_activation = False

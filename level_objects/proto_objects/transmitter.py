@@ -21,6 +21,6 @@ class Transmitter:
 
     
 
-    def toggle_recivers(self):
+    def toggle_receivers(self):
         for receiver in self.receivers:
             receiver.toggle()
