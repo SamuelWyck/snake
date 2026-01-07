@@ -8,6 +8,7 @@ from level_objects.dynamic_objects.lava import Lava
 from level_objects.static_objects.goal import Goal
 from level_objects.interactables.pickup import Pickup
 from utils.color import Color
+from level_objects.interactables.bullet import Bullet
 
 
 
@@ -113,31 +114,43 @@ class CollisionManager:
                     interactable.remove = True
                 continue
             if not self.in_bounds(interactable.rect):
-                interactable.remove = True
+                if interactable.__class__ == Bullet:
+                    interactable.dead = True
+                else:
+                    interactable.remove = True
                 continue
-            if player.collide(interactable.rect):
-                interactable.remove = True
+            if player.collide(interactable.rect) and interactable.__class__ == Bullet:
+                interactable.dead = True
                 return True
             
             for tile in static_tiles:
                 if tile == interactable.parent:
                     continue
                 if interactable.rect.colliderect(tile.rect):
-                    interactable.remove = True
+                    if interactable.__class__ == Bullet:
+                        interactable.dead = True
+                    else:
+                        interactable.remove = True
                     break
             if interactable.remove:
                 continue
             
             collision = interactable.rect.collideobjects(agents, key=lambda o : o.rect)
             if collision:
-                interactable.remove = True
+                if interactable.__class__ == Bullet:
+                    interactable.dead = True
+                else:
+                    interactable.remove = True
                 continue
 
             for tile in dynamic_tiles:
                 if tile.__class__ == Lava or self.is_pressure_plate_tile(tile):
                     continue
                 if tile.collide(interactable.rect):
-                    interactable.remove = True
+                    if interactable.__class__ == Bullet:
+                        interactable.dead = True
+                    else:
+                        interactable.remove = True
                     break
 
         return False
