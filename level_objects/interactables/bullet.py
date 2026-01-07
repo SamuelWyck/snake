@@ -1,5 +1,6 @@
 import pygame, math
 from utils.color import Color
+from utils.explosion import Explosion
 
 
 
@@ -22,8 +23,13 @@ class Bullet:
 
         self.speed = speed
         self.remove = False
+        self.dead = False
         self.color = color
         self.parent = parent
+
+        self.explosion = None
+        self.explosion_width_delta = 1
+        self.explosion_radius_delta = 2
 
         if stop_at_target:
             line_slope = opposite_side / adjacent_side if adjacent_side != 0 else 0
@@ -58,6 +64,16 @@ class Bullet:
     def update(self, surface, delta_time):
         if self.remove:
             return
+        if self.dead:
+            if not self.explosion:
+                self.explosion = Explosion(
+                    center=self.rect.center, width=self.rect.width, radius=0, 
+                    delta_width=self.explosion_width_delta, 
+                    delta_radius=self.explosion_radius_delta
+                )
+            self.explosion.update(surface, delta_time)
+            self.remove = self.explosion.finished
+            return
         
         speed = delta_time * self.speed
 
@@ -65,7 +81,7 @@ class Bullet:
         self.rect.centerx = self.vector.x
         self.rect.centery = self.vector.y
         if self.vector == self.target_vector:
-            self.remove = True
+            self.dead = True
 
         self.draw(surface)
         
