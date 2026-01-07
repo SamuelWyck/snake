@@ -61,12 +61,12 @@ class TileConfig:
         (Images.bubble_img_11, 6)
     ]
     cannon_frame_data = [
-        (Images.cannon_img_0, 5),
-        (Images.cannon_img_1, 5),
-        (Images.cannon_img_2, 5),
-        (Images.cannon_img_3, 5),
-        (Images.cannon_img_4, 5),
-        (Images.cannon_img_5, 5),
+        (Images.cannon_img_0, 4),
+        (Images.cannon_img_1, 4),
+        (Images.cannon_img_2, 4),
+        (Images.cannon_img_3, 4),
+        (Images.cannon_img_4, 4),
+        (Images.cannon_img_5, 4),
         (Images.cannon_img_6, 5),
         (Images.cannon_img_7, 5),
         (Images.cannon_img_8, 5),
