@@ -83,7 +83,6 @@ class GeneralMenu:
 
 
 
-
     def run(self, framerate, canvas, screen):
         run = True
         clock = pygame.time.Clock()
