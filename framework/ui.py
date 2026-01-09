@@ -15,7 +15,7 @@ from utils.color import Color
 
 class Ui:
     def __init__(self, screen_size, canvas_size, mouse_manager):
-        self.slider_size = (250, 50)
+        self.slider_size = (300, 50)
         self.slide_border_radius = 20
         self.antialias = True
 
@@ -135,7 +135,7 @@ class Ui:
         menu_title = TextDisplay(topleft=(0, 0), font=Fonts.title_font, color=Color.GREEN, text="AUDIO")
 
         sound_text = TextDisplay(
-            topleft=(0, 0), font=Fonts.pickup_outline_font, color=Color.GREEN, text="SOUNDS"
+            topleft=(0, 0), font=Fonts.pickup_outline_font, color=Color.GREEN, text="SOUND EFFECTS"
         )
         sound_slider = Slider(
             topleft=(0, 0), size=self.slider_size, 
