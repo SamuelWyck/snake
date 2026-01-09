@@ -1,10 +1,10 @@
 import pygame
-from framework.user_interface.button_menu import ButtonMenu
-from framework.user_interface.general_menu import GeneralMenu
-from framework.user_interface.elements.button import Button
-from framework.user_interface.elements.slider import Slider
-from framework.user_interface.elements.text_display import TextDisplay
-from framework.user_interface.elements.live_text_display import LiveTextDisplay
+from user_interface.button_menu import ButtonMenu
+from user_interface.general_menu import GeneralMenu
+from user_interface.elements.button import Button
+from user_interface.elements.slider import Slider
+from user_interface.elements.text_display import TextDisplay
+from user_interface.elements.live_text_display import LiveTextDisplay
 from asset_loaders.font_loader import Fonts
 from utils.color import Color
 
