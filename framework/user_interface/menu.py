@@ -91,6 +91,7 @@ class Menu:
 
         mouse_btn_just_pressed = False
         mouse_btn_just_released = False
+        left_mouse_btn = 1
 
         while run:
             delta_time = time.time() - last_time
@@ -106,10 +107,10 @@ class Menu:
                     pygame.quit()
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1:
+                    if event.button == left_mouse_btn:
                         mouse_btn_just_pressed = True
                 elif event.type == pygame.MOUSEBUTTONUP:
-                    if event.button == 1:
+                    if event.button == left_mouse_btn:
                         mouse_btn_just_released = True
             
             for button in self.buttons:
