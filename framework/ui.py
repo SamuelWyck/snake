@@ -1,5 +1,9 @@
 import pygame
 from framework.user_interface.menu import Menu
+from framework.user_interface.general_menu import GeneralMenu
+from framework.user_interface.button import Button
+from framework.user_interface.slider import Slider
+from framework.user_interface.text_display import TextDisplay
 from asset_loaders.font_loader import Fonts
 from utils.color import Color
 
@@ -7,6 +11,8 @@ from utils.color import Color
 
 class Ui:
     def __init__(self, screen_size, canvas_size, mouse_manager):
+        self.audio_menu = self.get_audio_menu(screen_size, canvas_size, mouse_manager)
+        self.settings_menu = self.get_settings_menu(screen_size, canvas_size, mouse_manager)
         self.main_menu = self.get_main_menu(screen_size, canvas_size, mouse_manager)
     
 
@@ -14,7 +20,7 @@ class Ui:
     def get_main_menu(self, screen_size, canvas_size, mouse_manager):
         btns_with_callbacks = [
             (Fonts.pickup_outline_font.render("PLAY", 1, Color.GREEN), Fonts.pickup_outline_font.render("PLAY", 1, Color.ORANGE), lambda **kwargs : (True, False)),
-            (Fonts.pickup_outline_font.render("SETTINGS", 1, Color.GREEN), self.get_settings_menu(screen_size, canvas_size, mouse_manager)),
+            (Fonts.pickup_outline_font.render("SETTINGS", 1, Color.GREEN), self.settings_menu.run),
             # (Fonts.pickup_outline_font.render("TUTORIAL", 1, Color.GREEN), lambda **kwargs : False),
             (Fonts.pickup_outline_font.render("EXIT", 1, Color.GREEN), lambda **kwargs : (True, True))
         ]
@@ -46,6 +52,11 @@ class Ui:
                 lambda **kwargs : (False, False)
             ),
             (
+                Fonts.pickup_outline_font.render("AUDIO", 1, Color.GREEN),
+                Fonts.pickup_outline_font.render("AUDIO", 1, Color.ORANGE),
+                lambda **kwargs : (False, False)
+            ),
+            (
                 Fonts.pickup_outline_font.render("BACK", 1, Color.GREEN),
                 Fonts.pickup_outline_font.render("BACK", 1, Color.ORANGE),
                 lambda **kwargs : (True, (False, None))
@@ -63,4 +74,9 @@ class Ui:
             title="SETTINGS"
         )
 
-        return settings_menu.run
+        return settings_menu
+    
+
+
+    def get_audio_menu(self, screen_size, canvas_size, mouse_manager):
+        ...
