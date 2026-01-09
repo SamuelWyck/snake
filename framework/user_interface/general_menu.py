@@ -18,11 +18,13 @@ class GeneralMenu:
 
         self.background_img = background_img
         self.background_img_rect = self.get_background_img_rect()
+
         canvas_width, canvas_height = self.canvas_size
         menu_width, menu_height = self.background_img_rect.size
         self.fullscreen_menu = canvas_width == menu_width and canvas_height == menu_height
 
         self.mouse = mouse_manager
+        self.cleanup_callback = None
 
         self.callback_map = {}
         self.menu_elements = self.parse_elements(menu_elements)
@@ -74,6 +76,14 @@ class GeneralMenu:
 
 
 
+    def cleanup(self):
+        if self.cleanup_callback is None:
+            return
+        self.cleanup_callback()
+
+
+
+
     def run(self, framerate, canvas, screen):
         run = True
         clock = pygame.time.Clock()
@@ -115,6 +125,7 @@ class GeneralMenu:
                     btn_callback = self.callback_map[element.id]
                     exit_menu, info = btn_callback()
                     if exit_menu:
+                        self.cleanup()
                         return info
 
 
