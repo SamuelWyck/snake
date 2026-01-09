@@ -3,7 +3,7 @@ import time
 import sys
 from framework.display import Display
 from framework.play_area import PlayArea
-from framework.mouse import Mouse
+from user_interface.mouse import Mouse
 from framework.ui import Ui
 from hud.hud import Hud
 from level_manager.level_manager import LevelManager

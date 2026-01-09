@@ -67,19 +67,10 @@ class Mouse:
 
     
     def clamp_pos(self):
-        # if self.rect.centerx < 0:
-        #     self.rect.centerx = 0
-        # elif self.rect.centerx > self.canvas_width:
-        #     self.rect.centerx = self.canvas_width
-        # if self.rect.centery < 0:
-        #     self.rect.centery = 0
-        # elif self.rect.centery > self.canvas_height:
-        #     self.rect.centery = self.canvas_height
         self.rect.x = pygame.math.clamp(self.rect.x, 0, self.canvas_width)
         self.rect.y = pygame.math.clamp(self.rect.y, 0, self.canvas_height)
         
 
-    
     def get_pos(self):
         return tuple(self.rect.topleft)
     
