@@ -109,9 +109,9 @@ class Ui:
             buttons_topleft, button_gap, background_img, 
             screen_size, canvas_size, mouse_manager,
             title_text_display,
+            (audio_button, audio_button_callback),
             (controls_button, controls_button_callback),
             (mouse_button, mouse_button_callback),
-            (audio_button, audio_button_callback),
             (back_button, back_button_callback)
         )
 
