@@ -28,6 +28,7 @@ class GeneralMenu:
         self.menu_elements = self.parse_elements(menu_elements)
         self.position_elements(element_y_pos, element_gap)
 
+
     
     def parse_elements(self, menu_elements):
         btn_id = 0
@@ -45,6 +46,7 @@ class GeneralMenu:
         
         return elements
     
+
 
     def position_elements(self, start_y, gap):
         center_y = start_y
@@ -69,6 +71,7 @@ class GeneralMenu:
         rect.centerx = canvas_width // 2
         rect.centery = canvas_height // 2
         return rect
+
 
 
     def run(self, framerate, canvas, screen):
