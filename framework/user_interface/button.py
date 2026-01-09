@@ -1,4 +1,8 @@
-class Button:
+from framework.user_interface.menu_element import MenuElement
+
+
+
+class Button(MenuElement):
     def __init__(self, topleft, image, hover_image=None, id=None):
         self.image = image
         self.image_rect = image.get_rect()
@@ -38,3 +42,44 @@ class Button:
             self.mouse_button_pressed = False
         
         surface.blit(self.active_image, self.active_rect.topleft)
+    
+
+    # all following methods are definitions for methods declared in MenuElement class
+
+    def set_center(self, center):
+        self.image_rect.center = center
+        if self.hover_image_rect != None:
+            self.hover_image_rect.center = center
+    
+    def get_center(self):
+        return self.image_rect.center
+    
+    def get_height(self):
+        max_height = self.image_rect.height
+        if self.hover_image_rect != None:
+            max_height = max(max_height, self.hover_image_rect.height)
+        return max_height
+    
+    def get_width(self):
+        max_height = self.image_rect.height
+        if self.hover_image_rect != None:
+            max_height = max(max_height, self.hover_image_rect.height)
+        return max_height
+
+    def set_topleft(self, topleft):
+        self.image_rect.topleft = topleft
+        if self.hover_image_rect != None:
+            self.hover_image_rect.center = self.image_rect.center
+    
+    def get_topleft(self):
+        return self.image_rect.topleft
+    
+    def set_x(self, new_x):
+        self.image_rect.x = new_x
+        if self.hover_image_rect != None:
+            self.hover_image_rect.center = self.image_rect.center
+    
+    def set_y(self, new_y):
+        self.image_rect.y = new_y
+        if self.hover_image_rect != None:
+            self.hover_image_rect.center = self.image_rect.center

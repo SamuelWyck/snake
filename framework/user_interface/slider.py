@@ -1,8 +1,9 @@
 import pygame
+from framework.user_interface.menu_element import MenuElement
 
 
 
-class Slider:
+class Slider(MenuElement):
     def __init__(self, topleft, size, callback, slide_bar_color, slide_color, border_radius=0):
         self.slide_bar_color = slide_bar_color
         self.slide_color = slide_color
@@ -65,3 +66,58 @@ class Slider:
         corrected_right_end = self.bar_right_end - self.slide.width
         slider_val = (self.slide.x - self.bar_left_end) / (corrected_right_end - self.bar_left_end)
         return round(slider_val, self.value_precision)
+    
+
+    # all following methods are definitions for methods declared in MenuElement class
+
+    def set_center(self, center):
+        slide_value = self.value
+
+        self.slide_bar.center = center
+        self.slide.centery = self.slide_bar.centery
+        self.bar_left_end = self.slide_bar.x + self.side_padding
+        self.bar_right_end = self.slide_bar.x + self.slide_bar.width - self.side_padding
+
+        self.set_value(slide_value)
+
+    def get_center(self):
+        return self.slide_bar.center
+    
+    def get_height(self):
+        return self.slide_bar.height
+    
+    def get_width(self):
+        return self.slide_bar.width
+
+    def set_topleft(self, topleft):
+        slide_value = self.value
+
+        self.slide_bar.topleft = topleft
+        self.slide.centery = self.slide_bar.centery
+        self.bar_left_end = self.slide_bar.x + self.side_padding
+        self.bar_right_end = self.slide_bar.x + self.slide_bar.width - self.side_padding
+
+        self.set_value(slide_value)
+    
+    def get_topleft(self):
+        return self.slide_bar.topleft
+    
+    def set_x(self, new_x):
+        slide_value = self.value
+
+        self.slide_bar.x = new_x
+        self.slide.centery = self.slide_bar.centery
+        self.bar_left_end = self.slide_bar.x + self.side_padding
+        self.bar_right_end = self.slide_bar.x + self.slide_bar.width - self.side_padding
+
+        self.set_value(slide_value)
+    
+    def set_y(self, new_y):
+        slide_value = self.value
+
+        self.slide_bar.y = new_y
+        self.slide.centery = self.slide_bar.centery
+        self.bar_left_end = self.slide_bar.x + self.side_padding
+        self.bar_right_end = self.slide_bar.x + self.slide_bar.width - self.side_padding
+
+        self.set_value(slide_value)
