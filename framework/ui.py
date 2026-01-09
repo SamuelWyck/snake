@@ -20,6 +20,7 @@ class Ui:
         self.antialias = True
 
         self.audio_menu = self.get_audio_menu(screen_size, canvas_size, mouse_manager)
+        self.mouse_menu = self.get_mouse_menu(screen_size, canvas_size, mouse_manager)
         self.settings_menu = self.get_settings_menu(screen_size, canvas_size, mouse_manager)
         self.main_menu = self.get_main_menu(screen_size, canvas_size, mouse_manager)
     
@@ -90,7 +91,7 @@ class Ui:
             image=Fonts.pickup_outline_font.render("MOUSE", self.antialias, Color.GREEN),
             hover_image=Fonts.pickup_outline_font.render("MOUSE", self.antialias, Color.ORANGE)
         )
-        mouse_button_callback = lambda **kwargs : (False, False)
+        mouse_button_callback = self.mouse_menu.run
         audio_button = Button(
             topleft=(0, 0),
             image=Fonts.pickup_outline_font.render("AUDIO", self.antialias, Color.GREEN),
@@ -118,6 +119,53 @@ class Ui:
     
 
 
+    def get_mouse_menu(self, screen_size, canvas_size, mouse_manager):
+        start_y_pos = 50 
+        element_gap = 15
+        info_gap = 40
+
+        background_img = pygame.Surface(canvas_size)
+        background_img.fill((0, 0, 0))
+
+        title_display = TextDisplay(
+            topleft=(0, 0), font=Fonts.title_font, color=Color.GREEN, text="MOUSE SETTINGS"
+        )
+
+        mouse_text = TextDisplay(
+            topleft=(0, 0), font=Fonts.pickup_outline_font, color=Color.GREEN, text="MOUSE SENSITIVITY"
+        )
+        mouse_slider = Slider(
+            topleft=(0, 0),
+            size=self.slider_size, callback=lambda val: None,
+            slide_bar_color=Color.GREEN, slide_color=Color.ORANGE,
+            border_radius=self.slide_border_radius
+        )
+        mouse_slider_val = LiveTextDisplay(
+            topleft=(0, 0), font=Fonts.goal_font, color=Color.GREEN, 
+            object_ref=mouse_slider, text_getter=self.get_slider_str_val
+        )
+
+        back_button = Button(
+            topleft=(0, 0),
+            image=Fonts.pickup_outline_font.render("BACK", self.antialias, Color.GREEN),
+            hover_image=Fonts.pickup_outline_font.render("BACK", self.antialias, Color.ORANGE)
+        )
+        back_button_callback = lambda **kwargs: (True, (False, None))
+
+        mouse_menu = GeneralMenu(
+            start_y_pos, element_gap, background_img,
+            mouse_manager, screen_size, canvas_size,
+            title_display,
+            info_gap,
+            mouse_text, mouse_slider_val, mouse_slider,
+            info_gap,
+            (back_button, back_button_callback)
+        )
+
+        return mouse_menu
+
+
+
     @staticmethod
     def get_slider_str_val(slider):
         return str(round(slider.value, 2))
@@ -132,7 +180,7 @@ class Ui:
         background_img = pygame.Surface(canvas_size)
         background_img.fill((0, 0, 0))
 
-        menu_title = TextDisplay(topleft=(0, 0), font=Fonts.title_font, color=Color.GREEN, text="AUDIO")
+        menu_title = TextDisplay(topleft=(0, 0), font=Fonts.title_font, color=Color.GREEN, text="AUDIO SETTINGS")
 
         sound_text = TextDisplay(
             topleft=(0, 0), font=Fonts.pickup_outline_font, color=Color.GREEN, text="SOUNDS"
