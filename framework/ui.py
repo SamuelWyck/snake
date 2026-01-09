@@ -1,5 +1,5 @@
 import pygame
-from framework.user_interface.menu import Menu
+from framework.user_interface.button_menu import ButtonMenu
 from framework.user_interface.general_menu import GeneralMenu
 from framework.user_interface.button import Button
 from framework.user_interface.slider import Slider
@@ -17,6 +17,7 @@ class Ui:
     def __init__(self, screen_size, canvas_size, mouse_manager):
         self.slider_size = (250, 50)
         self.slide_border_radius = 20
+        self.antialias = True
 
         self.audio_menu = self.get_audio_menu(screen_size, canvas_size, mouse_manager)
         self.settings_menu = self.get_settings_menu(screen_size, canvas_size, mouse_manager)
@@ -25,60 +26,92 @@ class Ui:
 
 
     def get_main_menu(self, screen_size, canvas_size, mouse_manager):
-        btns_with_callbacks = [
-            (Fonts.pickup_outline_font.render("PLAY", 1, Color.GREEN), Fonts.pickup_outline_font.render("PLAY", 1, Color.ORANGE), lambda **kwargs : (True, False)),
-            (Fonts.pickup_outline_font.render("SETTINGS", 1, Color.GREEN), self.settings_menu.run),
-            # (Fonts.pickup_outline_font.render("TUTORIAL", 1, Color.GREEN), lambda **kwargs : False),
-            (Fonts.pickup_outline_font.render("EXIT", 1, Color.GREEN), lambda **kwargs : (True, True))
-        ]
-        background_img = pygame.Surface((1536, 864))
+        button_gap = 20
+        buttons_topleft = (30, 550)
+
+        background_img = pygame.Surface(canvas_size)
         background_img.fill((0, 0, 0))
-        main_menu = Menu(
-            btns_with_callbacks, 
-            background_img, 
-            screen_size, 
-            canvas_size, 
-            mouse_manager, 
-            btns_topleft=(30, 550), 
-            title="PHASE SNAKE"
+
+        title_text_display = TextDisplay(
+            topleft=(0, 0), font=Fonts.title_font, color=Color.GREEN, text="PHASE SNAKE"
         )
+
+        play_btn = Button(
+            topleft=(0, 0), 
+            image=Fonts.pickup_outline_font.render("PLAY", self.antialias, Color.GREEN),
+            hover_image=Fonts.pickup_outline_font.render("PLAY", self.antialias, Color.ORANGE),
+        )
+        play_btn_callback = lambda **kwargs : (True, False)
+        settings_btn = Button(
+            topleft=(0, 0),
+            image=Fonts.pickup_outline_font.render("SETTINGS", self.antialias, Color.GREEN),
+            hover_image=Fonts.pickup_outline_font.render("SETTINGS", self.antialias, Color.ORANGE)
+        )
+        settings_btn_callback = self.settings_menu.run
+        exit_btn = Button(
+            topleft=(0, 0),
+            image=Fonts.pickup_outline_font.render("EXIT", self.antialias, Color.GREEN),
+            hover_image=Fonts.pickup_outline_font.render("EXIT", self.antialias, Color.ORANGE)
+        )
+        exit_btn_callback = lambda **kwargs : (True, True)
+
+        main_menu = ButtonMenu(
+            buttons_topleft, button_gap, background_img,
+            screen_size, canvas_size, mouse_manager,
+            title_text_display,
+            (play_btn, play_btn_callback),
+            (settings_btn, settings_btn_callback),
+            (exit_btn, exit_btn_callback)
+        )
+
         return main_menu
     
 
 
     def get_settings_menu(self, screen_size, canvas_size, mouse_manager):
-        btn_imgs_with_callbacks = [
-            (
-                Fonts.pickup_outline_font.render("CONTROLS", 1, Color.GREEN), 
-                Fonts.pickup_outline_font.render("CONTROLS", 1, Color.ORANGE), 
-                lambda **kwargs : (False, False)
-            ),
-            (
-                Fonts.pickup_outline_font.render("MOUSE", 1, Color.GREEN),
-                Fonts.pickup_outline_font.render("MOUSE", 1, Color.ORANGE),
-                lambda **kwargs : (False, False)
-            ),
-            (
-                Fonts.pickup_outline_font.render("AUDIO", 1, Color.GREEN),
-                Fonts.pickup_outline_font.render("AUDIO", 1, Color.ORANGE),
-                self.audio_menu.run
-            ),
-            (
-                Fonts.pickup_outline_font.render("BACK", 1, Color.GREEN),
-                Fonts.pickup_outline_font.render("BACK", 1, Color.ORANGE),
-                lambda **kwargs : (True, (False, None))
-            )
-        ]
+        button_gap = 20
+        buttons_topleft = (30, 550)
+
         background_img = pygame.Surface(canvas_size)
         background_img.fill((0, 0, 0))
-        settings_menu = Menu(
-            btn_imgs_with_callbacks,
-            background_img,
-            screen_size,
-            canvas_size,
-            mouse_manager,
-            btns_topleft=(30, 550),
-            title="SETTINGS"
+
+        title_text_display = TextDisplay(
+            topleft=(0, 0), font=Fonts.title_font, color=Color.GREEN, text="SETTINGS"
+        )
+
+        controls_button = Button(
+            topleft=(0, 0),
+            image=Fonts.pickup_outline_font.render("CONTROLS", self.antialias, Color.GREEN),
+            hover_image=Fonts.pickup_outline_font.render("CONTROLS", self.antialias, Color.ORANGE)
+        )
+        controls_button_callback = lambda **kwargs : (False, False)
+        mouse_button = Button(
+            topleft=(0, 0),
+            image=Fonts.pickup_outline_font.render("MOUSE", self.antialias, Color.GREEN),
+            hover_image=Fonts.pickup_outline_font.render("MOUSE", self.antialias, Color.ORANGE)
+        )
+        mouse_button_callback = lambda **kwargs : (False, False)
+        audio_button = Button(
+            topleft=(0, 0),
+            image=Fonts.pickup_outline_font.render("AUDIO", self.antialias, Color.GREEN),
+            hover_image=Fonts.pickup_outline_font.render("AUDIO", self.antialias, Color.ORANGE)
+        )
+        audio_button_callback = self.audio_menu.run
+        back_button = Button(
+            topleft=(0, 0),
+            image=Fonts.pickup_outline_font.render("BACK", self.antialias, Color.GREEN),
+            hover_image=Fonts.pickup_outline_font.render("BACK", self.antialias, Color.ORANGE)
+        )
+        back_button_callback = lambda **kwargs : (True, (False, None))
+
+        settings_menu = ButtonMenu(
+            buttons_topleft, button_gap, background_img, 
+            screen_size, canvas_size, mouse_manager,
+            title_text_display,
+            (controls_button, controls_button_callback),
+            (mouse_button, mouse_button_callback),
+            (audio_button, audio_button_callback),
+            (back_button, back_button_callback)
         )
 
         return settings_menu
@@ -95,14 +128,15 @@ class Ui:
         start_y_pos = 50
         element_gap = 15
         info_gap = 40
-        antialias = True
 
         background_img = pygame.Surface(canvas_size)
         background_img.fill((0, 0, 0))
 
         menu_title = TextDisplay(topleft=(0, 0), font=Fonts.title_font, color=Color.GREEN, text="AUDIO")
 
-        sound_text = TextDisplay(topleft=(0, 0), font=Fonts.pickup_outline_font, color=Color.GREEN, text="SOUNDS")
+        sound_text = TextDisplay(
+            topleft=(0, 0), font=Fonts.pickup_outline_font, color=Color.GREEN, text="SOUNDS"
+        )
         sound_slider = Slider(
             topleft=(0, 0), size=self.slider_size, 
             slide_bar_color=Color.GREEN, slide_color=Color.ORANGE, 
@@ -114,7 +148,9 @@ class Ui:
             text_getter=self.get_slider_str_val
         )
 
-        music_text = TextDisplay(topleft=(0, 0), font=Fonts.pickup_outline_font, color=Color.GREEN, text="MUSIC")
+        music_text = TextDisplay(
+            topleft=(0, 0), font=Fonts.pickup_outline_font, color=Color.GREEN, text="MUSIC"
+        )
         music_slider = Slider(
             topleft=(0, 0), size=self.slider_size, 
             slide_bar_color=Color.GREEN, slide_color=Color.ORANGE,
@@ -128,8 +164,8 @@ class Ui:
 
         back_btn = Button(
             topleft=(0, 0), 
-            image=Fonts.pickup_outline_font.render("BACK", antialias, Color.GREEN),
-            hover_image=Fonts.pickup_outline_font.render("BACK", antialias, Color.ORANGE)
+            image=Fonts.pickup_outline_font.render("BACK", self.antialias, Color.GREEN),
+            hover_image=Fonts.pickup_outline_font.render("BACK", self.antialias, Color.ORANGE)
         )
         back_btn_callback = lambda **kwargs: (True, (False, None))
 
