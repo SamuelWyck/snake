@@ -1,4 +1,4 @@
-from framework.user_interface.menu_element import MenuElement
+from framework.user_interface.elements.menu_element import MenuElement
 
 
 

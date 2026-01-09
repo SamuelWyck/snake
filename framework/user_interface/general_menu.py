@@ -1,10 +1,10 @@
 import pygame
 import sys
 import time
-from framework.user_interface.button import Button
-from framework.user_interface.slider import Slider
-from framework.user_interface.text_display import TextDisplay
-from framework.user_interface.live_text_display import LiveTextDisplay
+from framework.user_interface.elements.button import Button
+from framework.user_interface.elements.slider import Slider
+from framework.user_interface.elements.text_display import TextDisplay
+from framework.user_interface.elements.live_text_display import LiveTextDisplay
 
 
 # menu elements will be in the form of either a slider object, a textdisplay object, 
