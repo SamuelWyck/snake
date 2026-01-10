@@ -1,6 +1,7 @@
 import pygame
 from user_interface.button_menu import ButtonMenu
 from user_interface.general_menu import GeneralMenu
+from user_interface.select_menu import SelectMenu
 from user_interface.elements.button import Button
 from user_interface.elements.slider import Slider
 from user_interface.elements.text_display import TextDisplay
@@ -22,6 +23,7 @@ class Ui:
         self.audio_menu = self.get_audio_menu(screen_size, canvas_size, mouse_manager)
         self.mouse_menu = self.get_mouse_menu(screen_size, canvas_size, mouse_manager)
         self.settings_menu = self.get_settings_menu(screen_size, canvas_size, mouse_manager)
+        self.level_select_menu = self.get_level_select_menu(screen_size, canvas_size, mouse_manager)
         self.main_menu = self.get_main_menu(screen_size, canvas_size, mouse_manager)
     
 
@@ -42,7 +44,7 @@ class Ui:
             image=Fonts.pickup_outline_font.render("PLAY", self.antialias, Color.GREEN),
             hover_image=Fonts.pickup_outline_font.render("PLAY", self.antialias, Color.ORANGE),
         )
-        play_btn_callback = lambda **kwargs : (True, False)
+        play_btn_callback = self.level_select_menu.run
         settings_btn = Button(
             topleft=(0, 0),
             image=Fonts.pickup_outline_font.render("SETTINGS", self.antialias, Color.GREEN),
@@ -231,3 +233,36 @@ class Ui:
         )
 
         return menu
+    
+
+
+    def get_level_select_menu(self, screen_size, canvas_size, mouse_manager):
+        starting_y = 250
+        num_cols = 4
+        num_rows = 3
+        row_gap = 10
+        col_gap = 10
+
+        background_img = pygame.Surface(canvas_size)
+        background_img.fill((0, 0, 0))
+
+        buttons = []
+        for i in range(16):
+            image = Fonts.pickup_outline_font.render(str(i), self.antialias, Color.GREEN)
+            hover_image = Fonts.pickup_outline_font.render(str(i), self.antialias, Color.ORANGE)
+            button = Button(topleft=(0, 0),image=image, hover_image=hover_image)
+            buttons.append(button)
+
+
+        up_image = Fonts.pickup_outline_font.render("^", self.antialias, Color.GREEN)
+        down_image = pygame.transform.rotate(up_image, 180)
+        page_up_btn = Button(topleft=(0, 0), image=up_image)
+        page_down_btn = Button(topleft=(0, 0), image=down_image)
+
+        select_menu = SelectMenu(
+            starting_y, num_cols, num_rows, col_gap, row_gap, 
+            background_img, screen_size, canvas_size, mouse_manager, 
+            page_up_btn, page_down_btn, buttons
+        )
+
+        return select_menu
