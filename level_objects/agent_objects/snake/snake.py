@@ -98,7 +98,7 @@ class Snake:
             if aligned:
                 aligned_segments.append(segment_pos)
                 continue
-   
+
             segment = self.create_body_segment(aligned_segments, last_segment_pos)
             self.body.append(segment)
             last_segment_pos = aligned_segments[-1]
@@ -196,9 +196,9 @@ class Snake:
         center_x = current_x_pos + size[width_index]//2
         center_y = current_y_pos + size[height_index]//2
         if current_y_pos < last_y_pos:
-            center_y = current_y_pos - size[height_index]//2
+            center_y = current_y_pos - size[height_index]//2 + self.size
         elif current_x_pos < last_x_pos:
-            center_x = current_x_pos - size[width_index]//2
+            center_x = current_x_pos - size[width_index]//2 + self.size
 
         return (center_x + self.joint_size//2, center_y + self.joint_size//2)
 
