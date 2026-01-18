@@ -246,6 +246,8 @@ class Ui:
         background_img = pygame.Surface(canvas_size)
         background_img.fill((0, 0, 0))
 
+        click_callback = lambda id: (True, (False, id))
+
         buttons = []
         for i in range(16):
             image = Fonts.pickup_outline_font.render(str(i), self.antialias, Color.GREEN)
@@ -262,7 +264,7 @@ class Ui:
         select_menu = SelectMenu(
             starting_y, num_cols, num_rows, col_gap, row_gap, 
             background_img, screen_size, canvas_size, mouse_manager, 
-            page_up_btn, page_down_btn, buttons
+            page_up_btn, page_down_btn, click_callback, buttons
         )
 
         return select_menu
