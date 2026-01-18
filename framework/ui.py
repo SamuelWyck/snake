@@ -154,9 +154,12 @@ class Ui:
         )
         back_button_callback = lambda **kwargs: (True, (False, None))
 
+        cleanup_callback = lambda : None
+
         mouse_menu = GeneralMenu(
             start_y_pos, element_gap, background_img,
             mouse_manager, screen_size, canvas_size,
+            cleanup_callback,
             title_display,
             info_gap,
             mouse_text, mouse_slider_val, mouse_slider,
@@ -219,10 +222,12 @@ class Ui:
         )
         back_btn_callback = lambda **kwargs: (True, (False, None))
 
+        cleanup_callback = lambda : None
+
         menu = GeneralMenu(
             start_y_pos, element_gap, 
             background_img, mouse_manager, 
-            screen_size, canvas_size,
+            screen_size, canvas_size, cleanup_callback,
             menu_title,
             info_gap,
             sound_text, sounds_slider_val, sound_slider, 
