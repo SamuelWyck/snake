@@ -3,12 +3,15 @@ import time
 import sys
 
 
+# click_callback should take the id of the button clicked and package it in a way that makes sense to return it.
+# FOr example, (False, id) or (True, (False, id)) depending on how nested the menu is.
+
 
 class SelectMenu:
     def __init__(
             self, start_y_pos, num_cols, num_rows, col_gap, row_gap, 
             background_img, screen_size, canvas_size, mouse_manager,
-            page_up_btn, page_down_btn, buttons
+            page_up_btn, page_down_btn, click_callback, buttons
         ):
         self.canvas_size = canvas_size
         self.screen_size = screen_size
@@ -21,11 +24,11 @@ class SelectMenu:
         self.fullscreen_background = background_width == canvas_width and background_height == canvas_height
 
         self.mouse = mouse_manager
+        self.click_callback = click_callback
 
         self.btn_index_min = 0
         self.btn_index_max = num_cols * num_rows
-        self.btn_index_change = num_cols
-
+        self.btn_index_change = num_cols * num_rows
         self.page_up_btn = page_up_btn
         self.page_down_btn = page_down_btn
         self.page_buttons = [self.page_up_btn, self.page_down_btn]
@@ -73,12 +76,12 @@ class SelectMenu:
 
         up_btn_height = self.page_up_btn.get_height()
         up_btn_y_pos = starting_y - up_btn_height // 2 - row_gap
-        up_btn_x_pos = canvas_width // 2 - self.page_up_btn.get_width() // 2
+        up_btn_x_pos = canvas_width // 2
         self.page_up_btn.set_center((up_btn_x_pos, up_btn_y_pos))
 
         down_btn_height = self.page_down_btn.get_height()
         down_btn_y_pos = starting_y + col_height + row_gap + down_btn_height // 2
-        down_btn_x_pos = canvas_width // 2 - self.page_down_btn.get_width() // 2
+        down_btn_x_pos = canvas_width // 2
         self.page_down_btn.set_center((down_btn_x_pos, down_btn_y_pos))
 
 
@@ -102,7 +105,11 @@ class SelectMenu:
 
         self.btn_index_min += btn_index_change
         self.btn_index_max += btn_index_change
-    
+
+        if self.btn_index_min < 0 or self.btn_index_min >= len(self.buttons):
+            self.btn_index_min -= btn_index_change
+            self.btn_index_max -= btn_index_change
+
 
 
     def run(self, framerate, canvas, screen):
@@ -139,10 +146,12 @@ class SelectMenu:
                         left_mouse_just_released = True
             
             for index in range(self.btn_index_min, self.btn_index_max):
+                if index == len(self.buttons):
+                    break
                 button = self.buttons[index]
                 if button.clicked:
                     button.clicked = False
-                    return (exit_parent_menu, button.id)
+                    return self.click_callback(button.id)
             
             for page_button in self.page_buttons:
                 if page_button.clicked:
@@ -161,6 +170,8 @@ class SelectMenu:
             for page_button in self.page_buttons:
                 page_button.update(canvas, mouse_pos, left_mouse_just_pressed, left_mouse_just_released)
             for index in range(self.btn_index_min, self.btn_index_max):
+                if index == len(self.buttons):
+                    break
                 button = self.buttons[index]
                 button.update(canvas, mouse_pos, left_mouse_just_pressed, left_mouse_just_released)
             
