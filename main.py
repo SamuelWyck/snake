@@ -58,8 +58,8 @@ class Game:
 
     def start(self):
         while True:
-            exit = self.ui.main_menu.run(self.framerate, self.canvas, self.screen)
-            if exit:
+            exit_menu, level_num = self.ui.main_menu.run(self.framerate, self.canvas, self.screen)
+            if exit_menu:
                 return
 
             self.game_loop()
