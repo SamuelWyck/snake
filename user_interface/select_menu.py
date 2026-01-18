@@ -121,7 +121,6 @@ class SelectMenu:
         left_mouse_just_pressed = False
         left_mouse_just_released = False
         left_mouse_button = 1
-        exit_parent_menu = True
 
         clock = pygame.time.Clock()
         last_time = time.time()
