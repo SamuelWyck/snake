@@ -10,9 +10,15 @@ from user_interface.elements.live_text_display import LiveTextDisplay
 # menu elements will be in the form of either a slider object, a textdisplay object, 
 # a live text display object, or a (btn object, btn callback) tuple. 
 # ints can also be added to add an extra gap between objects
+# cleanup_callback is used to do any clean up before menu exit. I.E. saving settings.
 
 class GeneralMenu:
-    def __init__(self, element_y_pos, element_gap, background_img, mouse_manager, screen_size, canvas_size, *menu_elements):
+    def __init__(
+        self, element_y_pos, element_gap, 
+        background_img, mouse_manager, 
+        screen_size, canvas_size, 
+        cleanup_callback, *menu_elements
+    ):
         self.screen_size = screen_size
         self.canvas_size = canvas_size
 
@@ -24,7 +30,7 @@ class GeneralMenu:
         self.fullscreen_menu = canvas_width == menu_width and canvas_height == menu_height
 
         self.mouse = mouse_manager
-        self.cleanup_callback = None
+        self.cleanup_callback = cleanup_callback
 
         self.callback_map = {}
         self.menu_elements = self.parse_elements(menu_elements)
