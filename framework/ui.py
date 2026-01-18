@@ -56,7 +56,7 @@ class Ui:
             image=Fonts.pickup_outline_font.render("EXIT", self.antialias, Color.GREEN),
             hover_image=Fonts.pickup_outline_font.render("EXIT", self.antialias, Color.ORANGE)
         )
-        exit_btn_callback = lambda **kwargs : (True, True)
+        exit_btn_callback = lambda **kwargs : (True, (True, None))
 
         main_menu = ButtonMenu(
             buttons_topleft, button_gap, background_img,
@@ -260,6 +260,12 @@ class Ui:
             button = Button(topleft=(0, 0),image=image, hover_image=hover_image)
             buttons.append(button)
 
+        
+        exit_btn = Button(
+            topleft=(0, 0),
+            image=Fonts.pickup_outline_font.render("BACK", self.antialias, Color.GREEN),
+            hover_image=Fonts.pickup_outline_font.render("BACK", self.antialias, Color.ORANGE)
+        )
 
         up_image = Fonts.pickup_outline_font.render("^", self.antialias, Color.GREEN)
         down_image = pygame.transform.rotate(up_image, 180)
@@ -269,7 +275,7 @@ class Ui:
         select_menu = SelectMenu(
             starting_y, num_cols, num_rows, col_gap, row_gap, 
             background_img, screen_size, canvas_size, mouse_manager, 
-            page_up_btn, page_down_btn, click_callback, buttons
+            page_up_btn, page_down_btn, exit_btn, click_callback, buttons
         )
 
         return select_menu
