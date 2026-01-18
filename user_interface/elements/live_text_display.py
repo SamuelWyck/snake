@@ -3,7 +3,7 @@ from user_interface.elements.menu_element import MenuElement
 
 # object_ref is the object to pull the live text from. 
 # text_getter is a callback that understands how to get the text from the object_ref. 
-# for example: text_getter() must reutrn the text to be rendered
+# for example: text_getter() must return the text to be rendered
 
 class LiveTextDisplay(MenuElement):
     def __init__(self, topleft, font, color, object_ref, text_getter):
