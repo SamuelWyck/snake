@@ -11,7 +11,7 @@ class SelectMenu:
     def __init__(
             self, start_y_pos, num_cols, num_rows, col_gap, row_gap, 
             background_img, screen_size, canvas_size, mouse_manager,
-            page_up_btn, page_down_btn, click_callback, buttons
+            page_up_btn, page_down_btn, exit_btn, click_callback, buttons
         ):
         self.canvas_size = canvas_size
         self.screen_size = screen_size
@@ -33,6 +33,9 @@ class SelectMenu:
         self.page_down_btn = page_down_btn
         self.page_buttons = [self.page_up_btn, self.page_down_btn]
 
+        self.exit_btn = exit_btn
+        self.exit_info = (False, None)
+
         self.buttons = buttons
         self.position_buttons(start_y_pos, num_rows, num_cols, col_gap, row_gap)
 
@@ -46,7 +49,7 @@ class SelectMenu:
         canvas_width, _ = self.canvas_size
         starting_x = canvas_width // 2 - row_width // 2
 
-        self.position_page_buttons(starting_y, col_height, row_gap)
+        self.position_nav_buttons(starting_y, col_height, row_gap)
         
         btn_index = 0
         while btn_index < len(self.buttons):
@@ -71,7 +74,7 @@ class SelectMenu:
 
 
 
-    def position_page_buttons(self, starting_y, col_height, row_gap):
+    def position_nav_buttons(self, starting_y, col_height, row_gap):
         canvas_width, _ = self.canvas_size
 
         up_btn_height = self.page_up_btn.get_height()
@@ -83,6 +86,11 @@ class SelectMenu:
         down_btn_y_pos = starting_y + col_height + row_gap + down_btn_height // 2
         down_btn_x_pos = canvas_width // 2
         self.page_down_btn.set_center((down_btn_x_pos, down_btn_y_pos))
+
+        exit_btn_height = self.exit_btn.get_height()
+        exit_btn_y_pos = starting_y + col_height + (5 * row_gap) + down_btn_height + exit_btn_height // 2
+        exit_btn_x_pos = canvas_width // 2
+        self.exit_btn.set_center((exit_btn_x_pos, exit_btn_y_pos))
 
 
 
@@ -157,6 +165,10 @@ class SelectMenu:
                     page_button.clicked = False
                     move_up = page_button == self.page_up_btn
                     self.scroll_buttons(move_up)
+            
+            if self.exit_btn.clicked:
+                self.exit_btn.clicked = False
+                return self.exit_info
                 
             
             self.mouse.update()
@@ -168,6 +180,7 @@ class SelectMenu:
 
             for page_button in self.page_buttons:
                 page_button.update(canvas, mouse_pos, left_mouse_just_pressed, left_mouse_just_released)
+            self.exit_btn.update(canvas, mouse_pos, left_mouse_just_pressed, left_mouse_just_released)
             for index in range(self.btn_index_min, self.btn_index_max):
                 if index == len(self.buttons):
                     break
