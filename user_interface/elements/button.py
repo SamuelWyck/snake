@@ -61,10 +61,10 @@ class Button(MenuElement):
         return max_height
     
     def get_width(self):
-        max_height = self.image_rect.height
+        max_width = self.image_rect.width
         if self.hover_image_rect != None:
-            max_height = max(max_height, self.hover_image_rect.height)
-        return max_height
+            max_width = max(max_width, self.hover_image_rect.width)
+        return max_width
 
     def set_topleft(self, topleft):
         self.image_rect.topleft = topleft
