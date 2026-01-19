@@ -283,9 +283,12 @@ class ControlMenu:
 
         left_mouse_just_pressed = False
         left_mouse_just_released = False
+
         editing_keybind = False
         keybind_button = None
         keybind_errors = False
+        changed_keybinds = False
+
         run = True
         while run:
             delta_time = time.time() - last_time
@@ -302,7 +305,7 @@ class ControlMenu:
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == pygame.BUTTON_LEFT:
                         left_mouse_just_pressed = True
-                        
+
                 elif event.type == pygame.MOUSEBUTTONUP:
                     if event.button == pygame.BUTTON_LEFT:
                         left_mouse_just_released = True
@@ -310,6 +313,7 @@ class ControlMenu:
                     if editing_keybind:
                         editing_keybind = False
                         self.update_keybinds(keybind_button, event.button)
+                        changed_keybinds = True
                         keybind_button = None
 
                 elif event.type == pygame.KEYUP:
@@ -319,6 +323,7 @@ class ControlMenu:
                     elif editing_keybind:
                         editing_keybind = False
                         self.update_keybinds(keybind_button, event.key)
+                        changed_keybinds = True
                         keybind_button = None
             
 
@@ -344,7 +349,8 @@ class ControlMenu:
                     self.back_btn.clicked = False
                     conflicts = self.key_conflicts()
                     if not conflicts:
-                        self.save()
+                        if changed_keybinds:
+                            self.save()
                         return self.exit_info
                     else:
                         keybind_errors = True
