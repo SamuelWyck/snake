@@ -1,7 +1,9 @@
 import pygame
+from level_manager.tile_config import TileConfig
 from user_interface.button_menu import ButtonMenu
 from user_interface.general_menu import GeneralMenu
 from user_interface.select_menu import SelectMenu
+from user_interface.control_menu import ControlMenu
 from user_interface.elements.button import Button
 from user_interface.elements.slider import Slider
 from user_interface.elements.text_display import TextDisplay
@@ -20,6 +22,7 @@ class Ui:
         self.slide_border_radius = 20
         self.antialias = True
 
+        self.control_menu = self.get_control_menu(screen_size, canvas_size, mouse_manager)
         self.audio_menu = self.get_audio_menu(screen_size, canvas_size, mouse_manager)
         self.mouse_menu = self.get_mouse_menu(screen_size, canvas_size, mouse_manager)
         self.settings_menu = self.get_settings_menu(screen_size, canvas_size, mouse_manager)
@@ -87,7 +90,7 @@ class Ui:
             image=Fonts.pickup_outline_font.render("CONTROLS", self.antialias, Color.GREEN),
             hover_image=Fonts.pickup_outline_font.render("CONTROLS", self.antialias, Color.ORANGE)
         )
-        controls_button_callback = lambda **kwargs : (False, False)
+        controls_button_callback = self.control_menu.run
         mouse_button = Button(
             topleft=(0, 0),
             image=Fonts.pickup_outline_font.render("MOUSE", self.antialias, Color.GREEN),
@@ -279,3 +282,27 @@ class Ui:
         )
 
         return select_menu
+    
+
+
+    def get_control_menu(self, screen_size, canvas_size, mouse_manager):
+        y_pos = 250
+        row_gap = 20
+        col_gap = 40
+        num_rows = 4
+
+        controls = dict(TileConfig.player_controller.controls)
+        controls["SHRINK"] = 1
+
+        background_img = pygame.Surface(canvas_size)
+        background_img.fill((0, 0, 0))
+
+        control_menu = ControlMenu(
+            y_pos, num_rows, row_gap, col_gap, controls, 
+            background_img, Fonts.pickup_outline_font,
+            Color.GREEN, Color.ORANGE,
+            canvas_size, screen_size, mouse_manager,
+            lambda controls : None
+        )
+
+        return control_menu
