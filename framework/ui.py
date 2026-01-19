@@ -292,7 +292,6 @@ class Ui:
         num_rows = 4
 
         controls = dict(TileConfig.player_controller.controls)
-        controls["SHRINK"] = 1
 
         background_img = pygame.Surface(canvas_size)
         background_img.fill((0, 0, 0))
@@ -302,7 +301,7 @@ class Ui:
             background_img, Fonts.pickup_outline_font,
             Color.GREEN, Color.ORANGE,
             canvas_size, screen_size, mouse_manager,
-            lambda controls : None
+            TileConfig.player_controller.update_controls
         )
 
         return control_menu
