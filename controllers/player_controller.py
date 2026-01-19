@@ -89,7 +89,7 @@ class PlayerController:
     # this method expects a dict like the constructor does 
     # it is used for updating the controls
     def update_controls(self, new_controls):
-        self.controls = new_controls
+        self.controls = dict(new_controls)
 
         self.key_codes = {}
         for control_name in self.controls:
