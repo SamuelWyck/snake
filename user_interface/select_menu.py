@@ -28,6 +28,7 @@ class SelectMenu:
 
         self.btn_index_min = 0
         self.btn_index_max = num_cols * num_rows
+        self.starting_btn_index_max = self.btn_index_max
         self.btn_index_change = num_cols * num_rows
         self.page_up_btn = page_up_btn
         self.page_down_btn = page_down_btn
@@ -119,6 +120,12 @@ class SelectMenu:
             self.btn_index_max -= btn_index_change
 
 
+    
+    def cleanup(self):
+        self.btn_index_min = 0
+        self.btn_index_max = self.starting_btn_index_max
+
+
 
     def run(self, framerate, canvas, screen):
         backing_img = None
@@ -158,6 +165,7 @@ class SelectMenu:
                 button = self.buttons[index]
                 if button.clicked:
                     button.clicked = False
+                    self.cleanup()
                     return self.click_callback(button.id)
             
             for page_button in self.page_buttons:
@@ -168,6 +176,7 @@ class SelectMenu:
             
             if self.exit_btn.clicked:
                 self.exit_btn.clicked = False
+                self.cleanup()
                 return self.exit_info
                 
             
