@@ -1,4 +1,5 @@
 import pygame
+import os
 from level_objects.proto_objects.receiver import Receiver
 from asset_loaders.image_loader import Images
 from level_objects.static_objects.wall import Wall
@@ -26,7 +27,8 @@ class TileConfig:
         "SHRINK": pygame.K_LSHIFT
     }
     holdable_controls = set(["UP", "DOWN", "RIGHT", "LEFT"])
-    player_controller = PlayerController(player_controls, holdable_controls)
+    keybinds_file_path = os.path.abspath("saves/keybinds.csv")
+    player_controller = PlayerController(player_controls, holdable_controls, keybinds_file_path)
 
     snake_size = 30
     snake_step_size = 40
