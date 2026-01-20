@@ -350,11 +350,6 @@ class Snake:
             joint_side
         )
         self.body.append(body_segment)
-    
-
-
-    # def grow_snake(self):
-    #     self.length_increase += 1
 
     
 
@@ -374,7 +369,9 @@ class Snake:
         self.pickups_to_drop.append(pickup)
         
         last_pickup_idx = len(self.eaten_pickups) - 1
-        self.color = self.eaten_pickups[last_pickup_idx].color if len(self.eaten_pickups) != 0 else self.start_color
+        new_color = self.eaten_pickups[last_pickup_idx].color if len(self.eaten_pickups) != 0 else self.start_color
+        new_color = new_color if new_color != Color.NO_COLOR else self.start_color
+        self.color = new_color
         if self.color not in self.image_cache[0]:
             self.image = self.get_head_image()
         else:
@@ -444,7 +441,8 @@ class Snake:
         else:
             self.length_decrease += abs(pickup.value)
 
-        self.color = pickup.color
-        self.image = self.get_head_image()
+        if pickup.color != Color.NO_COLOR:
+            self.color = pickup.color
+            self.image = self.get_head_image()
         self.eaten_pickups.append(pickup)
         return True
