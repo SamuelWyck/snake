@@ -210,6 +210,9 @@ class Snake:
 
         interval_change = 1 * delta_time
         self.step_interval -= interval_change
+        if self.step_interval < 0:
+            self.step_interval = 0
+            
         if self.step_interval <= 0 and self.movement != self.stopped:
             self.step_interval = self.max_step_interval
             prev_head_pos, same_direction = self.move()
