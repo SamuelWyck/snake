@@ -38,7 +38,7 @@ class Goal(LevelTile):
 
 
     def build_image(self, color, value, image):
-        value_str = str(value) if value != None else "?"
+        value_str = str(value) if value != None else ""
         value_image = Fonts.goal_font.render(value_str, True, Color.WHITE)
 
         image_outline = image.copy()
