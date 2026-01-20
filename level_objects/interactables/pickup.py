@@ -12,12 +12,13 @@ class Pickup(LevelTile):
         self.value = int(value)
         self.original_position = self.rect.center
 
-        self.image = Fonts.pickup_outline_font.render(value, 1, Color.WHITE)
+        self.image = Fonts.pickup_outline_font.render(value, antialias=True, color=Color.WHITE)
         self.image_rect = self.image.get_rect()
         self.image_rect.center = self.rect.center
 
-        colored_image = Fonts.pickup_font.render(value, 1, self.color)
-        self.image.blit(colored_image, (3, 2))
+        colored_img_color = self.color if self.color != Color.NO_COLOR else Color.GRAY
+        colored_image = Fonts.pickup_font.render(value, antialias=True, color=colored_img_color)
+        self.image.blit(colored_image, (3, 2)) # set topleft to just off (0, 0) to make outline more visually even
 
         self.remove = False
 
