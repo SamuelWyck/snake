@@ -1,4 +1,4 @@
-
+import csv
 # controls is a dict of the control names and key codes for each game control
 
 # example of expected shape of controls param
@@ -18,17 +18,60 @@
 #     "DOWN"
 # ])
 
+# save_file_path is the absolute path to the save file that the controller will use to save keybinds
+
 class PlayerController:
-    def __init__(self, controls, holdable_inputs=set()):
-        self.update_controls(controls)
+    def __init__(self, controls, holdable_inputs=set(), save_file_path=None):
+        self.save_file_path = save_file_path
+        loaded_controls = self.load_saved_keybinds()
+        if loaded_controls != None:
+            controls = loaded_controls
+
+        self.update_controls(controls, save_controls=False)
 
         self.inputs_pressed = {}
-        for control_name in controls:
+        for control_name in self.controls:
             self.inputs_pressed[control_name] = False
 
         self.holdable_inputs = holdable_inputs
 
         self.inputs_to_reset = []
+
+    
+
+    # a method to load saved keybinds 
+    def load_saved_keybinds(self):
+        if self.save_file_path is None:
+            return None
+
+        try:
+            controls = {}
+
+            with open(self.save_file_path, "r") as file:
+                keybinds = csv.DictReader(file)
+                for row in keybinds:
+                    for key in row:
+                        controls[key] = int(row[key])
+                    
+            return controls
+        except FileNotFoundError:
+            return None
+        
+
+    
+    # this method saves the keybinds to a file if one was given
+    def save_keybinds(self):
+        if self.save_file_path == None:
+            return
+        
+        try:
+            fieldnames = [key for key in self.controls]
+            with open(self.save_file_path, "w") as file:
+                writer = csv.DictWriter(file, fieldnames=fieldnames)
+                writer.writeheader()
+                writer.writerow(self.controls)
+        except:
+            pass
 
 
 
@@ -88,10 +131,13 @@ class PlayerController:
 
     # this method expects a dict like the constructor does 
     # it is used for updating the controls
-    def update_controls(self, new_controls):
+    def update_controls(self, new_controls, save_controls=True):
         self.controls = dict(new_controls)
 
         self.key_codes = {}
         for control_name in self.controls:
             key_code = self.controls[control_name]
             self.key_codes[key_code] = control_name
+        
+        if save_controls:
+            self.save_keybinds()
