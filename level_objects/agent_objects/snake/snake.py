@@ -26,6 +26,7 @@ class Snake:
         self.move_right = 1
         self.move_down = 2
         self.move_left = 3
+        self.stopped = 4
         self.movement = None
         self.last_movement = None
     
@@ -209,7 +210,7 @@ class Snake:
 
         interval_change = 1 * delta_time
         self.step_interval -= interval_change
-        if self.step_interval <= 0:
+        if self.step_interval <= 0 and self.movement != self.stopped:
             self.step_interval = self.max_step_interval
             prev_head_pos, same_direction = self.move()
             if not same_direction:
@@ -254,6 +255,7 @@ class Snake:
     def handle_input(self):
         pressed_inputs = self.controller.get_inputs()
         
+        self.movement = self.stopped
         if pressed_inputs["UP"] and self.last_movement != self.move_down:
             self.movement = self.move_up
         if pressed_inputs["DOWN"] and self.last_movement != self.move_up:

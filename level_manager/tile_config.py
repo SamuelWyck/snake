@@ -25,11 +25,12 @@ class TileConfig:
         "LEFT": pygame.K_a,
         "SHRINK": pygame.K_LSHIFT
     }
-    player_controller = PlayerController(player_controls)
+    holdable_controls = set(["UP", "DOWN", "RIGHT", "LEFT"])
+    player_controller = PlayerController(player_controls, holdable_controls)
 
     snake_size = 30
     snake_step_size = 40
-    snake_step_interval = 25
+    snake_step_interval = 20
     snake_args = [
         snake_size,
         snake_step_size,
