@@ -40,10 +40,9 @@ class Game:
         #setup hud manager
         self.hud = Hud(pa_topleft, (pa_width, pa_height))
 
-        #setup level manager and get player ref
+        #setup level manager
         self.level_manager = LevelManager((pa_width, pa_height), single_tile_size=40)
-        self.player = self.level_manager.load_level(1)
-        self.player_controller = self.player.controller
+        self.player = None
 
         #setup collision manager
         self.collision_manager = CollisionManager((pa_width, pa_height))
@@ -62,6 +61,9 @@ class Game:
             if exit_menu:
                 return
 
+            self.player = self.level_manager.load_level(1)
+            self.player_controller = self.player.controller
+            self.hud.create_length_display(self.player)
             self.game_loop()
 
 
