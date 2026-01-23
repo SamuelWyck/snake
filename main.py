@@ -38,7 +38,7 @@ class Game:
         PlayArea.set_use_backing_surface(True)
 
         #setup hud manager
-        self.hud = Hud(pa_topleft, (pa_width, pa_height))
+        self.hud = Hud(pa_topleft, (pa_width, pa_height), (self.screen_width, self.screen_height))
 
         #setup level manager
         self.level_manager = LevelManager((pa_width, pa_height), single_tile_size=40)
@@ -64,6 +64,7 @@ class Game:
             self.player = self.level_manager.load_level(1)
             self.player_controller = self.player.controller
             self.hud.create_length_display(self.player)
+            self.hud.link_player_pickups_list(self.player)
             self.game_loop()
 
 
