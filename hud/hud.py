@@ -1,7 +1,9 @@
+import pygame
 from asset_loaders.image_loader import Images
 from hud.border import Border
 from user_interface.elements.live_text_display import LiveTextDisplay
 from asset_loaders.font_loader import Fonts
+from asset_loaders.image_loader import Images
 from utils.color import Color
 
 
@@ -32,6 +34,12 @@ class Hud:
         self.player_pickups_length = 0
         self.num_shown_pickups = 6
         self.pickups_start_idx = 0
+        # create rect for bg with a size slightly bigger than the tiles size of 40
+        self.pickups_display_bg = pygame.rect.Rect((0, 0), (48, 48))
+        # eaten pickups border image
+        self.pickups_border = Images.eaten_pickups_border
+        self.pickups_border_rect = self.pickups_border.get_rect()
+        self.pickups_border_rect.topleft = (15, 278)
 
         
 
@@ -79,12 +87,37 @@ class Hud:
                 self.pickups_start_idx = 0
 
             center_y = self.pickups_center_y_start
+            first_pickup = None
             for idx in range(self.pickups_start_idx, len(self.player_pickups)):
                 pickup = self.player_pickups[idx]
                 pickup.set_center_position((self.pickups_center_x, center_y))
                 center_y -= (pickup.image_rect.height + self.pickups_gap)
+                if first_pickup is None:
+                    first_pickup = pickup
+            
+            self.adjust_bg_rect(first_pickup)
         
+        self.draw_player_pickups(surface)
+    
 
-        for idx in range(self.pickups_start_idx, self.player_pickups_length):
-            pickup = self.player_pickups[idx]
-            pickup.update(surface, None)
+
+    def draw_player_pickups(self, surface):
+        if self.player_pickups_length != 0:
+            pygame.draw.rect(surface, Color.YELLOW, self.pickups_display_bg, border_radius=28)
+
+            for idx in range(self.pickups_start_idx, self.player_pickups_length):
+                pickup = self.player_pickups[idx]
+                pickup.update(surface, None)
+
+        surface.blit(self.pickups_border, self.pickups_border_rect.topleft)
+    
+
+
+    def adjust_bg_rect(self, first_pickup):
+        if first_pickup is None:
+            return
+
+        height = (self.player_pickups_length * first_pickup.image_rect.height) + (
+            self.pickups_gap * (self.player_pickups_length - 1))
+        self.pickups_display_bg.height = height
+        self.pickups_display_bg.midbottom = first_pickup.image_rect.midbottom
