@@ -354,6 +354,8 @@ class LevelManager:
 
         remove = False
         for interactable in self.small_interactables:
+            if interactable.remove:
+                continue
             interactable.update(surface, delta_time)
             if interactable.remove:
                 remove = True
