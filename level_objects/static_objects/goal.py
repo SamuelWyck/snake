@@ -31,7 +31,7 @@ class Goal(LevelTile):
     def collide(self, player):
         if self.color != None and player.color != self.color:
             return False
-        if self.value != None and player.body_length != self.length:
+        if self.value != None and player.real_length != self.value:
             return False
         return self.rect.colliderect(player.rect)
     
