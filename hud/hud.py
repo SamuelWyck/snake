@@ -22,7 +22,7 @@ class Hud:
         self.player_length_display = None
         self.length_display_bg_img = Images.length_display
         self.length_display_bg_rect = self.length_display_bg_img.get_rect()
-        backing_center = (54, 46)
+        backing_center = (54, 54)
         self.length_display_bg_rect.center = backing_center
 
         # variables needed for player pickups display
