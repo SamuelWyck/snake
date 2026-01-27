@@ -415,6 +415,19 @@ class Snake:
     
 
 
+    def collide_laser(self, laser):
+        if laser.color == self.color and self.color != Color.NO_COLOR:
+            return
+        
+        if self.rect.colliderect(laser.rect):
+            laser.shorten_laser(self.rect)
+        
+        for segment in self.body:
+            if segment.rect.colliderect(laser.rect):
+                laser.shorten_laser(segment.rect)
+    
+
+
     def get_direction_as_str(self):
         if self.last_movement == self.move_up:
             return "up"
