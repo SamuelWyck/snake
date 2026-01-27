@@ -1,19 +1,58 @@
 import pygame
+from framework.play_area import PlayArea
 from level_objects.proto_objects.level_tile import LevelTile
 from level_objects.agent_objects.snake.snake import Snake
+from level_objects.interactables.laser import Laser
+from utils.color import Color
 
 
 
-class Laser(LevelTile):
-    def __init__(self, topleft, size, color, image, angle, moveable):
+class LaserCannon(LevelTile):
+    def __init__(self, topleft, size, color, image, barrel_image, moveable, angle, interactables):
         super().__init__(topleft, size)
 
-        self.image = pygame.transform.rotate(image, angle)
+        angle = int(angle)
+        self.image = self.build_image(image, barrel_image, color, angle)
         self.angle = angle
         self.color = color
-        self.moveable = moveable
 
+        self.moveable = moveable
         self.original_topleft = self.rect.topleft
+
+        self.laser_max_length, _ = PlayArea.size
+        self.laser_short_length = 8
+
+        self.laser = Laser(
+            self.get_laser_start_coords(), 
+            self.angle, 
+            self.color, 
+            self.laser_max_length, 
+            self.laser_short_length
+        )
+        interactables.append(self.laser)
+
+    
+    def build_image(self, base_image, barrel_image, color, angle):
+        image = barrel_image.copy()
+        color = color if color != Color.NO_COLOR else Color.GRAY
+        image.fill(color, special_flags=pygame.BLEND_MAX)
+        image.blit(base_image, (0, 0))
+        
+        image = pygame.transform.rotate(image, angle * -1) # correct angle because pygame rotates counter-clockwise
+        return image
+    
+
+    def get_laser_start_coords(self):
+        angle_up = 0
+        angle_right = 90
+        angle_down = 180
+        if self.angle == angle_up:
+            return self.rect.midtop
+        if self.angle == angle_right:
+            return self.rect.midright
+        if self.angle == angle_down:
+            return self.rect.midbottom
+        return self.rect.midleft
 
     
     def update(self, surface, delta_time):
