@@ -9,7 +9,7 @@ from level_objects.dynamic_objects.door import Door
 from level_objects.dynamic_objects.pressure_plate.pressure_plate import PressurePlate
 from level_objects.dynamic_objects.sticky_pressure_plate import StickyPressurePlate
 from level_objects.agent_objects.box import Box
-from level_objects.agent_objects.laser import Laser
+from level_objects.agent_objects.laser_cannon import LaserCannon
 from level_objects.agent_objects.spike_ball import SpikeBall
 from level_objects.agent_objects.snake.snake import Snake
 from level_objects.interactables.pickup import Pickup
@@ -45,6 +45,8 @@ class TileConfig:
     door_frame_data = [(Images.door_img_1, 6), (Images.door_img_2, 6), (Images.door_img_3, 6)]
     start_door_open = True
     vertical_door = True
+
+    moveable_laser = True
 
     spike_ball_size = 30
     spike_ball_vel = 2
@@ -136,7 +138,7 @@ class TileConfig:
         "P5": Pickup,
         "PN5": Pickup,
         "G": Goal,
-        "LC": Laser
+        "LC": LaserCannon
     }
     tile_args_map = {
         "W": {
@@ -176,7 +178,7 @@ class TileConfig:
             "o": [*snake_args, Color.ORANGE, player_controller],
             "g": [*snake_args, Color.GREEN, player_controller],
             "r": [*snake_args, Color.RED, player_controller],
-            "NOCOLOR": [*snake_args, Color.GREEN, player_controller]
+            "NOCOLOR": [*snake_args, Color.GRAY, player_controller]
         },
         "S": {
             "b": [spike_ball_size, spike_ball_vel, Color.BLUE, Images.spike_ball_fg_img, Images.spike_ball_bg_img, not circular_path],
@@ -245,17 +247,22 @@ class TileConfig:
             "r": [Images.goal_img, Color.RED],
             "NOCOLOR": [Images.goal_img, Color.NO_COLOR]
         },
-        "LS": {
-            # "b": [Color.BLUE]
+        "LC": {
+            "b": [Color.BLUE, Images.laser_base_img, Images.laser_barrel_img, not moveable_laser],
+            "o": [Color.ORANGE, Images.laser_base_img, Images.laser_barrel_img, not moveable_laser],
+            "g": [Color.GREEN, Images.laser_base_img, Images.laser_barrel_img, not moveable_laser],
+            "r": [Color.RED, Images.laser_base_img, Images.laser_barrel_img, not moveable_laser],
+            "NOCOLOR": [Color.NO_COLOR, Images.laser_base_img, Images.laser_barrel_img, not moveable_laser]
         }
     }
 
-    static_tiles = set([Wall, Cannon, Goal])
+    static_tiles = set([Wall, Cannon])
     dynamic_tiles = set([
         StickyPressurePlate,
         PressurePlate,
         Door,
-        Lava
+        Lava,
+        Goal
     ])
     interactables = set([Pickup])
     tiles_needing_interactables = set([Cannon])
@@ -283,6 +290,10 @@ class TileConfig:
             tile_args.append(tile_value)
         elif tile_class == SpikeBall:
             tile_id = None
+        elif tile_class == LaserCannon:
+            tile_args.append(tile_id)
+            tile_id = None
+            tile_args.append(interactable_list)
 
         if tile_symbol in cls.snake_head_symbols:
             tile = tile_class(topleft, *tile_args)
@@ -409,6 +420,8 @@ class TileConfig:
 
     @classmethod
     def is_static_tile(cls, tile):
+        if tile.__class__ == LaserCannon:
+            return not tile.moveable
         return tile.__class__ in cls.static_tiles
     
 
