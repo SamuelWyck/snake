@@ -9,6 +9,7 @@ from level_objects.dynamic_objects.door import Door
 from level_objects.dynamic_objects.pressure_plate.pressure_plate import PressurePlate
 from level_objects.dynamic_objects.sticky_pressure_plate import StickyPressurePlate
 from level_objects.agent_objects.box import Box
+from level_objects.agent_objects.laser import Laser
 from level_objects.agent_objects.spike_ball import SpikeBall
 from level_objects.agent_objects.snake.snake import Snake
 from level_objects.interactables.pickup import Pickup
@@ -134,7 +135,8 @@ class TileConfig:
         "PN4": Pickup,
         "P5": Pickup,
         "PN5": Pickup,
-        "G": Goal
+        "G": Goal,
+        "LC": Laser
     }
     tile_args_map = {
         "W": {
@@ -242,6 +244,9 @@ class TileConfig:
             "g": [Images.goal_img, Color.GREEN],
             "r": [Images.goal_img, Color.RED],
             "NOCOLOR": [Images.goal_img, Color.NO_COLOR]
+        },
+        "LS": {
+            # "b": [Color.BLUE]
         }
     }
 
