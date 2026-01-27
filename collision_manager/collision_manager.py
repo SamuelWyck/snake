@@ -9,6 +9,7 @@ from level_objects.static_objects.goal import Goal
 from level_objects.interactables.pickup import Pickup
 from utils.color import Color
 from level_objects.interactables.bullet import Bullet
+from level_objects.interactables.laser import Laser
 
 
 
@@ -62,6 +63,10 @@ class CollisionManager:
 
     def check_dynamic_tiles(self, collider, dynamic_tiles):
         for tile in dynamic_tiles:
+            if tile.__class__ == Goal:
+                if collider.__class__ == Snake and tile.collide(collider):
+                    ... # handle win
+                continue
             if tile.color == collider.color and tile.color != Color.NO_COLOR:
                 continue
             if self.is_pressure_plate_tile(tile):
@@ -96,10 +101,7 @@ class CollisionManager:
 
     def check_static_tiles(self, collider, static_tiles):
         for tile in static_tiles:
-            if tile.__class__ == Goal and collider.__class__ == Snake:
-                if tile.collide(collider):
-                    return True
-            elif tile.__class__ != Goal and collider.rect.colliderect(tile.rect):
+            if collider.rect.colliderect(tile.rect):
                 return True
         return False
 
@@ -116,42 +118,45 @@ class CollisionManager:
             if not self.in_bounds(interactable.rect):
                 if interactable.__class__ == Bullet:
                     interactable.dead = True
-                else:
-                    interactable.remove = True
-                continue
-            if player.collide(interactable.rect) and interactable.__class__ == Bullet:
+                    continue
+            if interactable.__class__ == Bullet and player.collide(interactable.rect):
                 interactable.dead = True
                 return True
+            elif interactable.__class__ == Laser:
+                player.collide_laser(interactable)
             
             for tile in static_tiles:
-                if tile == interactable.parent:
+                if interactable.__class__ == Bullet and tile == interactable.parent:
                     continue
                 if interactable.rect.colliderect(tile.rect):
                     if interactable.__class__ == Bullet:
                         interactable.dead = True
-                    else:
-                        interactable.remove = True
-                    break
+                        break
+                    elif interactable.__class__ == Laser:
+                        interactable.shorten_laser(tile.rect)
             if interactable.remove:
                 continue
             
-            collision = interactable.rect.collideobjects(agents, key=lambda o : o.rect)
-            if collision:
+            for agent in agents:
+                if not interactable.rect.colliderect(agent.rect):
+                    continue
                 if interactable.__class__ == Bullet:
                     interactable.dead = True
-                else:
-                    interactable.remove = True
-                continue
+                    continue
+                elif interactable.__class__ == Laser:
+                    interactable.shorten_laser(agent.rect)
 
             for tile in dynamic_tiles:
+                if tile.__class__ == Goal:
+                    continue
                 if tile.__class__ == Lava or self.is_pressure_plate_tile(tile):
                     continue
                 if tile.collide(interactable.rect):
                     if interactable.__class__ == Bullet:
                         interactable.dead = True
-                    else:
-                        interactable.remove = True
-                    break
+                        break
+                    elif interactable.__class__ == Laser:
+                        interactable.shorten_laser(tile.rect)
 
         return False
 

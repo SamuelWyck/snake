@@ -37,6 +37,8 @@ class Images:
     smoke_img_8 = pygame.image.load(os.path.join(static_tile_images_path, "smoke_frames/smoke_fr_8.png")).convert_alpha()
     smoke_img_9 = pygame.image.load(os.path.join(static_tile_images_path, "smoke_frames/smoke_fr_9.png")).convert_alpha()
     smoke_img_10 = pygame.image.load(os.path.join(static_tile_images_path, "smoke_frames/smoke_fr_10.png")).convert_alpha()
+    laser_base_img = pygame.image.load(os.path.join(agent_images_path, "laser.png")).convert_alpha()
+    laser_barrel_img = pygame.image.load(os.path.join(agent_images_path, "laser_barrel.png")).convert_alpha()
 
 
 
@@ -66,8 +68,7 @@ class Images:
     spike_ball_bg_img = pygame.image.load(os.path.join(agent_images_path, "spike_ball_background.png")).convert_alpha()
     snake_head_img = pygame.image.load(os.path.join(agent_images_path, "snake_head.png")).convert_alpha()
     snake_eyes_img = pygame.image.load(os.path.join(agent_images_path, "snake_eyes.png")).convert_alpha()
-    laser_base_img = pygame.image.load(os.path.join(agent_images_path, "laser.png")).convert_alpha()
-    laser_barrel_img = pygame.image.load(os.path.join(agent_images_path, "laser_barrel.png")).convert_alpha()
+
 
     # other images
     bullet_img = pygame.image.load(os.path.join(interactables_images_path, "bullet.png")).convert_alpha()
