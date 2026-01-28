@@ -18,6 +18,7 @@ class LaserCannon(LevelTile):
 
         self.moveable = moveable
         self.original_topleft = self.rect.topleft
+        self.move_distance = self.rect.width
 
         self.laser_max_length, _ = PlayArea.size
         self.laser_short_length = 8
@@ -102,6 +103,8 @@ class LaserCannon(LevelTile):
                 self.rect.center = old_position
                 return False
         
+        new_laser_start = self.get_laser_start_coords()
+        self.laser.set_laser_start(new_laser_start)
         return True
     
 
@@ -134,3 +137,5 @@ class LaserCannon(LevelTile):
 
     def reset(self):
         self.rect.topleft = self.original_topleft
+        laser_start_coords = self.get_laser_start_coords()
+        self.laser.set_laser_start(laser_start_coords)
