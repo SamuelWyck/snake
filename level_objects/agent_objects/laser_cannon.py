@@ -8,7 +8,7 @@ from utils.color import Color
 
 
 class LaserCannon(LevelTile):
-    def __init__(self, topleft, size, color, image, barrel_image, moveable, angle, interactables):
+    def __init__(self, topleft, size, color, image, barrel_image, moveable, angle, interactables, lasers):
         super().__init__(topleft, size)
 
         angle = int(angle)
@@ -30,6 +30,7 @@ class LaserCannon(LevelTile):
             self.laser_short_length
         )
         interactables.append(self.laser)
+        lasers.append(self.laser)
 
     
     def build_image(self, base_image, barrel_image, color, angle):
