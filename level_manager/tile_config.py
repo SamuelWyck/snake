@@ -145,6 +145,7 @@ class TileConfig:
         "PN5": Pickup,
         "G": Goal,
         "LC": LaserCannon,
+        "LCM": LaserCannon,
         "LSU": LaserSwitch,
         "LSR": LaserSwitch,
         "LSD": LaserSwitch,
@@ -263,6 +264,13 @@ class TileConfig:
             "g": [Color.GREEN, Images.laser_base_img, Images.laser_barrel_img, not moveable_laser],
             "r": [Color.RED, Images.laser_base_img, Images.laser_barrel_img, not moveable_laser],
             "NOCOLOR": [Color.NO_COLOR, Images.laser_base_img, Images.laser_barrel_img, not moveable_laser]
+        },
+        "LCM": {
+            "b": [Color.BLUE, Images.moveable_laser_img, Images.laser_barrel_img, moveable_laser],
+            "o": [Color.ORANGE, Images.moveable_laser_img, Images.laser_barrel_img, moveable_laser],
+            "g": [Color.GREEN, Images.moveable_laser_img, Images.laser_barrel_img, moveable_laser],
+            "r": [Color.RED, Images.moveable_laser_img, Images.laser_barrel_img, moveable_laser],
+            "NOCOLOR": [Color.NO_COLOR, Images.moveable_laser_img, Images.laser_barrel_img, moveable_laser]
         },
         "LSU": {
             "b": [Color.BLUE, Images.laser_base_img, Images.laser_switch_img, laser_angle_up],
@@ -460,7 +468,7 @@ class TileConfig:
     @classmethod
     def is_static_tile(cls, tile):
         if tile.__class__ == LaserCannon:
-            return not tile.moveable
+            return tile.moveable == False
         return tile.__class__ in cls.static_tiles
     
 
