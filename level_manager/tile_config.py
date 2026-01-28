@@ -13,6 +13,7 @@ from level_objects.agent_objects.laser_cannon import LaserCannon
 from level_objects.agent_objects.spike_ball import SpikeBall
 from level_objects.agent_objects.snake.snake import Snake
 from level_objects.interactables.pickup import Pickup
+from level_objects.static_objects.laser_switch import LaserSwitch
 from level_objects.static_objects.goal import Goal
 from controllers.player_controller import PlayerController
 from utils.color import Color
@@ -108,6 +109,11 @@ class TileConfig:
     angle_left = -90
     angle_right = 90
 
+    laser_angle_up = 0
+    laser_angle_down = 180
+    laser_angle_right = 90
+    laser_angle_left = 270
+
     tile_map = {
         "W": Wall,
         "DO": Door,
@@ -138,7 +144,11 @@ class TileConfig:
         "P5": Pickup,
         "PN5": Pickup,
         "G": Goal,
-        "LC": LaserCannon
+        "LC": LaserCannon,
+        "LSU": LaserSwitch,
+        "LSR": LaserSwitch,
+        "LSD": LaserSwitch,
+        "LSL": LaserSwitch
     }
     tile_args_map = {
         "W": {
@@ -253,10 +263,38 @@ class TileConfig:
             "g": [Color.GREEN, Images.laser_base_img, Images.laser_barrel_img, not moveable_laser],
             "r": [Color.RED, Images.laser_base_img, Images.laser_barrel_img, not moveable_laser],
             "NOCOLOR": [Color.NO_COLOR, Images.laser_base_img, Images.laser_barrel_img, not moveable_laser]
+        },
+        "LSU": {
+            "b": [Color.BLUE, Images.laser_base_img, Images.laser_switch_img, laser_angle_up],
+            "o": [Color.ORANGE, Images.laser_base_img, Images.laser_switch_img, laser_angle_up],
+            "g": [Color.GREEN, Images.laser_base_img, Images.laser_switch_img, laser_angle_up],
+            "r": [Color.RED, Images.laser_base_img, Images.laser_switch_img, laser_angle_up],
+            "NOCOLOR": [Color.NO_COLOR, Images.laser_base_img, Images.laser_switch_img, laser_angle_up]
+        },
+        "LSR": {
+            "b": [Color.BLUE, Images.laser_base_img, Images.laser_switch_img, laser_angle_right],
+            "o": [Color.ORANGE, Images.laser_base_img, Images.laser_switch_img, laser_angle_right],
+            "g": [Color.GREEN, Images.laser_base_img, Images.laser_switch_img, laser_angle_right],
+            "r": [Color.RED, Images.laser_base_img, Images.laser_switch_img, laser_angle_right],
+            "NOCOLOR": [Color.NO_COLOR, Images.laser_base_img, Images.laser_switch_img, laser_angle_right]
+        },
+        "LSD": {
+            "b": [Color.BLUE, Images.laser_base_img, Images.laser_switch_img, laser_angle_down],
+            "o": [Color.ORANGE, Images.laser_base_img, Images.laser_switch_img, laser_angle_down],
+            "g": [Color.GREEN, Images.laser_base_img, Images.laser_switch_img, laser_angle_down],
+            "r": [Color.RED, Images.laser_base_img, Images.laser_switch_img, laser_angle_down],
+            "NOCOLOR": [Color.NO_COLOR, Images.laser_base_img, Images.laser_switch_img, laser_angle_down]
+        },
+        "LSL": {
+            "b": [Color.BLUE, Images.laser_base_img, Images.laser_switch_img, laser_angle_left],
+            "o": [Color.ORANGE, Images.laser_base_img, Images.laser_switch_img, laser_angle_left],
+            "g": [Color.GREEN, Images.laser_base_img, Images.laser_switch_img, laser_angle_left],
+            "r": [Color.RED, Images.laser_base_img, Images.laser_switch_img, laser_angle_left],
+            "NOCOLOR": [Color.NO_COLOR, Images.laser_base_img, Images.laser_switch_img, laser_angle_left]
         }
     }
 
-    static_tiles = set([Wall, Cannon])
+    static_tiles = set([Wall, Cannon, LaserSwitch])
     dynamic_tiles = set([
         StickyPressurePlate,
         PressurePlate,
@@ -277,7 +315,7 @@ class TileConfig:
 
 
     @classmethod
-    def get_tile(cls, topleft, size, tile_symbol, interactable_list):
+    def get_tile(cls, topleft, size, tile_symbol, interactable_list, lasers_list):
         tile_symbol, tile_color, tile_id = cls.parse_tile_symbol(tile_symbol)
 
         tile_class = cls.tile_map[tile_symbol]
@@ -294,6 +332,7 @@ class TileConfig:
             tile_args.append(tile_id)
             tile_id = None
             tile_args.append(interactable_list)
+            tile_args.append(lasers_list)
 
         if tile_symbol in cls.snake_head_symbols:
             tile = tile_class(topleft, *tile_args)
@@ -463,3 +502,9 @@ class TileConfig:
     @classmethod
     def is_pickup(cls, tile):
         return tile.__class__ == Pickup
+    
+
+
+    @classmethod
+    def is_laser_switch(cls, tile):
+        return tile.__class__ == LaserSwitch
