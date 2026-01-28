@@ -39,6 +39,7 @@ class Images:
     smoke_img_10 = pygame.image.load(os.path.join(static_tile_images_path, "smoke_frames/smoke_fr_10.png")).convert_alpha()
     laser_base_img = pygame.image.load(os.path.join(agent_images_path, "laser.png")).convert_alpha()
     laser_barrel_img = pygame.image.load(os.path.join(agent_images_path, "laser_barrel.png")).convert_alpha()
+    laser_switch_img = pygame.image.load(os.path.join(static_tile_images_path, "laser_switch.png")).convert_alpha()
 
 
 
