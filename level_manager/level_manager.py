@@ -1,5 +1,6 @@
 import os
 from level_manager.tile_config import TileConfig
+from level_objects.interactables.laser import Laser
 
 
 
@@ -12,6 +13,8 @@ class LevelManager:
         self.static_tiles = []
         self.agent_tiles = []
         self.small_interactables = []
+        self.lasers = []
+        self.laser_switches = []
         self.player = None
 
         self.level_files = [
@@ -112,7 +115,7 @@ class LevelManager:
         else:
             topleft_positions = self.calc_tile_topleft(row, col)
 
-        tile = TileConfig.get_tile(topleft_positions, tile_size, symbol, self.small_interactables)
+        tile = TileConfig.get_tile(topleft_positions, tile_size, symbol, self.small_interactables, self.lasers)
         self.store_tile(tile)
 
     
@@ -120,6 +123,8 @@ class LevelManager:
     def store_tile(self, tile):
         if TileConfig.is_static_tile(tile):
             self.static_tiles.append(tile)
+            if TileConfig.is_laser_switch(tile):
+                self.laser_switches.append(tile)
         elif TileConfig.is_dynamic_tile(tile):
             self.dynamic_tiles.append(tile)
         elif TileConfig.is_player(tile):
@@ -353,15 +358,23 @@ class LevelManager:
             tile.update(surface, delta_time)
 
         remove = False
+        remove_laser = False
         for interactable in self.small_interactables:
             if interactable.remove:
+                remove = True
+                if interactable.__class__ == Laser:
+                    remove_laser = True
                 continue
             interactable.update(surface, delta_time)
             if interactable.remove:
                 remove = True
+                if interactable.__class__ == Laser:
+                    remove_laser = True
 
         if remove:
             self.small_interactables[:] = [item for item in self.small_interactables if not item.remove]
+        if remove_laser:
+            self.lasers[:] = [item for item in self.lasers if not item.remove]
 
         for tile in self.static_tiles:
             tile.update(surface, delta_time)
@@ -372,4 +385,4 @@ class LevelManager:
 
 
     def get_level_objects(self):
-        return self.static_tiles, self.dynamic_tiles, self.agent_tiles, self.small_interactables
+        return self.static_tiles, self.dynamic_tiles, self.agent_tiles, self.small_interactables, self.lasers, self.laser_switches
