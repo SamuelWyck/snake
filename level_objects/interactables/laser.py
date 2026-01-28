@@ -21,6 +21,18 @@ class Laser:
         self.color = color
         self.render_color = color if color != Color.NO_COLOR else Color.GRAY
         self.remove = False
+    
+
+    def set_laser_start(self, coords):
+        if self.angle == self.angle_up:
+            self.rect.midbottom = coords
+        elif self.angle == self.angle_down:
+            self.rect.midtop = coords
+        elif self.angle == self.angle_right:
+            self.rect.midleft = coords
+        else:
+            self.rect.midright = coords
+        self.start_coords = coords
 
 
     def reset_laser(self): 
