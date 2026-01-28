@@ -6,6 +6,7 @@ from level_objects.agent_objects.snake.snake import Snake
 from level_objects.agent_objects.spike_ball import SpikeBall
 from level_objects.dynamic_objects.lava import Lava
 from level_objects.static_objects.goal import Goal
+from level_objects.static_objects.laser_switch import LaserSwitch
 from level_objects.interactables.pickup import Pickup
 from utils.color import Color
 from level_objects.interactables.bullet import Bullet
@@ -28,7 +29,7 @@ class CollisionManager:
     
 
     def check_collisions(self, player, level_object_fetcher):   
-        static_tiles, dynamic_tiles, agents, interactables = level_object_fetcher()
+        static_tiles, dynamic_tiles, agents, interactables, lasers, laser_switches = level_object_fetcher()
 
         if player.just_moved():
             if self.check_static_tiles(player, static_tiles):
@@ -50,7 +51,7 @@ class CollisionManager:
             if self.check_static_tiles(agent, static_tiles):
                 return True
         
-        if self.check_interactables(interactables, player, static_tiles, dynamic_tiles, agents):
+        if self.check_interactables(interactables, player, static_tiles, dynamic_tiles, agents, lasers, laser_switches):
             return True
 
         if len(player.pickups_to_drop) != 0:
@@ -107,7 +108,7 @@ class CollisionManager:
 
 
 
-    def check_interactables(self, interactables, player, static_tiles, dynamic_tiles, agents):
+    def check_interactables(self, interactables, player, static_tiles, dynamic_tiles, agents, lasers, laser_switches):
         for interactable in interactables:
             if interactable.remove:
                 continue
@@ -128,14 +129,11 @@ class CollisionManager:
             for tile in static_tiles:
                 if interactable.__class__ == Bullet and tile == interactable.parent:
                     continue
-                if interactable.rect.colliderect(tile.rect):
-                    if interactable.__class__ == Bullet:
-                        interactable.dead = True
-                        break
-                    elif interactable.__class__ == Laser:
-                        interactable.shorten_laser(tile.rect)
-            if interactable.remove:
-                continue
+                if interactable.__class__ == Bullet and interactable.rect.colliderect(tile.rect):
+                    interactable.dead = True
+                    break
+                elif interactable.__class__ == Laser and interactable.rect.colliderect(tile.rect):
+                    interactable.shorten_laser(tile.rect)
             
             for agent in agents:
                 if not interactable.rect.colliderect(agent.rect):
@@ -157,6 +155,10 @@ class CollisionManager:
                         break
                     elif interactable.__class__ == Laser:
                         interactable.shorten_laser(tile.rect)
+        
+        for laser in lasers:
+            for laser_switch in laser_switches:
+                laser_switch.test_laser(laser)
 
         return False
 
