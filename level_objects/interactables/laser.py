@@ -59,6 +59,16 @@ class Laser:
             new_width = self.rect.right - rect.right
             self.rect.width = new_width
             self.rect.midright = self.start_coords
+
+    
+    def get_end_coords(self):
+        if self.angle == self.angle_up:
+            return self.rect.midtop
+        if self.angle == self.angle_down:
+            return self.rect.midbottom
+        if self.angle == self.angle_left:
+            return self.rect.midleft
+        return self.rect.midright
     
 
     def update(self, surface, delta_time):
