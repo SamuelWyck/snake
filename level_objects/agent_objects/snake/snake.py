@@ -372,9 +372,14 @@ class Snake:
         self.pickups_to_drop.append(pickup)
         
         last_pickup_idx = len(self.eaten_pickups) - 1
-        new_color = self.eaten_pickups[last_pickup_idx].color if len(self.eaten_pickups) != 0 else self.start_color
-        new_color = new_color if new_color != Color.NO_COLOR else self.start_color
+        new_color = self.start_color if self.start_color != Color.NO_COLOR else Color.GRAY
+        for i in range(last_pickup_idx, -1, -1):
+            eaten_pickup = self.eaten_pickups[i]
+            if eaten_pickup.color != Color.NO_COLOR:
+                new_color = eaten_pickup.color 
+                break
         self.color = new_color
+        
         if self.color not in self.image_cache[0]:
             self.image = self.get_head_image()
         else:
