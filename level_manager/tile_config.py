@@ -10,6 +10,7 @@ from level_objects.dynamic_objects.pressure_plate.pressure_plate import Pressure
 from level_objects.dynamic_objects.sticky_pressure_plate import StickyPressurePlate
 from level_objects.agent_objects.box import Box
 from level_objects.agent_objects.laser_cannon import LaserCannon
+from level_objects.agent_objects.mirror import Mirror
 from level_objects.agent_objects.spike_ball import SpikeBall
 from level_objects.agent_objects.snake.snake import Snake
 from level_objects.interactables.pickup import Pickup
@@ -48,6 +49,7 @@ class TileConfig:
     vertical_door = True
 
     moveable_laser = True
+    moveable = True
 
     spike_ball_size = 30
     spike_ball_vel = 2
@@ -114,6 +116,8 @@ class TileConfig:
     laser_angle_right = 90
     laser_angle_left = 270
 
+    reflect_right = True
+
     tile_map = {
         "W": Wall,
         "DO": Door,
@@ -149,7 +153,8 @@ class TileConfig:
         "LSU": LaserSwitch,
         "LSR": LaserSwitch,
         "LSD": LaserSwitch,
-        "LSL": LaserSwitch
+        "LSL": LaserSwitch,
+        "M": Mirror
     }
     tile_args_map = {
         "W": {
@@ -299,6 +304,13 @@ class TileConfig:
             "g": [Color.GREEN, Images.laser_base_img, Images.laser_switch_img, laser_angle_left],
             "r": [Color.RED, Images.laser_base_img, Images.laser_switch_img, laser_angle_left],
             "NOCOLOR": [Color.NO_COLOR, Images.laser_base_img, Images.laser_switch_img, laser_angle_left]
+        },
+        "M": {
+            "b": [Color.BLUE, Images.moveable_mirror_img, Images.mirror_color_img, not moveable],
+            "o": [Color.ORANGE, Images.moveable_mirror_img, Images.mirror_color_img, not moveable],
+            "g": [Color.GREEN, Images.moveable_mirror_img, Images.mirror_color_img, not moveable],
+            "r": [Color.RED, Images.moveable_mirror_img, Images.mirror_color_img, not moveable],
+            "NOCOLOR": [Color.NO_COLOR, Images.moveable_mirror_img, Images.mirror_color_img, not moveable]
         }
     }
 
@@ -336,7 +348,7 @@ class TileConfig:
             tile_args.append(tile_value)
         elif tile_class == SpikeBall:
             tile_id = None
-        elif tile_class == LaserCannon:
+        elif tile_class == LaserCannon or tile_class == Mirror:
             tile_args.append(tile_id)
             tile_id = None
             tile_args.append(interactable_list)
@@ -467,7 +479,7 @@ class TileConfig:
 
     @classmethod
     def is_static_tile(cls, tile):
-        if tile.__class__ == LaserCannon:
+        if tile.__class__ == LaserCannon or tile.__class__ == Mirror:
             return tile.moveable == False
         return tile.__class__ in cls.static_tiles
     
@@ -515,4 +527,4 @@ class TileConfig:
 
     @classmethod
     def is_laser_switch(cls, tile):
-        return tile.__class__ == LaserSwitch
+        return tile.__class__ == LaserSwitch or tile.__class__ == Mirror
