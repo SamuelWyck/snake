@@ -84,12 +84,12 @@ class CollisionManager:
 
     def check_agents(self, collider, agents, static_tiles, dynamic_tiles):
         for agent in agents:
-            if agent.color == collider.color and agent.color != Color.NO_COLOR and agent.__class__ != LaserCannon:
+            if agent.color == collider.color and agent.color != Color.NO_COLOR and collider.__class__ == Snake:
                 continue
             if agent == collider:
                 continue
             if agent.__class__ == Box or agent.__class__ == LaserCannon or agent.__class__ == Mirror:
-                if collider.__class__ == Snake and  collider.rect.colliderect(agent.rect) and not agent.move(
+                if collider.__class__ == Snake and collider.rect.colliderect(agent.rect) and not agent.move(
                         collider, static_tiles, dynamic_tiles, agents, self.is_box_skippable, self.in_bounds
                     ):
                         return True
