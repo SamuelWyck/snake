@@ -7,6 +7,7 @@ from level_objects.agent_objects.spike_ball import SpikeBall
 from level_objects.dynamic_objects.lava import Lava
 from level_objects.static_objects.goal import Goal
 from level_objects.agent_objects.laser_cannon import LaserCannon
+from level_objects.agent_objects.mirror import Mirror
 from level_objects.interactables.pickup import Pickup
 from utils.color import Color
 from level_objects.interactables.bullet import Bullet
@@ -87,8 +88,8 @@ class CollisionManager:
                 continue
             if agent == collider:
                 continue
-            if (agent.__class__ == Box or agent.__class__ == LaserCannon) and collider.__class__ == Snake:
-                if collider.rect.colliderect(agent.rect) and not agent.move(
+            if agent.__class__ == Box or agent.__class__ == LaserCannon or agent.__class__ == Mirror:
+                if collider.__class__ == Snake and  collider.rect.colliderect(agent.rect) and not agent.move(
                         collider, static_tiles, dynamic_tiles, agents, self.is_box_skippable, self.in_bounds
                     ):
                         return True
