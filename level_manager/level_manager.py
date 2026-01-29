@@ -133,6 +133,8 @@ class LevelManager:
             self.small_interactables.append(tile)
         else:
             self.agent_tiles.append(tile)
+            if TileConfig.is_laser_switch(tile):
+                self.laser_switches.append(tile)
 
     
 
