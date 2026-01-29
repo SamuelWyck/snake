@@ -154,7 +154,8 @@ class TileConfig:
         "LSR": LaserSwitch,
         "LSD": LaserSwitch,
         "LSL": LaserSwitch,
-        "M": Mirror
+        "M": Mirror,
+        "MM": Mirror
     }
     tile_args_map = {
         "W": {
@@ -306,11 +307,18 @@ class TileConfig:
             "NOCOLOR": [Color.NO_COLOR, Images.laser_base_img, Images.laser_switch_img, laser_angle_left]
         },
         "M": {
-            "b": [Color.BLUE, Images.moveable_mirror_img, Images.mirror_color_img, not moveable],
-            "o": [Color.ORANGE, Images.moveable_mirror_img, Images.mirror_color_img, not moveable],
-            "g": [Color.GREEN, Images.moveable_mirror_img, Images.mirror_color_img, not moveable],
-            "r": [Color.RED, Images.moveable_mirror_img, Images.mirror_color_img, not moveable],
-            "NOCOLOR": [Color.NO_COLOR, Images.moveable_mirror_img, Images.mirror_color_img, not moveable]
+            "b": [Color.BLUE, Images.mirror_img, Images.mirror_color_img, not moveable],
+            "o": [Color.ORANGE, Images.mirror_img, Images.mirror_color_img, not moveable],
+            "g": [Color.GREEN, Images.mirror_img, Images.mirror_color_img, not moveable],
+            "r": [Color.RED, Images.mirror_img, Images.mirror_color_img, not moveable],
+            "NOCOLOR": [Color.NO_COLOR, Images.mirror_img, Images.mirror_color_img, not moveable]
+        },
+        "MM": {
+            "b": [Color.BLUE, Images.moveable_mirror_img, Images.mirror_color_img, moveable],
+            "o": [Color.ORANGE, Images.moveable_mirror_img, Images.mirror_color_img, moveable],
+            "g": [Color.GREEN, Images.moveable_mirror_img, Images.mirror_color_img, moveable],
+            "r": [Color.RED, Images.moveable_mirror_img, Images.mirror_color_img, moveable],
+            "NOCOLOR": [Color.NO_COLOR, Images.moveable_mirror_img, Images.mirror_color_img, moveable]
         }
     }
 
