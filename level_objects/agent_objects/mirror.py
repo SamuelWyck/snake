@@ -42,6 +42,7 @@ class Mirror(LevelTile):
         self.entrance_laser_color = None
         self.exit_laser_color = None
         self.laser = None
+        self.last_laser_color = None
 
         self.is_hit = False
 
@@ -83,7 +84,9 @@ class Mirror(LevelTile):
         laser_end_coords = laser.get_end_coords()
         if laser_end_coords != self.first_target_coords and laser_end_coords != self.second_target_coords:
             return
-        if self.laser != None:
+        if self.laser != None and self.laser.start_coords == laser_end_coords:
+            return
+        if self.laser != None and laser.color == self.last_laser_color:
             self.is_hit = True
             return
 
@@ -100,6 +103,8 @@ class Mirror(LevelTile):
             self.exit_bounce_laser = self.second_bounce_laser
         
         laser_color = laser.color if self.color == Color.NO_COLOR else self.color
+        if self.laser != None:
+            self.laser.remove = True
         self.laser = Laser(
             new_laser_start, 
             self.get_laser_angle(new_laser_start), 
@@ -110,6 +115,7 @@ class Mirror(LevelTile):
         self.interactables.append(self.laser)
         self.lasers.append(self.laser)
         self.is_hit = True
+        self.last_laser_color = laser.color
         
 
     def get_target_coords(self):
