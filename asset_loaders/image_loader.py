@@ -59,6 +59,8 @@ class Images:
     bubble_img_11 = pygame.image.load(os.path.join(dynamic_tile_images_path, "acid_frames/bubble_frame_11.png")).convert_alpha()
     pressure_plate_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "pressure_plate.png")).convert_alpha()
     pressure_plate_pressed_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "pressure_plate_pressed.png")).convert_alpha()
+    s_pressure_plate_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "pressure_plate_s.png")).convert_alpha()
+    s_pressure_plate_pressed_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "pressure_plate_s_pressed.png")).convert_alpha()
 
     # agent images
     box_img = pygame.image.load(os.path.join(agent_images_path, "box.png")).convert_alpha()
