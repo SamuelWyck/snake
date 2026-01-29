@@ -257,3 +257,4 @@ class Mirror(LevelTile):
     
     def reset(self):
         self.rect.center = self.original_position
+        self.move_laser()
