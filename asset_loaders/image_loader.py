@@ -70,6 +70,8 @@ class Images:
     moveable_laser_img = pygame.image.load(os.path.join(agent_images_path, "laser_moveable.png")).convert_alpha()
     laser_barrel_img = pygame.image.load(os.path.join(agent_images_path, "laser_barrel.png")).convert_alpha()
     laser_switch_img = pygame.image.load(os.path.join(static_tile_images_path, "laser_switch.png")).convert_alpha()
+    moveable_mirror_img = pygame.image.load(os.path.join(agent_images_path, "mirror_moveable.png")).convert_alpha()
+    mirror_color_img = pygame.image.load(os.path.join(agent_images_path, "mirror_color.png")).convert_alpha()
 
 
     # other images
