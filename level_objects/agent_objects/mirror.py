@@ -209,9 +209,23 @@ class Mirror(LevelTile):
                 self.rect.center = old_position
                 return False
         
-        new_laser_start = self.get_laser_start_coords()
-        self.laser.set_laser_start(new_laser_start)
+        self.move_laser()
         return True
+    
+
+    def move_laser(self):
+        old_first_coords = self.first_target_coords
+        self.first_target_coords, self.second_target_coords = self.get_target_coords()
+        self.first_bounce_laser, self.second_bounce_laser = self.get_bounce_lasers()
+        if self.laser != None:
+            if self.laser.start_coords == old_first_coords:
+                self.laser.set_laser_start(self.first_target_coords)
+                self.exit_bounce_laser = self.first_bounce_laser
+                self.entrance_bounce_laser = self.second_bounce_laser
+            else:
+                self.laser.set_laser_start(self.second_target_coords)
+                self.exit_bounce_laser = self.second_bounce_laser
+                self.entrance_bounce_laser = self.first_bounce_laser
     
 
     def move_self(self, collider):
