@@ -82,6 +82,8 @@ class SpikeBall(LevelTile):
         if self.circular_path:
             if new_index >= len(self.target_points):
                 self.target_index = 0
+            elif new_index < 0:
+                self.target_index = len(self.target_points) - 1
             else:
                 self.target_index += self.target_index_change
             return
