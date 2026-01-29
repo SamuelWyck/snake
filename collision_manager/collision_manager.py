@@ -96,6 +96,8 @@ class CollisionManager:
             elif agent.__class__ == SpikeBall and collider.__class__ == Snake:
                 if collider.collide(agent.rect):
                     return True
+            if collider.__class__ == SpikeBall and agent.rect.colliderect(collider.rect):
+                collider.reverse_direction()
         return False
 
 
