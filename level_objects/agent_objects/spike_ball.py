@@ -93,3 +93,9 @@ class SpikeBall(LevelTile):
             self.target_index_change = -1
 
         self.target_index += self.target_index_change
+
+
+    
+    def reverse_direction(self):
+        self.target_index_change = self.target_index_change * -1
+        self.update_target_index()
