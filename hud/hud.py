@@ -117,7 +117,11 @@ class Hud:
         if first_pickup is None:
             return
 
-        height = (self.player_pickups_length * first_pickup.image_rect.height) + (
-            self.pickups_gap * (self.player_pickups_length - 1))
+        num_displayed_pickups = self.player_pickups_length
+        if num_displayed_pickups > self.num_shown_pickups:
+            num_displayed_pickups = self.num_shown_pickups
+
+        height = (num_displayed_pickups * first_pickup.image_rect.height) + (
+            self.pickups_gap * (num_displayed_pickups - 1))
         self.pickups_display_bg.height = height
         self.pickups_display_bg.midbottom = first_pickup.image_rect.midbottom
