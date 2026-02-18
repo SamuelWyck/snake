@@ -27,6 +27,17 @@ class LevelManager:
         self.traversed_tile_positions = set()
         self.found_island_tiles = set()
         self.found_wall_tiles = set()
+
+
+
+    def clear_level(self):
+        self.dynamic_tiles = []
+        self.static_tiles = []
+        self.agent_tiles = []
+        self.small_interactables = []
+        self.lasers = []
+        self.laser_switches = []
+        self.player = None
     
 
 
