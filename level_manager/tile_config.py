@@ -349,14 +349,17 @@ class TileConfig:
         tile_class = cls.tile_map[tile_symbol]
         tile_args = cls.tile_args_map[tile_symbol][tile_color]
         if tile_class in cls.tiles_needing_interactables:
+            tile_args = tile_args[:]
             tile_args.append(interactable_list)
         elif tile_class == Goal:
             tile_value = tile_id
             tile_id = None
+            tile_args = tile_args[:]
             tile_args.append(tile_value)
         elif tile_class == SpikeBall:
             tile_id = None
         elif tile_class == LaserCannon or tile_class == Mirror:
+            tile_args = tile_args[:]
             tile_args.append(tile_id)
             tile_id = None
             tile_args.append(interactable_list)
