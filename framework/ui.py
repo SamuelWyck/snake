@@ -28,6 +28,7 @@ class Ui:
         self.settings_menu = self.get_settings_menu(screen_size, canvas_size, mouse_manager)
         self.level_select_menu = self.get_level_select_menu(screen_size, canvas_size, mouse_manager)
         self.main_menu = self.get_main_menu(screen_size, canvas_size, mouse_manager)
+        self.pause_menu = self.get_pause_menu(screen_size, canvas_size, mouse_manager)
     
 
 
@@ -305,3 +306,62 @@ class Ui:
         )
 
         return control_menu
+    
+
+    def get_pause_menu(self, screen_size, canvas_size, mouse_manager):
+        y_pos = 200
+        gap = 20
+
+        background_img = pygame.Surface((500, 500))
+        background_img.fill((0, 0, 0))
+
+        resume_btn = Button(
+            topleft=(0, 0),
+            image=Fonts.pickup_outline_font.render("RESUME", antialias=True, color=Color.GREEN),
+            hover_image=Fonts.pickup_outline_font.render("RESUME", antialias=True, color=Color.ORANGE)
+        )
+        resume_btn_callback = lambda **kwargs : (True, (False, None))
+
+        level_btn = Button(
+            topleft=(0, 0),
+            image=Fonts.pickup_outline_font.render("LEVEL SELECT", antialias=True, color=Color.GREEN),
+            hover_image=Fonts.pickup_outline_font.render("LEVEL SELECT", antialias=True, color=Color.ORANGE)
+        )
+        level_btn_callback = lambda **kwargs : (False, None)
+
+        settings_btn = Button(
+            topleft=(0, 0),
+            image=Fonts.pickup_outline_font.render("SETTINGS", antialias=True, color=Color.GREEN),
+            hover_image=Fonts.pickup_outline_font.render("SETTINGS", antialias=True, color=Color.ORANGE)
+        )
+        settings_btn_callback = lambda **kwargs : (False, None)
+
+        reset_btn = Button(
+            topleft=(0, 0),
+            image=Fonts.pickup_outline_font.render("RESET", antialias=True, color=Color.GREEN),
+            hover_image=Fonts.pickup_outline_font.render("RESET", antialias=True, color=Color.ORANGE)
+        )
+        reset_btn_callback = lambda **kwargs : (False, None)
+
+        quit_btn = Button(
+            topleft=(0, 0),
+            image=Fonts.pickup_outline_font.render("QUIT", antialias=True, color=Color.GREEN),
+            hover_image=Fonts.pickup_outline_font.render("QUIT", antialias=True, color=Color.ORANGE)
+        )
+        quit_btn_callback = lambda **kwargs : (True, (True, False))
+
+        pause_menu = GeneralMenu(
+            y_pos, gap,
+            background_img,
+            mouse_manager,
+            screen_size,
+            canvas_size,
+            None,
+            (resume_btn, resume_btn_callback),
+            (level_btn, level_btn_callback),
+            (settings_btn, settings_btn_callback),
+            (reset_btn, reset_btn_callback),
+            (quit_btn, quit_btn_callback)
+        )
+
+        return pause_menu
