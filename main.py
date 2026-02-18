@@ -89,6 +89,11 @@ class Game:
                         run = False
                         pygame.quit()
                         sys.exit()
+                    elif event.key == pygame.K_ESCAPE:
+                        exit_game, level_num = self.ui.pause_menu.run(self.framerate, self.canvas, self.screen)
+                        if exit_game:
+                            self.level_manager.clear_level()
+                            return
                     else:
                         self.player_controller.key_down(event.key)
                 elif event.type == pygame.MOUSEBUTTONDOWN:
