@@ -51,7 +51,11 @@ class Game:
         self.mouse = Mouse(self.canvas.size, self.screen.size, Images.mouse_img)
         
         #setup ui manager
-        self.ui = Ui((self.screen_width, self.screen_height), (self.canvas_width, self.canvas_height), self.mouse)
+        self.ui = Ui(
+            (self.screen_width, self.screen_height), 
+            (self.canvas_width, self.canvas_height), 
+            self.mouse, self.level_manager
+        )
 
 
 
@@ -61,7 +65,7 @@ class Game:
             if exit_menu:
                 return
 
-            self.player = self.level_manager.load_level(1)
+            self.player = self.level_manager.load_level(level_num)
             self.player_controller = self.player.controller
             self.hud.create_length_display(self.player)
             self.hud.link_player_pickups_list(self.player)
@@ -94,6 +98,15 @@ class Game:
                         if exit_game:
                             self.level_manager.clear_level()
                             return
+                        elif level_num != None:
+                            if level_num == self.level_manager.current_level:
+                                self.level_manager.reset_level()
+                                break
+                            else:
+                                self.level_manager.clear_level()
+                                self.player = self.level_manager.load_level(level_num)
+                                self.player_controller = self.player.controller
+                                break
                     else:
                         self.player_controller.key_down(event.key)
                 elif event.type == pygame.MOUSEBUTTONDOWN:
