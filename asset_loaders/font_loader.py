@@ -13,3 +13,4 @@ class Fonts:
     goal_font = pygame.font.Font(os.path.join(fonts_dir_path, "goalFont.ttf"), 20)
 
     title_font = pygame.font.Font(os.path.join(fonts_dir_path, "pickupFont.ttf"), 120)
+    menu_font = pygame.font.Font(os.path.join(fonts_dir_path, "pickupFont.ttf"), 48)
