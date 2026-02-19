@@ -128,7 +128,7 @@ class GeneralMenu:
                 if element.clicked:
                     element.clicked = False
                     btn_callback = self.callback_map[element.id]
-                    exit_menu, info = btn_callback()
+                    exit_menu, info = btn_callback(framerate=framerate, canvas=canvas, screen=screen)
                     if exit_menu:
                         self.cleanup()
                         return info
