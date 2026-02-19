@@ -17,7 +17,7 @@ from utils.color import Color
 # and info is any info to pass along when the menu is exited
 
 class Ui:
-    def __init__(self, screen_size, canvas_size, mouse_manager):
+    def __init__(self, screen_size, canvas_size, mouse_manager, level_manager):
         self.slider_size = (300, 50)
         self.slide_border_radius = 20
         self.antialias = True
@@ -28,7 +28,7 @@ class Ui:
         self.settings_menu = self.get_settings_menu(screen_size, canvas_size, mouse_manager)
         self.level_select_menu = self.get_level_select_menu(screen_size, canvas_size, mouse_manager)
         self.main_menu = self.get_main_menu(screen_size, canvas_size, mouse_manager)
-        self.pause_menu = self.get_pause_menu(screen_size, canvas_size, mouse_manager)
+        self.pause_menu = self.get_pause_menu(screen_size, canvas_size, mouse_manager, level_manager)
     
 
 
@@ -258,7 +258,7 @@ class Ui:
         click_callback = lambda id: (True, (False, id))
 
         buttons = []
-        for i in range(16):
+        for i in range(1, 17):
             image = Fonts.pickup_outline_font.render(str(i), self.antialias, Color.GREEN)
             hover_image = Fonts.pickup_outline_font.render(str(i), self.antialias, Color.ORANGE)
             button = Button(topleft=(0, 0),image=image, hover_image=hover_image)
@@ -308,7 +308,7 @@ class Ui:
         return control_menu
     
 
-    def get_pause_menu(self, screen_size, canvas_size, mouse_manager):
+    def get_pause_menu(self, screen_size, canvas_size, mouse_manager, level_manager):
         y_pos = 200
         gap = 20
 
@@ -327,28 +327,28 @@ class Ui:
             image=Fonts.pickup_outline_font.render("LEVEL SELECT", antialias=True, color=Color.GREEN),
             hover_image=Fonts.pickup_outline_font.render("LEVEL SELECT", antialias=True, color=Color.ORANGE)
         )
-        level_btn_callback = lambda **kwargs : (False, None)
+        level_btn_callback = self.level_select_menu.run
 
         settings_btn = Button(
             topleft=(0, 0),
             image=Fonts.pickup_outline_font.render("SETTINGS", antialias=True, color=Color.GREEN),
             hover_image=Fonts.pickup_outline_font.render("SETTINGS", antialias=True, color=Color.ORANGE)
         )
-        settings_btn_callback = lambda **kwargs : (False, None)
+        settings_btn_callback = self.settings_menu.run
 
         reset_btn = Button(
             topleft=(0, 0),
             image=Fonts.pickup_outline_font.render("RESET", antialias=True, color=Color.GREEN),
             hover_image=Fonts.pickup_outline_font.render("RESET", antialias=True, color=Color.ORANGE)
         )
-        reset_btn_callback = lambda **kwargs : (False, None)
+        reset_btn_callback = lambda **kwargs : (True, (False, level_manager.current_level))
 
         quit_btn = Button(
             topleft=(0, 0),
             image=Fonts.pickup_outline_font.render("QUIT", antialias=True, color=Color.GREEN),
             hover_image=Fonts.pickup_outline_font.render("QUIT", antialias=True, color=Color.ORANGE)
         )
-        quit_btn_callback = lambda **kwargs : (True, (True, False))
+        quit_btn_callback = lambda **kwargs : (True, (True, None))
 
         pause_menu = GeneralMenu(
             y_pos, gap,
