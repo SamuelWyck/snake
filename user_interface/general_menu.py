@@ -114,6 +114,10 @@ class GeneralMenu:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        self.cleanup()
+                        return (False, None)
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == left_mouse_btn:
                         left_mouse_just_pressed = True
