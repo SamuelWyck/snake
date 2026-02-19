@@ -97,6 +97,7 @@ class Game:
                         sys.exit()
                     elif event.key == pygame.K_ESCAPE:
                         exit_game, level_num = self.ui.pause_menu.run(self.framerate, self.canvas, self.screen)
+                        last_time = time.time()
                         if exit_game:
                             self.level_manager.clear_level()
                             return
