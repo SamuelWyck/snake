@@ -142,13 +142,13 @@ class Ui:
         )
         mouse_slider = Slider(
             topleft=(0, 0),
-            size=self.slider_size, callback=lambda val: None,
+            size=self.slider_size, callback=mouse_manager.set_sensitivity,
             slide_bar_color=Color.GREEN, slide_color=Color.ORANGE,
             border_radius=self.slide_border_radius
         )
         mouse_slider_val = LiveTextDisplay(
             topleft=(0, 0), font=Fonts.goal_font, color=Color.GREEN, 
-            object_ref=mouse_slider, text_getter=self.get_slider_str_val
+            object_ref=mouse_slider, text_getter=self.get_mouse_slider_val
         )
 
         back_button = Button(
@@ -158,11 +158,13 @@ class Ui:
         )
         back_button_callback = lambda **kwargs: (True, (False, None))
 
-        cleanup_callback = lambda : None
+        init_callback = lambda : mouse_slider.set_value(mouse_manager.get_sensitivity_val())
+        cleanup_callback = mouse_manager.save_sensitivity
 
         mouse_menu = GeneralMenu(
             start_y_pos, element_gap, background_img,
             mouse_manager, screen_size, canvas_size,
+            init_callback,
             cleanup_callback,
             title_display,
             info_gap,
@@ -178,6 +180,15 @@ class Ui:
     @staticmethod
     def get_slider_str_val(slider):
         return str(round(slider.value, 2))
+    
+
+
+    @staticmethod
+    def get_mouse_slider_val(slider):
+        value = round(slider.value, 2) * 2
+        if value < .1:
+            value = .1
+        return str(value)
 
 
 
@@ -231,7 +242,7 @@ class Ui:
         menu = GeneralMenu(
             start_y_pos, element_gap, 
             background_img, mouse_manager, 
-            screen_size, canvas_size, cleanup_callback,
+            screen_size, canvas_size, None, cleanup_callback,
             menu_title,
             info_gap,
             sound_text, sounds_slider_val, sound_slider, 
@@ -356,6 +367,7 @@ class Ui:
             mouse_manager,
             screen_size,
             canvas_size,
+            None,
             None,
             (resume_btn, resume_btn_callback),
             (level_btn, level_btn_callback),
