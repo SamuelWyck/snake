@@ -26,6 +26,11 @@ class Slider(MenuElement):
     
 
     def update(self, surface, mouse_pos, mouse_btn_pressed, mouse_btn_released):
+        if mouse_btn_pressed and self.slide_bar.collidepoint(mouse_pos):
+            mouse_x, _ = mouse_pos
+            self.move_slide(mouse_x)
+            self.callback(self.value)
+
         hovering = self.slide.collidepoint(mouse_pos)
         if hovering and mouse_btn_pressed:
             self.mouse_btn_pressed = True
