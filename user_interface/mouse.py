@@ -3,7 +3,7 @@ import pygame
 
 
 class Mouse:
-    def __init__(self, canvas_size, display_size, mouse_img):
+    def __init__(self, canvas_size, display_size, mouse_img, save_path=None):
         pygame.mouse.set_relative_mode(True)
 
         width_index = 0
@@ -19,6 +19,43 @@ class Mouse:
         
         pygame.mouse.get_rel()
         self.sensitivity = 1
+        self.save_path = save_path
+        self.load_sensitivity()
+
+
+    def set_sensitivity(self, sensitivity):
+        sensitivity *= 2
+        if sensitivity < .1:
+            sensitivity = .1
+        
+        self.sensitivity = sensitivity
+
+    
+    def get_sensitivity_val(self):
+        return self.sensitivity/2
+
+
+    def save_sensitivity(self):
+        if self.save_path == None:
+            return
+        
+        try:
+            with open(self.save_path, "w") as file:
+                file.write(str(self.sensitivity))
+        except:
+            pass
+
+
+    def load_sensitivity(self):
+        if self.save_path == None:
+            return
+        
+        try:
+            with open(self.save_path, "r") as file:
+                saved_value = file.readline()
+                self.sensitivity = float(saved_value)
+        except:
+            pass
 
 
     def get_start_pos(self):
