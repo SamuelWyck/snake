@@ -87,3 +87,6 @@ class Images:
     mouse_img = pygame.image.load(os.path.join(other_images_path, "mouse.png")).convert_alpha()
     length_display = pygame.image.load(os.path.join(other_images_path, "length_display_bg.png")).convert_alpha()
     eaten_pickups_border = pygame.image.load(os.path.join(other_images_path, "pickups_border.png")).convert_alpha()
+
+    # menu images
+    pause_bg_img = pygame.image.load(os.path.join(other_images_path, "pause_bg.png")).convert_alpha()
