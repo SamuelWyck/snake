@@ -1,6 +1,7 @@
 import pygame
 import time
 import sys
+import os
 from framework.display import Display
 from framework.play_area import PlayArea
 from user_interface.mouse import Mouse
@@ -48,7 +49,8 @@ class Game:
         self.collision_manager = CollisionManager((pa_width, pa_height))
 
         #setup mouse
-        self.mouse = Mouse(self.canvas.size, self.screen.size, Images.mouse_img)
+        save_path = os.path.join("saves", "mouse.txt")
+        self.mouse = Mouse(self.canvas.size, self.screen.size, Images.mouse_img, save_path)
         
         #setup ui manager
         self.ui = Ui(
