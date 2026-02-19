@@ -37,9 +37,6 @@ class Ui:
         button_gap = 20
         buttons_topleft = (30, 550)
 
-        background_img = pygame.Surface(canvas_size)
-        background_img.fill((0, 0, 0))
-
         title_text_display = TextDisplay(
             topleft=(0, 0), font=Fonts.title_font, color=Color.GREEN, text="PHASE SNAKE"
         )
@@ -64,7 +61,7 @@ class Ui:
         exit_btn_callback = lambda **kwargs : (True, (True, None))
 
         main_menu = ButtonMenu(
-            buttons_topleft, button_gap, background_img,
+            buttons_topleft, button_gap, Images.main_menu_bg_img,
             screen_size, canvas_size, mouse_manager,
             title_text_display,
             (play_btn, play_btn_callback),
@@ -258,47 +255,42 @@ class Ui:
 
 
     def get_level_select_menu(self, screen_size, canvas_size, mouse_manager):
-        starting_y = 250
+        starting_y = 290
         num_cols = 4
         num_rows = 3
         row_gap = 10
-        col_gap = 10
-
-        background_img = pygame.Surface(canvas_size)
-        background_img.fill((0, 0, 0))
+        col_gap = 20
 
         click_callback = lambda id: (True, (False, id))
 
         buttons = []
         for i in range(1, 17):
-            image = Fonts.menu_font.render(str(i), self.antialias, Color.GREEN)
-            hover_image = Fonts.menu_font.render(str(i), self.antialias, Color.ORANGE)
+            image = Fonts.menu_font.render(str(i), self.antialias, Color.YELLOW)
+            hover_image = Fonts.menu_font.render(str(i), self.antialias, Color.MENU_GREEN)
             button = Button(topleft=(0, 0),image=image, hover_image=hover_image)
             buttons.append(button)
 
         
         exit_btn = Button(
             topleft=(0, 0),
-            image=Fonts.menu_font.render("BACK", self.antialias, Color.GREEN),
-            hover_image=Fonts.menu_font.render("BACK", self.antialias, Color.ORANGE)
+            image=Fonts.menu_font.render("BACK", self.antialias, Color.YELLOW),
+            hover_image=Fonts.menu_font.render("BACK", self.antialias, Color.MENU_GREEN)
         )
 
-        up_image = Fonts.menu_font.render("^", self.antialias, Color.GREEN)
-        down_image = pygame.transform.rotate(up_image, 180)
         page_up_btn = Button(
             topleft=(0, 0), 
-            image=Fonts.menu_font.render("PAGE UP", self.antialias, Color.GREEN),
-            hover_image=Fonts.menu_font.render("PAGE UP", self.antialias, Color.ORANGE)
+            image=Fonts.menu_font.render("PAGE UP", self.antialias, Color.YELLOW),
+            hover_image=Fonts.menu_font.render("PAGE UP", self.antialias, Color.MENU_GREEN)
         )
         page_down_btn = Button(
             topleft=(0, 0), 
-            image=Fonts.menu_font.render("PAGE DOWN", self.antialias, Color.GREEN),
-            hover_image=Fonts.menu_font.render("PAGE DOWN", self.antialias, Color.ORANGE)
+            image=Fonts.menu_font.render("PAGE DOWN", self.antialias, Color.YELLOW),
+            hover_image=Fonts.menu_font.render("PAGE DOWN", self.antialias, Color.MENU_GREEN)
         )
 
         select_menu = SelectMenu(
             starting_y, num_cols, num_rows, col_gap, row_gap, 
-            background_img, screen_size, canvas_size, mouse_manager, 
+            Images.level_menu_bg_img, screen_size, canvas_size, mouse_manager, 
             page_up_btn, page_down_btn, exit_btn, click_callback, buttons
         )
 
