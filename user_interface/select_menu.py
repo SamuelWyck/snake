@@ -79,17 +79,17 @@ class SelectMenu:
         canvas_width, _ = self.canvas_size
 
         up_btn_height = self.page_up_btn.get_height()
-        up_btn_y_pos = starting_y - up_btn_height // 2 - row_gap
+        up_btn_y_pos = starting_y - up_btn_height // 2 - (row_gap * 3)
         up_btn_x_pos = canvas_width // 2
         self.page_up_btn.set_center((up_btn_x_pos, up_btn_y_pos))
 
         down_btn_height = self.page_down_btn.get_height()
-        down_btn_y_pos = starting_y + col_height + row_gap + down_btn_height // 2
+        down_btn_y_pos = starting_y + col_height + (row_gap * 3) + down_btn_height // 2
         down_btn_x_pos = canvas_width // 2
         self.page_down_btn.set_center((down_btn_x_pos, down_btn_y_pos))
 
         exit_btn_height = self.exit_btn.get_height()
-        exit_btn_y_pos = starting_y + col_height + (5 * row_gap) + down_btn_height + exit_btn_height // 2
+        exit_btn_y_pos = starting_y + col_height + (6 * row_gap) + down_btn_height + exit_btn_height // 2
         exit_btn_x_pos = canvas_width // 2
         self.exit_btn.set_center((exit_btn_x_pos, exit_btn_y_pos))
 
