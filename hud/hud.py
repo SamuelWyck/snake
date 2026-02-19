@@ -63,7 +63,7 @@ class Hud:
     def create_length_display(self, player):
         length_getter = lambda player: str(player.real_length)
         self.player_length_display = LiveTextDisplay(
-            topleft=(0, 0), font=Fonts.pickup_outline_font, color=Color.GRASS_GREEN,
+            topleft=(0, 0), font=Fonts.pickup_outline_font, color=Color.MENU_GREEN,
             object_ref=player, text_getter=length_getter, 
         )
 
