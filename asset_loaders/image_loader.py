@@ -90,3 +90,5 @@ class Images:
 
     # menu images
     pause_bg_img = pygame.image.load(os.path.join(other_images_path, "pause_bg.png")).convert_alpha()
+    main_menu_bg_img = pygame.image.load(os.path.join(other_images_path, "main_menu_bg.png")).convert_alpha()
+    level_menu_bg_img = pygame.image.load(os.path.join(other_images_path, "level_menu_bg.png")).convert_alpha()
