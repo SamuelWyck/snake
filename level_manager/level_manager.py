@@ -21,12 +21,24 @@ class LevelManager:
             {
                 "level": os.path.join("level_data_files/level_1", "level_1.txt"),
                 "agents": os.path.join("level_data_files/level_1", "agents_interactables_1.txt")
+            },
+            {
+                "level": os.path.join("level_data_files/level_2", "level_2.txt"),
+                "agents": os.path.join("level_data_files/level_2", "agents_interactables_2.txt")
             }
         ]
+
+        self._current_level = None
 
         self.traversed_tile_positions = set()
         self.found_island_tiles = set()
         self.found_wall_tiles = set()
+
+
+    
+    @property
+    def current_level(self):
+        return self._current_level
 
 
 
@@ -68,8 +80,7 @@ class LevelManager:
 
     
     def load_level(self, level_num):
-        level_index = level_num - 1
-        file_paths = self.level_files[level_index]
+        file_paths = self.level_files[level_num]
 
         level = self.read_file(file_paths["level"])
         self.parse_level_objects(level)
@@ -77,6 +88,7 @@ class LevelManager:
 
         agents = self.read_file(file_paths["agents"])
         self.parse_level_objects(agents)
+        self._current_level = level_num
         return self.player
 
 
