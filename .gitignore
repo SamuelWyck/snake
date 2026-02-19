@@ -5,6 +5,7 @@ __pycache__/
 
 # save files 
 keybinds.csv
+mouse.txt
 
 # C extensions
 *.so
