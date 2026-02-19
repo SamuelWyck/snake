@@ -16,8 +16,8 @@ class GeneralMenu:
     def __init__(
         self, element_y_pos, element_gap, 
         background_img, mouse_manager, 
-        screen_size, canvas_size, 
-        cleanup_callback, *menu_elements
+        screen_size, canvas_size,
+        init_callback, cleanup_callback, *menu_elements
     ):
         self.screen_size = screen_size
         self.canvas_size = canvas_size
@@ -35,6 +35,9 @@ class GeneralMenu:
         self.callback_map = {}
         self.menu_elements = self.parse_elements(menu_elements)
         self.position_elements(element_y_pos, element_gap)
+
+        if init_callback != None:
+            init_callback()
 
 
     
