@@ -9,6 +9,7 @@ from user_interface.elements.slider import Slider
 from user_interface.elements.text_display import TextDisplay
 from user_interface.elements.live_text_display import LiveTextDisplay
 from asset_loaders.font_loader import Fonts
+from asset_loaders.image_loader import Images
 from utils.color import Color
 
 
@@ -45,20 +46,20 @@ class Ui:
 
         play_btn = Button(
             topleft=(0, 0), 
-            image=Fonts.pickup_outline_font.render("PLAY", self.antialias, Color.GREEN),
-            hover_image=Fonts.pickup_outline_font.render("PLAY", self.antialias, Color.ORANGE),
+            image=Fonts.menu_font.render("PLAY", self.antialias, Color.GREEN),
+            hover_image=Fonts.menu_font.render("PLAY", self.antialias, Color.ORANGE),
         )
         play_btn_callback = self.level_select_menu.run
         settings_btn = Button(
             topleft=(0, 0),
-            image=Fonts.pickup_outline_font.render("SETTINGS", self.antialias, Color.GREEN),
-            hover_image=Fonts.pickup_outline_font.render("SETTINGS", self.antialias, Color.ORANGE)
+            image=Fonts.menu_font.render("SETTINGS", self.antialias, Color.GREEN),
+            hover_image=Fonts.menu_font.render("SETTINGS", self.antialias, Color.ORANGE)
         )
         settings_btn_callback = self.settings_menu.run
         exit_btn = Button(
             topleft=(0, 0),
-            image=Fonts.pickup_outline_font.render("EXIT", self.antialias, Color.GREEN),
-            hover_image=Fonts.pickup_outline_font.render("EXIT", self.antialias, Color.ORANGE)
+            image=Fonts.menu_font.render("EXIT", self.antialias, Color.GREEN),
+            hover_image=Fonts.menu_font.render("EXIT", self.antialias, Color.ORANGE)
         )
         exit_btn_callback = lambda **kwargs : (True, (True, None))
 
@@ -77,7 +78,7 @@ class Ui:
 
     def get_settings_menu(self, screen_size, canvas_size, mouse_manager):
         button_gap = 20
-        buttons_topleft = (30, 550)
+        buttons_topleft = (30, 500)
 
         background_img = pygame.Surface(canvas_size)
         background_img.fill((0, 0, 0))
@@ -88,26 +89,26 @@ class Ui:
 
         controls_button = Button(
             topleft=(0, 0),
-            image=Fonts.pickup_outline_font.render("CONTROLS", self.antialias, Color.GREEN),
-            hover_image=Fonts.pickup_outline_font.render("CONTROLS", self.antialias, Color.ORANGE)
+            image=Fonts.menu_font.render("CONTROLS", self.antialias, Color.GREEN),
+            hover_image=Fonts.menu_font.render("CONTROLS", self.antialias, Color.ORANGE)
         )
         controls_button_callback = self.control_menu.run
         mouse_button = Button(
             topleft=(0, 0),
-            image=Fonts.pickup_outline_font.render("MOUSE", self.antialias, Color.GREEN),
-            hover_image=Fonts.pickup_outline_font.render("MOUSE", self.antialias, Color.ORANGE)
+            image=Fonts.menu_font.render("MOUSE", self.antialias, Color.GREEN),
+            hover_image=Fonts.menu_font.render("MOUSE", self.antialias, Color.ORANGE)
         )
         mouse_button_callback = self.mouse_menu.run
         audio_button = Button(
             topleft=(0, 0),
-            image=Fonts.pickup_outline_font.render("AUDIO", self.antialias, Color.GREEN),
-            hover_image=Fonts.pickup_outline_font.render("AUDIO", self.antialias, Color.ORANGE)
+            image=Fonts.menu_font.render("AUDIO", self.antialias, Color.GREEN),
+            hover_image=Fonts.menu_font.render("AUDIO", self.antialias, Color.ORANGE)
         )
         audio_button_callback = self.audio_menu.run
         back_button = Button(
             topleft=(0, 0),
-            image=Fonts.pickup_outline_font.render("BACK", self.antialias, Color.GREEN),
-            hover_image=Fonts.pickup_outline_font.render("BACK", self.antialias, Color.ORANGE)
+            image=Fonts.menu_font.render("BACK", self.antialias, Color.GREEN),
+            hover_image=Fonts.menu_font.render("BACK", self.antialias, Color.ORANGE)
         )
         back_button_callback = lambda **kwargs : (True, (False, None))
 
@@ -138,7 +139,7 @@ class Ui:
         )
 
         mouse_text = TextDisplay(
-            topleft=(0, 0), font=Fonts.pickup_outline_font, color=Color.GREEN, text="MOUSE SENSITIVITY"
+            topleft=(0, 0), font=Fonts.pickup_outline_font, color=Color.GREEN, text="SENSITIVITY"
         )
         mouse_slider = Slider(
             topleft=(0, 0),
@@ -153,8 +154,8 @@ class Ui:
 
         back_button = Button(
             topleft=(0, 0),
-            image=Fonts.pickup_outline_font.render("BACK", self.antialias, Color.GREEN),
-            hover_image=Fonts.pickup_outline_font.render("BACK", self.antialias, Color.ORANGE)
+            image=Fonts.menu_font.render("BACK", self.antialias, Color.GREEN),
+            hover_image=Fonts.menu_font.render("BACK", self.antialias, Color.ORANGE)
         )
         back_button_callback = lambda **kwargs: (True, (False, None))
 
@@ -232,8 +233,8 @@ class Ui:
 
         back_btn = Button(
             topleft=(0, 0), 
-            image=Fonts.pickup_outline_font.render("BACK", self.antialias, Color.GREEN),
-            hover_image=Fonts.pickup_outline_font.render("BACK", self.antialias, Color.ORANGE)
+            image=Fonts.menu_font.render("BACK", self.antialias, Color.GREEN),
+            hover_image=Fonts.menu_font.render("BACK", self.antialias, Color.ORANGE)
         )
         back_btn_callback = lambda **kwargs: (True, (False, None))
 
@@ -270,22 +271,30 @@ class Ui:
 
         buttons = []
         for i in range(1, 17):
-            image = Fonts.pickup_outline_font.render(str(i), self.antialias, Color.GREEN)
-            hover_image = Fonts.pickup_outline_font.render(str(i), self.antialias, Color.ORANGE)
+            image = Fonts.menu_font.render(str(i), self.antialias, Color.GREEN)
+            hover_image = Fonts.menu_font.render(str(i), self.antialias, Color.ORANGE)
             button = Button(topleft=(0, 0),image=image, hover_image=hover_image)
             buttons.append(button)
 
         
         exit_btn = Button(
             topleft=(0, 0),
-            image=Fonts.pickup_outline_font.render("BACK", self.antialias, Color.GREEN),
-            hover_image=Fonts.pickup_outline_font.render("BACK", self.antialias, Color.ORANGE)
+            image=Fonts.menu_font.render("BACK", self.antialias, Color.GREEN),
+            hover_image=Fonts.menu_font.render("BACK", self.antialias, Color.ORANGE)
         )
 
-        up_image = Fonts.pickup_outline_font.render("^", self.antialias, Color.GREEN)
+        up_image = Fonts.menu_font.render("^", self.antialias, Color.GREEN)
         down_image = pygame.transform.rotate(up_image, 180)
-        page_up_btn = Button(topleft=(0, 0), image=up_image)
-        page_down_btn = Button(topleft=(0, 0), image=down_image)
+        page_up_btn = Button(
+            topleft=(0, 0), 
+            image=Fonts.menu_font.render("PAGE UP", self.antialias, Color.GREEN),
+            hover_image=Fonts.menu_font.render("PAGE UP", self.antialias, Color.ORANGE)
+        )
+        page_down_btn = Button(
+            topleft=(0, 0), 
+            image=Fonts.menu_font.render("PAGE DOWN", self.antialias, Color.GREEN),
+            hover_image=Fonts.menu_font.render("PAGE DOWN", self.antialias, Color.ORANGE)
+        )
 
         select_menu = SelectMenu(
             starting_y, num_cols, num_rows, col_gap, row_gap, 
@@ -310,7 +319,7 @@ class Ui:
 
         control_menu = ControlMenu(
             y_pos, num_rows, row_gap, col_gap, controls, 
-            background_img, Fonts.pickup_outline_font,
+            background_img, Fonts.menu_font,
             Color.GREEN, Color.ORANGE,
             canvas_size, screen_size, mouse_manager,
             TileConfig.player_controller.update_controls
@@ -320,50 +329,47 @@ class Ui:
     
 
     def get_pause_menu(self, screen_size, canvas_size, mouse_manager, level_manager):
-        y_pos = 200
+        y_pos = 250
         gap = 20
-
-        background_img = pygame.Surface((500, 500))
-        background_img.fill((0, 0, 0))
 
         resume_btn = Button(
             topleft=(0, 0),
-            image=Fonts.pickup_outline_font.render("RESUME", antialias=True, color=Color.GREEN),
-            hover_image=Fonts.pickup_outline_font.render("RESUME", antialias=True, color=Color.ORANGE)
+            image=Fonts.menu_font.render("RESUME", antialias=True, color=Color.YELLOW),
+            hover_image=Fonts.menu_font.render("RESUME", antialias=True, color=Color.MENU_GREEN)
         )
         resume_btn_callback = lambda **kwargs : (True, (False, None))
 
         level_btn = Button(
             topleft=(0, 0),
-            image=Fonts.pickup_outline_font.render("LEVEL SELECT", antialias=True, color=Color.GREEN),
-            hover_image=Fonts.pickup_outline_font.render("LEVEL SELECT", antialias=True, color=Color.ORANGE)
+            image=Fonts.menu_font.render("LEVEL SELECT", antialias=True, color=Color.YELLOW),
+            hover_image=Fonts.menu_font.render("LEVEL SELECT", antialias=True, color=Color.MENU_GREEN)
         )
         level_btn_callback = self.level_select_menu.run
 
         settings_btn = Button(
             topleft=(0, 0),
-            image=Fonts.pickup_outline_font.render("SETTINGS", antialias=True, color=Color.GREEN),
-            hover_image=Fonts.pickup_outline_font.render("SETTINGS", antialias=True, color=Color.ORANGE)
+            image=Fonts.menu_font.render("SETTINGS", antialias=True, color=Color.YELLOW),
+            hover_image=Fonts.menu_font.render("SETTINGS", antialias=True, color=Color.MENU_GREEN)
         )
         settings_btn_callback = self.settings_menu.run
 
         reset_btn = Button(
             topleft=(0, 0),
-            image=Fonts.pickup_outline_font.render("RESET", antialias=True, color=Color.GREEN),
-            hover_image=Fonts.pickup_outline_font.render("RESET", antialias=True, color=Color.ORANGE)
+            image=Fonts.menu_font.render("RESET", antialias=True, color=Color.YELLOW),
+            hover_image=Fonts.menu_font.render("RESET", antialias=True, color=Color.MENU_GREEN)
         )
         reset_btn_callback = lambda **kwargs : (True, (False, level_manager.current_level))
 
         quit_btn = Button(
             topleft=(0, 0),
-            image=Fonts.pickup_outline_font.render("QUIT", antialias=True, color=Color.GREEN),
-            hover_image=Fonts.pickup_outline_font.render("QUIT", antialias=True, color=Color.ORANGE)
+            image=Fonts.menu_font.render("QUIT", antialias=True, color=Color.YELLOW),
+            hover_image=Fonts.menu_font.render("QUIT", antialias=True, color=Color.MENU_GREEN)
         )
         quit_btn_callback = lambda **kwargs : (True, (True, None))
 
         pause_menu = GeneralMenu(
             y_pos, gap,
-            background_img,
+            Images.pause_bg_img,
             mouse_manager,
             screen_size,
             canvas_size,
