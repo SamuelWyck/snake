@@ -490,7 +490,7 @@ class TileConfig:
 
     @classmethod
     def is_static_tile(cls, tile):
-        if tile.__class__ == LaserCannon or tile.__class__ == Mirror:
+        if tile.__class__ == LaserCannon:
             return tile.moveable == False
         return tile.__class__ in cls.static_tiles
     
@@ -498,6 +498,8 @@ class TileConfig:
 
     @classmethod
     def is_dynamic_tile(cls, tile):
+        if tile.__class__ == Mirror:
+            return tile.moveable == False
         return tile.__class__ in cls.dynamic_tiles
     
 
