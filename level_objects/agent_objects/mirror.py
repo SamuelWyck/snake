@@ -258,3 +258,7 @@ class Mirror(LevelTile):
     def reset(self):
         self.rect.center = self.original_position
         self.move_laser()
+
+    
+    def get_hitbox(self):
+        return self.rect
