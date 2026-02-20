@@ -84,8 +84,9 @@ class CollisionManager:
 
     def check_agents(self, collider, agents, static_tiles, dynamic_tiles):
         for agent in agents:
-            if agent.color == collider.color and agent.color != Color.NO_COLOR and collider.__class__ == Snake:
-                continue
+            if agent.color == collider.color and agent.color != Color.NO_COLOR:
+                if agent.__class__ != LaserCannon and collider.__class__ == Snake:
+                    continue
             if agent == collider:
                 continue
             if agent.__class__ == Box or agent.__class__ == LaserCannon or agent.__class__ == Mirror:
