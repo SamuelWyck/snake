@@ -150,6 +150,8 @@ class LevelManager:
                 self.laser_switches.append(tile)
         elif TileConfig.is_dynamic_tile(tile):
             self.dynamic_tiles.append(tile)
+            if TileConfig.is_laser_switch(tile):
+                self.laser_switches.append(tile)
         elif TileConfig.is_player(tile):
             self.player = tile
         elif TileConfig.is_interactable(tile):
