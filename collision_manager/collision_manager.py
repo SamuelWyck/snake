@@ -93,6 +93,8 @@ class CollisionManager:
                         collider, static_tiles, dynamic_tiles, agents, self.is_box_skippable, self.in_bounds
                     ):
                         return True
+                elif collider.__class__ == Snake and collider.color != Color.NO_COLOR and collider.collide(agent.rect):
+                    return True
             elif agent.__class__ == SpikeBall and collider.__class__ == Snake:
                 if collider.collide(agent.rect):
                     return True
