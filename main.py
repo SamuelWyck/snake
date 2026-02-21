@@ -67,11 +67,17 @@ class Game:
             if exit_menu:
                 return
 
-            self.player = self.level_manager.load_level(level_num)
-            self.player_controller = self.player.controller
-            self.hud.create_length_display(self.player)
-            self.hud.link_player_pickups_list(self.player)
+            self.load_level(level_num)
             self.game_loop()
+
+
+
+    def load_level(self, level_num):
+        self.level_manager.clear_level()
+        self.player = self.level_manager.load_level(level_num)
+        self.player_controller = self.player.controller
+        self.hud.create_length_display(self.player)
+        self.hud.link_player_pickups_list(self.player)
 
 
     
@@ -98,6 +104,7 @@ class Game:
                     elif event.key == pygame.K_ESCAPE:
                         exit_game, level_num = self.ui.pause_menu.run(self.framerate, self.canvas, self.screen)
                         last_time = time.time()
+                        self.player_controller.reset_all()
                         if exit_game:
                             self.level_manager.clear_level()
                             return
@@ -106,11 +113,7 @@ class Game:
                                 self.level_manager.reset_level()
                                 break
                             else:
-                                self.level_manager.clear_level()
-                                self.player = self.level_manager.load_level(level_num)
-                                self.hud.create_length_display(self.player)
-                                self.hud.link_player_pickups_list(self.player)
-                                self.player_controller = self.player.controller
+                                self.load_level(level_num)
                                 break
                     else:
                         self.player_controller.key_down(event.key)
@@ -121,6 +124,20 @@ class Game:
                 elif event.type == pygame.MOUSEBUTTONUP:
                     self.player_controller.mouse_up(event.button)
 
+
+            if self.collision_manager.level_won:
+                exit_menu, level_num = self.ui.win_menu.run(self.framerate, self.canvas, self.screen)
+                last_time = time.time()
+                self.player_controller.reset_all()
+                self.collision_manager.level_won = False
+                if level_num == None or exit_menu:
+                    self.level_manager.clear_level()
+                    return
+                elif level_num == self.level_manager.current_level:
+                    self.level_manager.reset_level()
+                    continue
+                else:
+                    self.load_level(level_num)
 
 
             self.canvas.blit(Images.canvas_background_img, (0, 0))
@@ -141,6 +158,7 @@ class Game:
                 self.level_manager.reset_level()
                 self.player_controller.reset_inputs()
                 continue
+
 
             PlayArea.backing_surface_blit(Images.wall_texture_img, (0, 0))
             PlayArea.draw_to_surface(self.canvas)
