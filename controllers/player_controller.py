@@ -141,3 +141,10 @@ class PlayerController:
         
         if save_controls:
             self.save_keybinds()
+
+
+
+    # method to set all pressed controls to false
+    def reset_all(self):
+        for control in self.inputs_pressed:
+            self.inputs_pressed[control] = False
