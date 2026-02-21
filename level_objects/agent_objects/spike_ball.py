@@ -29,6 +29,8 @@ class SpikeBall(LevelTile):
         self.target_index = 0
         self.target_index_change = 1
         self.vector = pygame.math.Vector2(self.rect.center)
+
+        self.moveable_hit = None
     
 
 
@@ -59,6 +61,9 @@ class SpikeBall(LevelTile):
         self.vector = self.vector.move_towards(target_point, velocity)
         if old_x == self.vector.x and old_y == self.vector.y:
             self.update_target_index()
+            if self.moveable_hit != None and not self.rect.colliderect(self.moveable_hit.rect):
+                self.moveable_hit = None
+
         self.rect.centerx = self.vector.x
         self.rect.centery = self.vector.y
 
@@ -98,6 +103,11 @@ class SpikeBall(LevelTile):
 
 
     
-    def reverse_direction(self):
+    def reverse_direction(self, agent):
+        if agent == self.moveable_hit:
+            return
+        
         self.target_index_change = self.target_index_change * -1
         self.update_target_index()
+
+        self.moveable_hit = agent
