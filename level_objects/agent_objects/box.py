@@ -65,7 +65,7 @@ class Box(LevelTile):
                 return False
 
         for agent in agents:
-            if agent == self:
+            if agent == self or tile_to_skip(agent):
                 continue
             if agent.collide(self.rect):
                 self.rect.center = old_position
