@@ -13,7 +13,7 @@ class Goal(LevelTile):
         self.image_rect = self.image.get_rect()
         self.image_rect.center = self.rect.center
 
-        self.value = value
+        self.value = int(value) if value != None else value
         self.color = color
     
 
