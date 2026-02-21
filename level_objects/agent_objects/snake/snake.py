@@ -37,7 +37,7 @@ class Snake:
         self.starting_segments = segment_positions
         self.eaten_pickups = []
         self.pickups_to_drop = []
-        self.min_body_length = 2
+        self.min_body_length = 3
         self.body_length = len(segment_positions) - 1 #subtract by one to ignore head
         self.body = []
         self.initialize_body(segment_positions)
@@ -446,7 +446,8 @@ class Snake:
 
     @property
     def real_length(self):
-        return self.body_length + (-1 * self.length_decrease) + self.length_increase
+        # add one to count head
+        return 1 + self.body_length + (-1 * self.length_decrease) + self.length_increase
 
 
 
