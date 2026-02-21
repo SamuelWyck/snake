@@ -100,7 +100,7 @@ class CollisionManager:
                 if collider.collide(agent.rect):
                     return True
             if collider.__class__ == SpikeBall and agent.rect.colliderect(collider.rect):
-                collider.reverse_direction()
+                collider.reverse_direction(agent)
         return False
 
 
@@ -175,7 +175,9 @@ class CollisionManager:
 
 
     def is_box_skippable(self, tile):
-        return tile.__class__ in self.compound_tiles or tile.__class__ == Lava or tile.__class__ == Goal
+        if tile.__class__ in self.compound_tiles:
+            return True
+        return tile.__class__ == Lava or tile.__class__ == Goal or tile.__class__ == SpikeBall
     
 
 
