@@ -26,6 +26,7 @@ class CollisionManager:
             PressurePlate,
             StickyPressurePlate
         ])
+        self.level_won = False
 
     
 
@@ -67,7 +68,8 @@ class CollisionManager:
         for tile in dynamic_tiles:
             if tile.__class__ == Goal:
                 if collider.__class__ == Snake and tile.collide(collider):
-                    ... # handle win
+                    self.level_won = True
+                    return False
                 continue
             if tile.color == collider.color and tile.color != Color.NO_COLOR:
                 continue
