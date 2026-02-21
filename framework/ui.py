@@ -30,6 +30,7 @@ class Ui:
         self.level_select_menu = self.get_level_select_menu(screen_size, canvas_size, mouse_manager)
         self.main_menu = self.get_main_menu(screen_size, canvas_size, mouse_manager)
         self.pause_menu = self.get_pause_menu(screen_size, canvas_size, mouse_manager, level_manager)
+        self.win_menu = self.get_win_menu(screen_size, canvas_size, mouse_manager, level_manager)
     
 
 
@@ -375,3 +376,45 @@ class Ui:
         )
 
         return pause_menu
+    
+
+
+    def get_win_menu(self, screen_size, canvas_size, mouse_manager, level_manager):
+        y_pos = 250
+        gap = 20
+        title_gap = 35
+        init_callback = None
+        cleanup_callback = None
+
+
+        lvl_cleared_display = TextDisplay(
+            topleft=(0, 0), font=Fonts.level_win_font, color=Color.YELLOW, text="LEVEL CLEARED!"
+        )
+
+        level_btn = Button(
+            topleft=(0, 0),
+            image=Fonts.menu_font.render("LEVEL SELECT", antialias=True, color=Color.YELLOW),
+            hover_image=Fonts.menu_font.render("LEVEL SELECT", antialias=True, color=Color.MENU_GREEN)
+        )
+        level_btn_callback = self.level_select_menu.run
+
+        quit_btn = Button(
+            topleft=(0, 0),
+            image=Fonts.menu_font.render("QUIT", antialias=True, color=Color.YELLOW),
+            hover_image=Fonts.menu_font.render("QUIT", antialias=True, color=Color.MENU_GREEN)
+        )
+        quit_btn_callback = lambda **kwargs : (True, (True, None))
+
+
+        win_menu = GeneralMenu(
+            y_pos, gap, 
+            Images.pause_bg_img, mouse_manager,
+            screen_size, canvas_size,
+            init_callback, cleanup_callback,
+            lvl_cleared_display,
+            title_gap,
+            (level_btn, level_btn_callback),
+            (quit_btn, quit_btn_callback)
+        )
+
+        return win_menu
