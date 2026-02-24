@@ -2,6 +2,7 @@ import pygame
 from asset_loaders.image_loader import Images
 from hud.border import Border
 from user_interface.elements.live_text_display import LiveTextDisplay
+from user_interface.elements.text_display import TextDisplay
 from asset_loaders.font_loader import Fonts
 from asset_loaders.image_loader import Images
 from utils.color import Color
@@ -41,6 +42,25 @@ class Hud:
         self.pickups_border_rect = self.pickups_border.get_rect()
         self.pickups_border_rect.topleft = (15, 278)
 
+        # variables for level num display
+        level_display_x = 1325
+        level_display_y = 10
+        self.level_title_display = TextDisplay(
+            topleft=(level_display_x, level_display_y), 
+            font=Fonts.pickup_outline_font, color=Color.YELLOW, text="LEVEL:"
+        )
+        self.level_num_display = TextDisplay(
+            topleft=(self.level_title_display.get_width() + level_display_x + 10, level_display_y), 
+            font=Fonts.pickup_outline_font,
+            color=Color.YELLOW,
+            text="999"
+        )
+        
+
+
+    def update_level_num(self, level_num):
+        self.level_num_display.change_text(str(level_num + 1))
+
         
 
     def draw(self, surface):
@@ -51,6 +71,9 @@ class Hud:
         
         if self.player_pickups != None:
             self.update_player_pickups(surface)
+
+        self.level_title_display.update(surface)
+        self.level_num_display.update(surface)
 
         
     
