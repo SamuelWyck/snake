@@ -78,6 +78,7 @@ class Game:
         self.player_controller = self.player.controller
         self.hud.create_length_display(self.player)
         self.hud.link_player_pickups_list(self.player)
+        self.hud.update_level_num(self.level_manager.current_level)
 
 
     
