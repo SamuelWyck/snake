@@ -39,7 +39,7 @@ class Ui:
         buttons_topleft = (30, 550)
 
         title_text_display = TextDisplay(
-            topleft=(0, 0), font=Fonts.title_font, color=Color.GREEN, text="PHASE SNAKE"
+            topleft=(0, 0), font=Fonts.title_font, color=Color.GREEN, text=""
         )
 
         play_btn = Button(
