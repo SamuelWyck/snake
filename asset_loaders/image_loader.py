@@ -9,6 +9,7 @@ class Images:
     agent_images_path = "assets/images/agent_images"
     interactables_images_path = "assets/images/interactables_images"
     other_images_path = "assets/images/other_images"
+    menu_images_path = "assets/images/menu_images"
 
 
     # static tile images
@@ -89,6 +90,12 @@ class Images:
     eaten_pickups_border = pygame.image.load(os.path.join(other_images_path, "pickups_border.png")).convert_alpha()
 
     # menu images
-    pause_bg_img = pygame.image.load(os.path.join(other_images_path, "pause_bg.png")).convert_alpha()
-    main_menu_bg_img = pygame.image.load(os.path.join(other_images_path, "main_menu_bg.png")).convert_alpha()
-    level_menu_bg_img = pygame.image.load(os.path.join(other_images_path, "level_menu_bg.png")).convert_alpha()
+    pause_bg_img = pygame.image.load(os.path.join(menu_images_path, "pause_bg.png")).convert_alpha()
+    main_menu_bg_img = pygame.image.load(os.path.join(menu_images_path, "main_menu_bg.png")).convert_alpha()
+    level_menu_bg_img = pygame.image.load(os.path.join(menu_images_path, "level_menu_bg.png")).convert_alpha()
+    play_btn_img = pygame.image.load(os.path.join(menu_images_path, "play_btn.png")).convert_alpha()
+    play_btn_hvr_img = pygame.image.load(os.path.join(menu_images_path, "play_btn_hover.png")).convert_alpha()
+    settings_btn_img = pygame.image.load(os.path.join(menu_images_path, "settings_btn.png")).convert_alpha()
+    settings_btn_hvr_img = pygame.image.load(os.path.join(menu_images_path, "settings_btn_hover.png")).convert_alpha()
+    exit_btn_img = pygame.image.load(os.path.join(menu_images_path, "exit_btn.png")).convert_alpha()
+    exit_btn_hvr_img = pygame.image.load(os.path.join(menu_images_path, "exit_btn_hover.png")).convert_alpha()
