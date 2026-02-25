@@ -38,27 +38,15 @@ class Ui:
         button_gap = 20
         buttons_topleft = (30, 550)
 
-        title_text_display = TextDisplay(
-            topleft=(0, 0), font=Fonts.title_font, color=Color.GREEN, text=""
-        )
+        title_text_display = TextDisplay(topleft=(0, 0), font=Fonts.title_font, color=Color.GREEN, text="")
 
-        play_btn = Button(
-            topleft=(0, 0), 
-            image=Fonts.menu_font.render("PLAY", self.antialias, Color.GREEN),
-            hover_image=Fonts.menu_font.render("PLAY", self.antialias, Color.ORANGE),
-        )
+        play_btn = Button(topleft=(0, 0), image=Images.play_btn_img, hover_image=Images.play_btn_hvr_img)
         play_btn_callback = self.level_select_menu.run
-        settings_btn = Button(
-            topleft=(0, 0),
-            image=Fonts.menu_font.render("SETTINGS", self.antialias, Color.GREEN),
-            hover_image=Fonts.menu_font.render("SETTINGS", self.antialias, Color.ORANGE)
-        )
+
+        settings_btn = Button(topleft=(0, 0), image=Images.settings_btn_img, hover_image=Images.settings_btn_hvr_img)
         settings_btn_callback = self.settings_menu.run
-        exit_btn = Button(
-            topleft=(0, 0),
-            image=Fonts.menu_font.render("EXIT", self.antialias, Color.GREEN),
-            hover_image=Fonts.menu_font.render("EXIT", self.antialias, Color.ORANGE)
-        )
+
+        exit_btn = Button(topleft=(0, 0), image=Images.exit_btn_img, hover_image=Images.exit_btn_hvr_img)
         exit_btn_callback = lambda **kwargs : (True, (True, None))
 
         main_menu = ButtonMenu(
