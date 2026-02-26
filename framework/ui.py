@@ -8,6 +8,7 @@ from user_interface.elements.button import Button
 from user_interface.elements.slider import Slider
 from user_interface.elements.text_display import TextDisplay
 from user_interface.elements.live_text_display import LiveTextDisplay
+from user_interface.elements.image_display import ImageDisplay
 from asset_loaders.font_loader import Fonts
 from asset_loaders.image_loader import Images
 from utils.color import Color
@@ -65,38 +66,18 @@ class Ui:
 
     def get_settings_menu(self, screen_size, canvas_size, mouse_manager):
         button_gap = 20
-        buttons_topleft = (30, 500)
+        buttons_topleft = (30, 450)
 
-        background_img = pygame.Surface(canvas_size)
-        background_img.fill((0, 0, 0))
-
-        title_text_display = TextDisplay(
-            topleft=(0, 0), font=Fonts.title_font, color=Color.GREEN, text="SETTINGS"
-        )
-
-        controls_button = Button(
-            topleft=(0, 0),
-            image=Fonts.menu_font.render("CONTROLS", self.antialias, Color.GREEN),
-            hover_image=Fonts.menu_font.render("CONTROLS", self.antialias, Color.ORANGE)
-        )
+        controls_button = Button(topleft=(0, 0), image=Images.controls_btn_img, hover_image=Images.controls_btn_hvr_img)
         controls_button_callback = self.control_menu.run
-        mouse_button = Button(
-            topleft=(0, 0),
-            image=Fonts.menu_font.render("MOUSE", self.antialias, Color.GREEN),
-            hover_image=Fonts.menu_font.render("MOUSE", self.antialias, Color.ORANGE)
-        )
+
+        mouse_button = Button(topleft=(0, 0), image=Images.mouse_btn_img, hover_image=Images.mouse_btn_hvr_img)
         mouse_button_callback = self.mouse_menu.run
-        audio_button = Button(
-            topleft=(0, 0),
-            image=Fonts.menu_font.render("AUDIO", self.antialias, Color.GREEN),
-            hover_image=Fonts.menu_font.render("AUDIO", self.antialias, Color.ORANGE)
-        )
+
+        audio_button = Button(topleft=(0, 0), image=Images.audio_btn_img, hover_image=Images.audio_btn_hvr_img)
         audio_button_callback = self.audio_menu.run
-        back_button = Button(
-            topleft=(0, 0),
-            image=Fonts.menu_font.render("BACK", self.antialias, Color.GREEN),
-            hover_image=Fonts.menu_font.render("BACK", self.antialias, Color.ORANGE)
-        )
+
+        back_button = Button(topleft=(0, 0), image=Images.back_btn_img, hover_image=Images.back_btn_hvr_img)
         back_button_callback = lambda **kwargs : (True, (False, None))
 
         btns_with_callbacks = [
@@ -107,10 +88,9 @@ class Ui:
         ]
 
         settings_menu = ButtonMenu(
-            buttons_topleft, button_gap, background_img, 
+            buttons_topleft, button_gap, Images.settings_menu_bg_img, 
             screen_size, canvas_size, mouse_manager,
-            btns_with_callbacks,
-            title_text_display
+            btns_with_callbacks
         )
 
         return settings_menu
@@ -185,58 +165,45 @@ class Ui:
 
 
     def get_audio_menu(self, screen_size, canvas_size, mouse_manager):
-        start_y_pos = 50
+        start_y_pos = 270
         element_gap = 15
         info_gap = 40
 
-        background_img = pygame.Surface(canvas_size)
-        background_img.fill((0, 0, 0))
-
-        menu_title = TextDisplay(topleft=(0, 0), font=Fonts.title_font, color=Color.GREEN, text="AUDIO SETTINGS")
-
-        sound_text = TextDisplay(
-            topleft=(0, 0), font=Fonts.pickup_outline_font, color=Color.GREEN, text="SOUND EFFECTS"
-        )
+        sound_text = ImageDisplay(topleft=(0, 0), image=Images.sound_effects_title_img)
         sound_slider = Slider(
             topleft=(0, 0), size=self.slider_size, 
-            slide_bar_color=Color.GREEN, slide_color=Color.ORANGE, 
-            border_radius=self.slide_border_radius, callback=lambda val: None
+            slide_bar_color=Color.MENU_GREEN, slide_color=Color.YELLOW, 
+            border_radius=self.slide_border_radius, callback=lambda val: None,
+            bar_img=Images.slider_bar_img, slide_img=Images.slider_slide_img
         )
         sounds_slider_val = LiveTextDisplay(
             topleft=(0, 0), font=Fonts.goal_font, 
-            color=Color.GREEN, object_ref=sound_slider,
+            color=Color.YELLOW, object_ref=sound_slider,
             text_getter=self.get_slider_str_val
         )
 
-        music_text = TextDisplay(
-            topleft=(0, 0), font=Fonts.pickup_outline_font, color=Color.GREEN, text="MUSIC"
-        )
+        music_text = ImageDisplay(topleft=(0, 0), image=Images.music_title_img)
         music_slider = Slider(
             topleft=(0, 0), size=self.slider_size, 
-            slide_bar_color=Color.GREEN, slide_color=Color.ORANGE,
-            border_radius=self.slide_border_radius, callback=lambda val: None
+            slide_bar_color=Color.MENU_GREEN, slide_color=Color.YELLOW,
+            border_radius=self.slide_border_radius, callback=lambda val: None,
+            bar_img=Images.slider_bar_img, slide_img=Images.slider_slide_img
         )
         music_slider_val = LiveTextDisplay(
             topleft=(0, 0), font=Fonts.goal_font,
-            color=Color.GREEN, object_ref=music_slider,
+            color=Color.YELLOW, object_ref=music_slider,
             text_getter=self.get_slider_str_val
         )
 
-        back_btn = Button(
-            topleft=(0, 0), 
-            image=Fonts.menu_font.render("BACK", self.antialias, Color.GREEN),
-            hover_image=Fonts.menu_font.render("BACK", self.antialias, Color.ORANGE)
-        )
+        back_btn = Button(topleft=(0, 0), image=Images.back_btn_img, hover_image=Images.back_btn_hvr_img)
         back_btn_callback = lambda **kwargs: (True, (False, None))
 
         cleanup_callback = lambda : None
 
         menu = GeneralMenu(
             start_y_pos, element_gap, 
-            background_img, mouse_manager, 
+            Images.audio_menu_bg_img, mouse_manager, 
             screen_size, canvas_size, None, cleanup_callback,
-            menu_title,
-            info_gap,
             sound_text, sounds_slider_val, sound_slider, 
             info_gap, 
             music_text, music_slider_val, music_slider,
