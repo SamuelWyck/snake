@@ -5,6 +5,7 @@ from user_interface.elements.button import Button
 from user_interface.elements.slider import Slider
 from user_interface.elements.text_display import TextDisplay
 from user_interface.elements.live_text_display import LiveTextDisplay
+from user_interface.elements.image_display import ImageDisplay
 
 
 # menu elements will be in the form of either a slider object, a textdisplay object, 
@@ -151,7 +152,9 @@ class GeneralMenu:
             for element in self.menu_elements:
                 if element.__class__ == Button or element.__class__ == Slider:
                     element.update(canvas, mouse_pos, left_mouse_just_pressed, left_mouse_just_released)
-                elif element.__class__ == TextDisplay or element.__class__ == LiveTextDisplay:
+                elif element.__class__ == TextDisplay or element.__class__ == LiveTextDisplay or (
+                    element.__class__ == ImageDisplay
+                ):
                     element.update(canvas)
             
             self.mouse.draw(canvas)
