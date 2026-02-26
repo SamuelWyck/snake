@@ -4,10 +4,13 @@ from user_interface.elements.menu_element import MenuElement
 
 
 class Slider(MenuElement):
-    def __init__(self, topleft, size, callback, slide_bar_color, slide_color, border_radius=0):
+    def __init__(self, topleft, size, callback, slide_bar_color, slide_color, border_radius=0, bar_img=None, slide_img=None):
         self.slide_bar_color = slide_bar_color
         self.slide_color = slide_color
         self.border_radius = border_radius
+
+        self.bar_image = bar_img
+        self.slide_image = slide_img
 
         self.callback = callback
         self.mouse_btn_pressed = False
@@ -42,8 +45,12 @@ class Slider(MenuElement):
             self.move_slide(mouse_x)
             self.callback(self.value)
         
-        pygame.draw.rect(surface, self.slide_bar_color, self.slide_bar, border_radius=self.border_radius)
-        pygame.draw.rect(surface, self.slide_color, self.slide, border_radius=self.border_radius)
+        if self.bar_image == None or self.slide_image == None:
+            pygame.draw.rect(surface, self.slide_bar_color, self.slide_bar, border_radius=self.border_radius)
+            pygame.draw.rect(surface, self.slide_color, self.slide, border_radius=self.border_radius)
+        else:
+            surface.blit(self.bar_image, self.slide_bar.topleft)
+            surface.blit(self.slide_image, self.slide.topleft)
     
 
 
