@@ -90,14 +90,17 @@ class Images:
     eaten_pickups_border = pygame.image.load(os.path.join(other_images_path, "pickups_border.png")).convert_alpha()
 
     # menu images
-    pause_bg_img = pygame.image.load(os.path.join(menu_images_path, "pause_bg.png")).convert_alpha()
     main_menu_bg_img = pygame.image.load(os.path.join(menu_images_path, "main_menu_bg.png")).convert_alpha()
     settings_menu_bg_img = pygame.image.load(os.path.join(menu_images_path, "settings_menu_bg.png")).convert_alpha()
     audio_menu_bg_img = pygame.image.load(os.path.join(menu_images_path, "audio_menu_bg.png")).convert_alpha()
+    mouse_menu_bg_img = pygame.image.load(os.path.join(menu_images_path, "mouse_menu_bg.png")).convert_alpha()
+    controls_menu_bg_img = pygame.image.load(os.path.join(menu_images_path, "controls_menu_bg.png")).convert_alpha()
+    pause_bg_img = pygame.image.load(os.path.join(menu_images_path, "pause_bg.png")).convert_alpha()
     level_menu_bg_img = pygame.image.load(os.path.join(menu_images_path, "level_menu_bg.png")).convert_alpha()
 
     sound_effects_title_img = pygame.image.load(os.path.join(menu_images_path, "sound_effects_title.png")).convert_alpha()
     music_title_img = pygame.image.load(os.path.join(menu_images_path, "music_title.png")).convert_alpha()
+    sensitivity_title = pygame.image.load(os.path.join(menu_images_path, "sensitivity_title.png")).convert_alpha()
 
     slider_bar_img = pygame.image.load(os.path.join(menu_images_path, "slider_bar.png")).convert_alpha()
     slider_slide_img = pygame.image.load(os.path.join(menu_images_path, "slider_slide.png")).convert_alpha()
