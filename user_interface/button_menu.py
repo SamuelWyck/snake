@@ -11,7 +11,7 @@ class ButtonMenu:
     def __init__(
             self, buttons_topleft, button_gap, 
             background_img, screen_size, canvas_size, 
-            mouse_manager, title_text_display, *buttons_with_callbacks
+            mouse_manager, buttons_with_callbacks, title_text_display=None
         ):
         self.screen_width, self.screen_height = screen_size
         self.canvas_width, self.canvas_height = canvas_size
@@ -19,7 +19,8 @@ class ButtonMenu:
         self.background_image = background_img
 
         self.title_text_display = title_text_display
-        self.title_text_display.set_topleft(self.get_title_topleft())
+        if self.title_text_display != None:
+            self.title_text_display.set_topleft(self.get_title_topleft())
 
         self.mouse = mouse_manager
 
@@ -97,7 +98,8 @@ class ButtonMenu:
 
             canvas.blit(self.background_image, (0, 0))
             
-            self.title_text_display.update(canvas)
+            if self.title_text_display != None:
+                self.title_text_display.update(canvas)
 
             for button in self.buttons:
                 button.update(canvas, mouse_position, mouse_btn_just_pressed, mouse_btn_just_released)
