@@ -92,10 +92,27 @@ class Images:
     # menu images
     pause_bg_img = pygame.image.load(os.path.join(menu_images_path, "pause_bg.png")).convert_alpha()
     main_menu_bg_img = pygame.image.load(os.path.join(menu_images_path, "main_menu_bg.png")).convert_alpha()
+    settings_menu_bg_img = pygame.image.load(os.path.join(menu_images_path, "settings_menu_bg.png")).convert_alpha()
+    audio_menu_bg_img = pygame.image.load(os.path.join(menu_images_path, "audio_menu_bg.png")).convert_alpha()
     level_menu_bg_img = pygame.image.load(os.path.join(menu_images_path, "level_menu_bg.png")).convert_alpha()
+
+    sound_effects_title_img = pygame.image.load(os.path.join(menu_images_path, "sound_effects_title.png")).convert_alpha()
+    music_title_img = pygame.image.load(os.path.join(menu_images_path, "music_title.png")).convert_alpha()
+
+    slider_bar_img = pygame.image.load(os.path.join(menu_images_path, "slider_bar.png")).convert_alpha()
+    slider_slide_img = pygame.image.load(os.path.join(menu_images_path, "slider_slide.png")).convert_alpha()
+
     play_btn_img = pygame.image.load(os.path.join(menu_images_path, "play_btn.png")).convert_alpha()
     play_btn_hvr_img = pygame.image.load(os.path.join(menu_images_path, "play_btn_hover.png")).convert_alpha()
     settings_btn_img = pygame.image.load(os.path.join(menu_images_path, "settings_btn.png")).convert_alpha()
     settings_btn_hvr_img = pygame.image.load(os.path.join(menu_images_path, "settings_btn_hover.png")).convert_alpha()
     exit_btn_img = pygame.image.load(os.path.join(menu_images_path, "exit_btn.png")).convert_alpha()
     exit_btn_hvr_img = pygame.image.load(os.path.join(menu_images_path, "exit_btn_hover.png")).convert_alpha()
+    audio_btn_img = pygame.image.load(os.path.join(menu_images_path, "audio_btn.png")).convert_alpha()
+    audio_btn_hvr_img = pygame.image.load(os.path.join(menu_images_path, "audio_btn_hover.png")).convert_alpha()
+    controls_btn_img = pygame.image.load(os.path.join(menu_images_path, "controls_btn.png")).convert_alpha()
+    controls_btn_hvr_img = pygame.image.load(os.path.join(menu_images_path, "controls_btn_hover.png")).convert_alpha()
+    mouse_btn_img = pygame.image.load(os.path.join(menu_images_path, "mouse_btn.png")).convert_alpha()
+    mouse_btn_hvr_img = pygame.image.load(os.path.join(menu_images_path, "mouse_btn_hover.png")).convert_alpha()
+    back_btn_img = pygame.image.load(os.path.join(menu_images_path, "back_btn.png")).convert_alpha()
+    back_btn_hvr_img = pygame.image.load(os.path.join(menu_images_path, "back_btn_hover.png")).convert_alpha()
