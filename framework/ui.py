@@ -38,8 +38,6 @@ class Ui:
         button_gap = 20
         buttons_topleft = (30, 550)
 
-        title_text_display = TextDisplay(topleft=(0, 0), font=Fonts.title_font, color=Color.GREEN, text="")
-
         play_btn = Button(topleft=(0, 0), image=Images.play_btn_img, hover_image=Images.play_btn_hvr_img)
         play_btn_callback = self.level_select_menu.run
 
@@ -49,13 +47,16 @@ class Ui:
         exit_btn = Button(topleft=(0, 0), image=Images.exit_btn_img, hover_image=Images.exit_btn_hvr_img)
         exit_btn_callback = lambda **kwargs : (True, (True, None))
 
-        main_menu = ButtonMenu(
-            buttons_topleft, button_gap, Images.main_menu_bg_img,
-            screen_size, canvas_size, mouse_manager,
-            title_text_display,
+        btns_with_callbacks = [
             (play_btn, play_btn_callback),
             (settings_btn, settings_btn_callback),
             (exit_btn, exit_btn_callback)
+        ]
+
+        main_menu = ButtonMenu(
+            buttons_topleft, button_gap, Images.main_menu_bg_img,
+            screen_size, canvas_size, mouse_manager,
+            btns_with_callbacks
         )
 
         return main_menu
@@ -98,14 +99,18 @@ class Ui:
         )
         back_button_callback = lambda **kwargs : (True, (False, None))
 
-        settings_menu = ButtonMenu(
-            buttons_topleft, button_gap, background_img, 
-            screen_size, canvas_size, mouse_manager,
-            title_text_display,
+        btns_with_callbacks = [
             (audio_button, audio_button_callback),
             (controls_button, controls_button_callback),
             (mouse_button, mouse_button_callback),
             (back_button, back_button_callback)
+        ]
+
+        settings_menu = ButtonMenu(
+            buttons_topleft, button_gap, background_img, 
+            screen_size, canvas_size, mouse_manager,
+            btns_with_callbacks,
+            title_text_display
         )
 
         return settings_menu
