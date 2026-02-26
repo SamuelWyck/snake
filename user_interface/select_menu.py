@@ -4,7 +4,7 @@ import sys
 
 
 # click_callback should take the id of the button clicked and package it in a way that makes sense to return it.
-# FOr example, (False, id) or (True, (False, id)) depending on how nested the menu is.
+# For example, (False, id) or (True, (False, id)) depending on how nested the menu is.
 
 
 class SelectMenu:
