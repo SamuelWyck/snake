@@ -124,7 +124,7 @@ class ControlMenu:
         self.page_down_btn.set_center((center_x, page_down_center_y))
 
         self.back_btn.set_center(
-            (self.back_btn.get_width()//2 + col_gap, canvas_height - self.back_btn.get_height() - row_gap)
+            (self.back_btn.get_width()//2 + (col_gap * 1.5), canvas_height - self.back_btn.get_height() - row_gap)
         )
 
     
@@ -155,7 +155,7 @@ class ControlMenu:
         border_width = 10
         popup_size = (width + (border_width * 2.5), height + (border_width * 2.5))
         self.popup_background = pygame.Surface(popup_size)
-        self.popup_background.fill(Color.BLACK)
+        self.popup_background.blit(self.background_img, (0, 0))
         border_rect = pygame.rect.Rect((0, 0), popup_size)
 
         pygame.draw.rect(self.popup_background, self.color, border_rect, width=border_width//2)
