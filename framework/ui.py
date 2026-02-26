@@ -98,48 +98,34 @@ class Ui:
 
 
     def get_mouse_menu(self, screen_size, canvas_size, mouse_manager):
-        start_y_pos = 50 
+        start_y_pos = 270 
         element_gap = 15
         info_gap = 40
 
-        background_img = pygame.Surface(canvas_size)
-        background_img.fill((0, 0, 0))
-
-        title_display = TextDisplay(
-            topleft=(0, 0), font=Fonts.title_font, color=Color.GREEN, text="MOUSE SETTINGS"
-        )
-
-        mouse_text = TextDisplay(
-            topleft=(0, 0), font=Fonts.pickup_outline_font, color=Color.GREEN, text="SENSITIVITY"
-        )
+        mouse_text = ImageDisplay(topleft=(0, 0), image=Images.sensitivity_title)
         mouse_slider = Slider(
             topleft=(0, 0),
             size=self.slider_size, callback=mouse_manager.set_sensitivity,
-            slide_bar_color=Color.GREEN, slide_color=Color.ORANGE,
-            border_radius=self.slide_border_radius
+            slide_bar_color=Color.YELLOW, slide_color=Color.MENU_GREEN,
+            border_radius=self.slide_border_radius,
+            bar_img=Images.slider_bar_img, slide_img=Images.slider_slide_img
         )
         mouse_slider_val = LiveTextDisplay(
-            topleft=(0, 0), font=Fonts.goal_font, color=Color.GREEN, 
+            topleft=(0, 0), font=Fonts.goal_font, color=Color.YELLOW, 
             object_ref=mouse_slider, text_getter=self.get_mouse_slider_val
         )
 
-        back_button = Button(
-            topleft=(0, 0),
-            image=Fonts.menu_font.render("BACK", self.antialias, Color.GREEN),
-            hover_image=Fonts.menu_font.render("BACK", self.antialias, Color.ORANGE)
-        )
+        back_button = Button(topleft=(0, 0), image=Images.back_btn_img, hover_image=Images.back_btn_hvr_img)
         back_button_callback = lambda **kwargs: (True, (False, None))
 
         init_callback = lambda : mouse_slider.set_value(mouse_manager.get_sensitivity_val())
         cleanup_callback = mouse_manager.save_sensitivity
 
         mouse_menu = GeneralMenu(
-            start_y_pos, element_gap, background_img,
+            start_y_pos, element_gap, Images.mouse_menu_bg_img,
             mouse_manager, screen_size, canvas_size,
             init_callback,
             cleanup_callback,
-            title_display,
-            info_gap,
             mouse_text, mouse_slider_val, mouse_slider,
             info_gap,
             (back_button, back_button_callback)
@@ -260,26 +246,24 @@ class Ui:
 
 
     def get_control_menu(self, screen_size, canvas_size, mouse_manager):
-        y_pos = 250
+        y_pos = 280
         row_gap = 20
         col_gap = 40
         num_rows = 4
 
         controls = dict(TileConfig.player_controller.controls)
 
-        background_img = pygame.Surface(canvas_size)
-        background_img.fill((0, 0, 0))
-
         control_menu = ControlMenu(
             y_pos, num_rows, row_gap, col_gap, controls, 
-            background_img, Fonts.menu_font,
-            Color.GREEN, Color.ORANGE,
+            Images.controls_menu_bg_img, Fonts.large_menu_font,
+            Color.YELLOW, Color.MENU_GREEN,
             canvas_size, screen_size, mouse_manager,
             TileConfig.player_controller.update_controls
         )
 
         return control_menu
     
+
 
     def get_pause_menu(self, screen_size, canvas_size, mouse_manager, level_manager):
         y_pos = 250
