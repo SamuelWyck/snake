@@ -207,13 +207,24 @@ class Ui:
         num_rows = 3
         row_gap = 10
         col_gap = 20
+        outline_width = 8
 
         click_callback = lambda id: (True, (False, id))
 
         buttons = []
         for i in range(1, 17):
-            image = Fonts.menu_font.render(str(i), self.antialias, Color.YELLOW)
-            hover_image = Fonts.menu_font.render(str(i), self.antialias, Color.MENU_GREEN)
+            Fonts.large_menu_font.outline = outline_width
+            image = Fonts.large_menu_font.render(str(i), self.antialias, Color.BLACK)
+            Fonts.large_menu_font.outline = 0
+
+            hover_image = image.copy()
+
+            yellow_color_image = Fonts.large_menu_font.render(str(i), self.antialias, Color.YELLOW)
+            image.blit(yellow_color_image, (outline_width, outline_width))
+            
+            green_color_image = Fonts.large_menu_font.render(str(i), self.antialias, Color.MENU_GREEN)
+            hover_image.blit(green_color_image, (outline_width, outline_width))
+
             button = Button(topleft=(0, 0),image=image, hover_image=hover_image)
             buttons.append(button)
 
