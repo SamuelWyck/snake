@@ -210,8 +210,6 @@ class Ui:
         outline_width = 8
 
         click_callback = lambda id: (True, (False, id))
-        background = pygame.Surface((650, 760))
-        background.fill(Color.WHITE)
 
         buttons = []
         for i in range(1, 17):
@@ -238,7 +236,7 @@ class Ui:
 
         select_menu = SelectMenu(
             starting_y, num_cols, num_rows, col_gap, row_gap, 
-            background, screen_size, canvas_size, mouse_manager, 
+            Images.level_menu_bg_img, screen_size, canvas_size, mouse_manager, 
             page_up_btn, page_down_btn, exit_btn, click_callback, buttons
         )
 
