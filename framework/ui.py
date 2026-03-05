@@ -202,7 +202,7 @@ class Ui:
 
 
     def get_level_select_menu(self, screen_size, canvas_size, mouse_manager):
-        starting_y = 290
+        starting_y = 225
         num_cols = 4
         num_rows = 3
         row_gap = 10
@@ -210,6 +210,8 @@ class Ui:
         outline_width = 8
 
         click_callback = lambda id: (True, (False, id))
+        background = pygame.Surface((650, 760))
+        background.fill(Color.WHITE)
 
         buttons = []
         for i in range(1, 17):
@@ -219,36 +221,24 @@ class Ui:
 
             hover_image = image.copy()
 
-            yellow_color_image = Fonts.large_menu_font.render(str(i), self.antialias, Color.YELLOW)
+            yellow_color_image = Fonts.large_menu_font.render(str(i), self.antialias, Color.SNAKE_YELLOW)
             image.blit(yellow_color_image, (outline_width, outline_width))
             
-            green_color_image = Fonts.large_menu_font.render(str(i), self.antialias, Color.MENU_GREEN)
+            green_color_image = Fonts.large_menu_font.render(str(i), self.antialias, Color.SNAKE_GREEN)
             hover_image.blit(green_color_image, (outline_width, outline_width))
 
             button = Button(topleft=(0, 0),image=image, hover_image=hover_image)
             buttons.append(button)
 
         
-        exit_btn = Button(
-            topleft=(0, 0),
-            image=Fonts.menu_font.render("BACK", self.antialias, Color.YELLOW),
-            hover_image=Fonts.menu_font.render("BACK", self.antialias, Color.MENU_GREEN)
-        )
+        exit_btn = Button(topleft=(0, 0), image=Images.back_btn_img, hover_image=Images.back_btn_hvr_img)
 
-        page_up_btn = Button(
-            topleft=(0, 0), 
-            image=Fonts.menu_font.render("PAGE UP", self.antialias, Color.YELLOW),
-            hover_image=Fonts.menu_font.render("PAGE UP", self.antialias, Color.MENU_GREEN)
-        )
-        page_down_btn = Button(
-            topleft=(0, 0), 
-            image=Fonts.menu_font.render("PAGE DOWN", self.antialias, Color.YELLOW),
-            hover_image=Fonts.menu_font.render("PAGE DOWN", self.antialias, Color.MENU_GREEN)
-        )
+        page_up_btn = Button(topleft=(0, 0), image=Images.page_down_btn_img, hover_image=Images.page_down_btn_hvr_img)
+        page_down_btn = Button(topleft=(0, 0), image=Images.page_down_btn_img, hover_image=Images.page_down_btn_hvr_img)
 
         select_menu = SelectMenu(
             starting_y, num_cols, num_rows, col_gap, row_gap, 
-            Images.level_menu_bg_img, screen_size, canvas_size, mouse_manager, 
+            background, screen_size, canvas_size, mouse_manager, 
             page_up_btn, page_down_btn, exit_btn, click_callback, buttons
         )
 
