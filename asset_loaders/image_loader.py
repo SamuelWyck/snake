@@ -119,3 +119,7 @@ class Images:
     mouse_btn_hvr_img = pygame.image.load(os.path.join(menu_images_path, "mouse_btn_hover.png")).convert_alpha()
     back_btn_img = pygame.image.load(os.path.join(menu_images_path, "back_btn.png")).convert_alpha()
     back_btn_hvr_img = pygame.image.load(os.path.join(menu_images_path, "back_btn_hover.png")).convert_alpha()
+    page_down_btn_img = pygame.image.load(os.path.join(menu_images_path, "page_down_btn.png")).convert_alpha()
+    page_down_btn_hvr_img = pygame.image.load(os.path.join(menu_images_path, "page_down_btn_hover.png")).convert_alpha()
+    page_up_btn_img = pygame.image.load(os.path.join(menu_images_path, "page_up_btn.png")).convert_alpha()
+    page_up_btn_hvr_img = pygame.image.load(os.path.join(menu_images_path, "page_up_btn_hover.png")).convert_alpha()
