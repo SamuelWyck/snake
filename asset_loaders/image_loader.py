@@ -40,7 +40,6 @@ class Images:
     smoke_img_10 = pygame.image.load(os.path.join(static_tile_images_path, "smoke_frames/smoke_fr_10.png")).convert_alpha()
 
 
-
     # dynamic tile images
     door_img_1 = pygame.image.load(os.path.join(dynamic_tile_images_path, "door_frames/door_frame_1.png")).convert_alpha()
     door_img_2 = pygame.image.load(os.path.join(dynamic_tile_images_path, "door_frames/door_frame_2.png")).convert_alpha()
@@ -62,6 +61,7 @@ class Images:
     pressure_plate_pressed_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "pressure_plate_pressed.png")).convert_alpha()
     s_pressure_plate_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "pressure_plate_s.png")).convert_alpha()
     s_pressure_plate_pressed_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "pressure_plate_s_pressed.png")).convert_alpha()
+
 
     # agent images
     box_img = pygame.image.load(os.path.join(agent_images_path, "box.png")).convert_alpha()
@@ -90,6 +90,7 @@ class Images:
     mouse_img = pygame.image.load(os.path.join(other_images_path, "mouse.png")).convert_alpha()
     length_display = pygame.image.load(os.path.join(other_images_path, "length_display_bg.png")).convert_alpha()
     eaten_pickups_border = pygame.image.load(os.path.join(other_images_path, "pickups_border.png")).convert_alpha()
+
 
     # menu images
     main_menu_bg_img = pygame.image.load(os.path.join(menu_images_path, "main_menu_bg.png")).convert_alpha()
