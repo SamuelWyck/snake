@@ -37,7 +37,11 @@ class Hud:
         self.num_shown_pickups = 6
         self.pickups_start_idx = 0
         # create rect for bg with a size slightly bigger than the tiles size of 40
-        self.pickups_display_bg = pygame.rect.Rect((0, 0), (48, 48))
+        bg_rect_width = 56
+        bg_rect_path_height = 5
+        self.pickups_display_bg = pygame.rect.Rect((0, 0), (bg_rect_width, 48))
+        self.bottom_pickups_display_patch = pygame.rect.Rect((0, 0), (bg_rect_width, bg_rect_path_height))
+        self.top_pickups_display_patch = pygame.rect.Rect((0, 0), (bg_rect_width, bg_rect_path_height))
         # eaten pickups border image
         self.pickups_border = Images.eaten_pickups_border
         self.pickups_border_rect = self.pickups_border.get_rect()
@@ -137,7 +141,11 @@ class Hud:
 
     def draw_player_pickups(self, surface):
         if self.player_pickups_length != 0:
-            pygame.draw.rect(surface, Color.YELLOW, self.pickups_display_bg, border_radius=28)
+            pygame.draw.rect(surface, Color.YELLOW, self.pickups_display_bg)
+            pygame.draw.rect(surface, Color.YELLOW, self.bottom_pickups_display_patch)
+
+            if self.player_pickups_length >= self.num_shown_pickups:
+                pygame.draw.rect(surface, Color.YELLOW, self.top_pickups_display_patch)
 
             for idx in range(self.pickups_start_idx, self.player_pickups_length):
                 pickup = self.player_pickups[idx]
@@ -159,3 +167,6 @@ class Hud:
             self.pickups_gap * (num_displayed_pickups - 1))
         self.pickups_display_bg.height = height
         self.pickups_display_bg.midbottom = first_pickup.image_rect.midbottom
+
+        self.bottom_pickups_display_patch.midtop = self.pickups_display_bg.midbottom
+        self.top_pickups_display_patch.midbottom = self.pickups_display_bg.midtop
