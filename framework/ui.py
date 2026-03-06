@@ -1,4 +1,3 @@
-import pygame
 from level_manager.tile_config import TileConfig
 from user_interface.button_menu import ButtonMenu
 from user_interface.general_menu import GeneralMenu
@@ -6,7 +5,6 @@ from user_interface.select_menu import SelectMenu
 from user_interface.control_menu import ControlMenu
 from user_interface.elements.button import Button
 from user_interface.elements.slider import Slider
-from user_interface.elements.text_display import TextDisplay
 from user_interface.elements.live_text_display import LiveTextDisplay
 from user_interface.elements.image_display import ImageDisplay
 from asset_loaders.font_loader import Fonts
@@ -31,7 +29,7 @@ class Ui:
         self.level_select_menu = self.get_level_select_menu(screen_size, canvas_size, mouse_manager)
         self.main_menu = self.get_main_menu(screen_size, canvas_size, mouse_manager)
         self.pause_menu = self.get_pause_menu(screen_size, canvas_size, mouse_manager, level_manager)
-        self.win_menu = self.get_win_menu(screen_size, canvas_size, mouse_manager, level_manager)
+        self.win_menu = self.get_win_menu(screen_size, canvas_size, mouse_manager)
     
 
 
@@ -102,7 +100,7 @@ class Ui:
         element_gap = 15
         info_gap = 40
 
-        mouse_text = ImageDisplay(topleft=(0, 0), image=Images.sensitivity_title)
+        mouse_text = ImageDisplay(topleft=(0, 0), image=Images.sensitivity_title_img)
         mouse_slider = Slider(
             topleft=(0, 0),
             size=self.slider_size, callback=mouse_manager.set_sensitivity,
@@ -265,47 +263,27 @@ class Ui:
 
 
     def get_pause_menu(self, screen_size, canvas_size, mouse_manager, level_manager):
-        y_pos = 250
+        y_pos = 200
         gap = 20
 
-        resume_btn = Button(
-            topleft=(0, 0),
-            image=Fonts.menu_font.render("RESUME", antialias=True, color=Color.YELLOW),
-            hover_image=Fonts.menu_font.render("RESUME", antialias=True, color=Color.MENU_GREEN)
-        )
+        resume_btn = Button(topleft=(0, 0), image=Images.resume_btn_img, hover_image=Images.resume_btn_hvr_img)
         resume_btn_callback = lambda **kwargs : (True, (False, None))
 
-        level_btn = Button(
-            topleft=(0, 0),
-            image=Fonts.menu_font.render("LEVEL SELECT", antialias=True, color=Color.YELLOW),
-            hover_image=Fonts.menu_font.render("LEVEL SELECT", antialias=True, color=Color.MENU_GREEN)
-        )
+        level_btn = Button(topleft=(0, 0), image=Images.level_select_btn_img, hover_image=Images.level_select_btn_hvr_img)
         level_btn_callback = self.level_select_menu.run
 
-        settings_btn = Button(
-            topleft=(0, 0),
-            image=Fonts.menu_font.render("SETTINGS", antialias=True, color=Color.YELLOW),
-            hover_image=Fonts.menu_font.render("SETTINGS", antialias=True, color=Color.MENU_GREEN)
-        )
+        settings_btn = Button(topleft=(0, 0), image=Images.settings_btn_img, hover_image=Images.settings_btn_hvr_img)
         settings_btn_callback = self.settings_menu.run
 
-        reset_btn = Button(
-            topleft=(0, 0),
-            image=Fonts.menu_font.render("RESET", antialias=True, color=Color.YELLOW),
-            hover_image=Fonts.menu_font.render("RESET", antialias=True, color=Color.MENU_GREEN)
-        )
+        reset_btn = Button(topleft=(0, 0), image=Images.reset_btn_img, hover_image=Images.reset_btn_hvr_img)
         reset_btn_callback = lambda **kwargs : (True, (False, level_manager.current_level))
 
-        quit_btn = Button(
-            topleft=(0, 0),
-            image=Fonts.menu_font.render("QUIT", antialias=True, color=Color.YELLOW),
-            hover_image=Fonts.menu_font.render("QUIT", antialias=True, color=Color.MENU_GREEN)
-        )
+        quit_btn = Button(topleft=(0, 0), image=Images.quit_btn_img, hover_image=Images.quit_btn_hvr_img)
         quit_btn_callback = lambda **kwargs : (True, (True, None))
 
         pause_menu = GeneralMenu(
             y_pos, gap,
-            Images.pause_bg_img,
+            Images.pause_menu_bg_img,
             mouse_manager,
             screen_size,
             canvas_size,
@@ -322,36 +300,24 @@ class Ui:
     
 
 
-    def get_win_menu(self, screen_size, canvas_size, mouse_manager, level_manager):
-        y_pos = 250
+    def get_win_menu(self, screen_size, canvas_size, mouse_manager):
+        y_pos = 220
         gap = 20
-        title_gap = 35
+        title_gap = 65
         init_callback = None
         cleanup_callback = None
 
+        lvl_cleared_display = ImageDisplay(topleft=(0, 0), image=Images.level_cleared_title_img)
 
-        lvl_cleared_display = TextDisplay(
-            topleft=(0, 0), font=Fonts.level_win_font, color=Color.YELLOW, text="LEVEL CLEARED!"
-        )
-
-        level_btn = Button(
-            topleft=(0, 0),
-            image=Fonts.menu_font.render("LEVEL SELECT", antialias=True, color=Color.YELLOW),
-            hover_image=Fonts.menu_font.render("LEVEL SELECT", antialias=True, color=Color.MENU_GREEN)
-        )
+        level_btn = Button(topleft=(0, 0), image=Images.level_select_btn_img, hover_image=Images.level_select_btn_hvr_img)
         level_btn_callback = self.level_select_menu.run
 
-        quit_btn = Button(
-            topleft=(0, 0),
-            image=Fonts.menu_font.render("QUIT", antialias=True, color=Color.YELLOW),
-            hover_image=Fonts.menu_font.render("QUIT", antialias=True, color=Color.MENU_GREEN)
-        )
+        quit_btn = Button(topleft=(0, 0), image=Images.quit_btn_img, hover_image=Images.quit_btn_hvr_img)
         quit_btn_callback = lambda **kwargs : (True, (True, None))
-
 
         win_menu = GeneralMenu(
             y_pos, gap, 
-            Images.pause_bg_img, mouse_manager,
+            Images.pause_menu_bg_img, mouse_manager,
             screen_size, canvas_size,
             init_callback, cleanup_callback,
             lvl_cleared_display,
