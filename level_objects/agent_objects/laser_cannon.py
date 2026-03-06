@@ -8,7 +8,12 @@ from utils.color import Color
 
 
 class LaserCannon(LevelTile):
-    def __init__(self, topleft, size, color, image, barrel_image, moveable, angle, interactables, lasers):
+    def __init__(
+            self, topleft, size, color, 
+            image, barrel_image, moveable, 
+            good_warn_img, bad_warn_img, 
+            angle, interactables, lasers
+        ):
         super().__init__(topleft, size)
 
         angle = int(angle)
@@ -32,6 +37,19 @@ class LaserCannon(LevelTile):
         )
         interactables.append(self.laser)
         lasers.append(self.laser)
+
+        # variables for warning ghost rect
+        width, _  = size
+        self.hor_ghost_trigger_rect = pygame.rect.Rect((0, 0), (width * 2, width // 2))
+        self.hor_ghost_trigger_rect.center = self.rect.center
+        self.vert_ghost_trigger_rect = pygame.rect.Rect((0, 0), (width // 2, width * 2))
+        self.vert_ghost_trigger_rect.center = self.rect.center
+
+        self.ghost_rect = pygame.rect.Rect((0, 0), size)
+        self.draw_ghost_rect = False
+        self.warn_move = False
+        self.good_warn_img = good_warn_img
+        self.bad_warn_img = bad_warn_img
 
     
     def build_image(self, base_image, barrel_image, color, angle):
@@ -63,6 +81,12 @@ class LaserCannon(LevelTile):
 
     def draw(self, surface):
         surface.blit(self.image, self.rect.topleft)
+
+        if self.draw_ghost_rect:
+            warn_img = self.good_warn_img if not self.warn_move else self.bad_warn_img
+            surface.blit(warn_img, self.ghost_rect.topleft)
+            self.draw_ghost_rect = False
+            self.warn_move = False
     
 
     def collide(self, rect):
@@ -77,9 +101,11 @@ class LaserCannon(LevelTile):
 
         if not in_bounds(self.rect):
             self.rect.center = old_position
+            self.position_trigger_rects()
             return False
         if collider.collide(self.rect):
             self.rect.center = old_position
+            self.position_trigger_rects()
             return False
         
         for tile in static_tiles:
@@ -87,6 +113,7 @@ class LaserCannon(LevelTile):
                 continue
             if tile.collide(self.rect):
                 self.rect.center = old_position
+                self.position_trigger_rects()
                 return False
 
         for tile in dynamic_tiles:
@@ -94,6 +121,7 @@ class LaserCannon(LevelTile):
                 continue
             if tile.collide(self.rect):
                 self.rect.center = old_position
+                self.position_trigger_rects()
                 return False
 
         for agent in agents:
@@ -101,6 +129,7 @@ class LaserCannon(LevelTile):
                 continue
             if agent.collide(self.rect):
                 self.rect.center = old_position
+                self.position_trigger_rects()
                 return False
         
         new_laser_start = self.get_laser_start_coords()
@@ -131,11 +160,37 @@ class LaserCannon(LevelTile):
             self.rect.y -= self.move_distance
         else:
             self.rect.y += self.move_distance
-
+        
+        self.position_trigger_rects()
         return old_position
+    
+
+    def position_trigger_rects(self):
+        self.hor_ghost_trigger_rect.center = self.rect.center
+        self.vert_ghost_trigger_rect.center = self.rect.center
+
+
+    def trigger_ghost_rect(self, player_rect):
+        if player_rect.center == self.rect.center:
+            return
+        
+        self.draw_ghost_rect = True
+        self.ghost_rect.center = self.rect.center
+
+        if player_rect.centerx < self.rect.centerx:
+            self.ghost_rect.x += self.rect.width
+        elif player_rect.centerx > self.rect.centerx:
+            self.ghost_rect.x -= self.rect.width
+        elif player_rect.centery < self.rect.centery:
+            self.ghost_rect.y += self.rect.height
+        elif player_rect.centery > self.rect.centery:
+            self.ghost_rect.y -= self.rect.height
     
 
     def reset(self):
         self.rect.topleft = self.original_topleft
         laser_start_coords = self.get_laser_start_coords()
         self.laser.set_laser_start(laser_start_coords)
+        self.position_trigger_rects()
+        self.warn_move = False
+        self.draw_ghost_rect = False

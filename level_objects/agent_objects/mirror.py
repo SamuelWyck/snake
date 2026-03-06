@@ -9,7 +9,10 @@ from utils.color import Color
 
 class Mirror(LevelTile):
     def __init__(
-            self, topleft, size, color, base_img, color_img, moveable, angle, interactables, lasers
+            self, topleft, size, color, 
+            base_img, color_img, moveable, 
+            good_warn_img, bad_warn_img, 
+            angle, interactables, lasers
         ):
         super().__init__(topleft, size)
 
@@ -46,6 +49,19 @@ class Mirror(LevelTile):
 
         self.is_hit = False
 
+        # variables for warning ghost rect
+        width, _  = size
+        self.hor_ghost_trigger_rect = pygame.rect.Rect((0, 0), (width * 2, width // 2))
+        self.hor_ghost_trigger_rect.center = self.rect.center
+        self.vert_ghost_trigger_rect = pygame.rect.Rect((0, 0), (width // 2, width * 2))
+        self.vert_ghost_trigger_rect.center = self.rect.center
+
+        self.ghost_rect = pygame.rect.Rect((0, 0), size)
+        self.draw_ghost_rect = False
+        self.warn_move = False
+        self.good_warn_img = good_warn_img
+        self.bad_warn_img = bad_warn_img
+
 
     def build_images(self, base_img, color_img, color, angle):
         color = color if color != Color.NO_COLOR else Color.GRAY
@@ -71,7 +87,14 @@ class Mirror(LevelTile):
         if self.is_hit:
             pygame.draw.rect(surface, self.entrance_laser_color, self.entrance_bounce_laser)
             pygame.draw.rect(surface, self.exit_laser_color, self.exit_bounce_laser)
+
         surface.blit(self.image, self.rect.topleft)
+
+        if self.draw_ghost_rect:
+            warn_img = self.good_warn_img if not self.warn_move else self.bad_warn_img
+            surface.blit(warn_img, self.ghost_rect.topleft)
+            self.draw_ghost_rect = False
+            self.warn_move = False
 
     
     def collide(self, rect):
@@ -183,9 +206,11 @@ class Mirror(LevelTile):
 
         if not in_bounds(self.rect):
             self.rect.center = old_position
+            self.position_trigger_rects()
             return False
         if collider.collide(self.rect):
             self.rect.center = old_position
+            self.position_trigger_rects()
             return False
         
         for tile in static_tiles:
@@ -193,6 +218,7 @@ class Mirror(LevelTile):
                 continue
             if tile.collide(self.rect):
                 self.rect.center = old_position
+                self.position_trigger_rects()
                 return False
 
         for tile in dynamic_tiles:
@@ -200,6 +226,7 @@ class Mirror(LevelTile):
                 continue
             if tile.collide(self.rect):
                 self.rect.center = old_position
+                self.position_trigger_rects()
                 return False
 
         for agent in agents:
@@ -207,6 +234,7 @@ class Mirror(LevelTile):
                 continue
             if agent.collide(self.rect):
                 self.rect.center = old_position
+                self.position_trigger_rects()
                 return False
         
         self.move_laser()
@@ -252,12 +280,38 @@ class Mirror(LevelTile):
         else:
             self.rect.y += self.move_distance
 
+        self.position_trigger_rects()
         return old_position
         
     
     def reset(self):
         self.rect.center = self.original_position
         self.move_laser()
+        self.position_trigger_rects()
+        self.warn_move = False
+        self.draw_ghost_rect = False
+
+
+    def position_trigger_rects(self):
+        self.hor_ghost_trigger_rect.center = self.rect.center
+        self.vert_ghost_trigger_rect.center = self.rect.center
+
+
+    def trigger_ghost_rect(self, player_rect):
+        if player_rect.center == self.rect.center:
+            return
+        
+        self.draw_ghost_rect = True
+        self.ghost_rect.center = self.rect.center
+
+        if player_rect.centerx < self.rect.centerx:
+            self.ghost_rect.x += self.rect.width
+        elif player_rect.centerx > self.rect.centerx:
+            self.ghost_rect.x -= self.rect.width
+        elif player_rect.centery < self.rect.centery:
+            self.ghost_rect.y += self.rect.height
+        elif player_rect.centery > self.rect.centery:
+            self.ghost_rect.y -= self.rect.height
 
     
     def get_hitbox(self):

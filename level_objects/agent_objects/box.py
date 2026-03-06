@@ -6,13 +6,26 @@ from utils.color import Color
 
 
 class Box(LevelTile):
-    def __init__(self, topleft, size, color, image):
+    def __init__(self, topleft, size, color, image, good_warn_img, bad_warn_img):
         super().__init__(topleft, size)
 
         self.image = self.build_image(color, image, size)
         self.color = color
         self.move_distance = self.rect.width
         self.original_topleft = topleft
+
+        # variables for warning ghost rect
+        width, _  = size
+        self.hor_ghost_trigger_rect = pygame.rect.Rect((0, 0), (width * 2, width // 2))
+        self.hor_ghost_trigger_rect.center = self.rect.center
+        self.vert_ghost_trigger_rect = pygame.rect.Rect((0, 0), (width // 2, width * 2))
+        self.vert_ghost_trigger_rect.center = self.rect.center
+
+        self.ghost_rect = pygame.rect.Rect((0, 0), size)
+        self.draw_ghost_rect = False
+        self.warn_move = False
+        self.good_warn_img = good_warn_img
+        self.bad_warn_img = bad_warn_img
 
     
 
@@ -27,11 +40,17 @@ class Box(LevelTile):
 
     def update(self, surface, delta_time):
         self.draw(surface)
-    
+
 
 
     def draw(self, surface):
         surface.blit(self.image, self.rect.topleft)
+
+        if self.draw_ghost_rect:
+            warn_img = self.good_warn_img if not self.warn_move else self.bad_warn_img
+            surface.blit(warn_img, self.ghost_rect.topleft)
+            self.draw_ghost_rect = False
+            self.warn_move = False
 
     
 
@@ -45,9 +64,11 @@ class Box(LevelTile):
 
         if not in_bounds(self.rect):
             self.rect.center = old_position
+            self.position_trigger_rects()
             return False
         if collider.collide(self.rect):
             self.rect.center = old_position
+            self.position_trigger_rects()
             return False
         
         for tile in static_tiles:
@@ -55,6 +76,7 @@ class Box(LevelTile):
                 continue
             if tile.collide(self.rect):
                 self.rect.center = old_position
+                self.position_trigger_rects()
                 return False
 
         for tile in dynamic_tiles:
@@ -62,6 +84,7 @@ class Box(LevelTile):
                 continue
             if tile.collide(self.rect):
                 self.rect.center = old_position
+                self.position_trigger_rects()
                 return False
 
         for agent in agents:
@@ -69,6 +92,7 @@ class Box(LevelTile):
                 continue
             if agent.collide(self.rect):
                 self.rect.center = old_position
+                self.position_trigger_rects()
                 return False
         
         return True
@@ -99,9 +123,37 @@ class Box(LevelTile):
         else:
             self.rect.y += self.move_distance
 
+        self.position_trigger_rects()
         return old_position
     
 
 
+    def position_trigger_rects(self):
+        self.hor_ghost_trigger_rect.center = self.rect.center
+        self.vert_ghost_trigger_rect.center = self.rect.center
+
+
+
+    def trigger_ghost_rect(self, player_rect):
+        if player_rect.center == self.rect.center:
+            return
+        
+        self.draw_ghost_rect = True
+        self.ghost_rect.center = self.rect.center
+
+        if player_rect.centerx < self.rect.centerx:
+            self.ghost_rect.x += self.rect.width
+        elif player_rect.centerx > self.rect.centerx:
+            self.ghost_rect.x -= self.rect.width
+        elif player_rect.centery < self.rect.centery:
+            self.ghost_rect.y += self.rect.height
+        elif player_rect.centery > self.rect.centery:
+            self.ghost_rect.y -= self.rect.height
+
+
+
     def reset(self):
         self.rect.topleft = self.original_topleft
+        self.position_trigger_rects()
+        self.warn_move = False
+        self.draw_ghost_rect = False
