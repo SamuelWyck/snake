@@ -184,11 +184,11 @@ class TileConfig:
             "NOCOLOR": [Color.NO_COLOR, [Images.s_pressure_plate_img, Images.s_pressure_plate_pressed_img]]
         },
         "B": {
-            "b": [Color.BLUE, Images.box_img],
-            "o": [Color.ORANGE, Images.box_img],
-            "g": [Color.GREEN, Images.box_img],
-            "r": [Color.RED, Images.box_img],
-            "NOCOLOR": [Color.NO_COLOR, Images.box_img]
+            "b": [Color.BLUE, Images.box_img, Images.good_warn_img, Images.bad_warn_img],
+            "o": [Color.ORANGE, Images.box_img, Images.good_warn_img, Images.bad_warn_img],
+            "g": [Color.GREEN, Images.box_img, Images.good_warn_img, Images.bad_warn_img],
+            "r": [Color.RED, Images.box_img, Images.good_warn_img, Images.bad_warn_img],
+            "NOCOLOR": [Color.NO_COLOR, Images.box_img, Images.good_warn_img, Images.bad_warn_img]
         },
         "PSH": {
             "b": [*snake_args, Color.BLUE, player_controller],
@@ -265,18 +265,18 @@ class TileConfig:
             "NOCOLOR": [Images.goal_img, Color.NO_COLOR]
         },
         "LC": {
-            "b": [Color.BLUE, Images.laser_base_img, Images.laser_barrel_img, not moveable_laser],
-            "o": [Color.ORANGE, Images.laser_base_img, Images.laser_barrel_img, not moveable_laser],
-            "g": [Color.GREEN, Images.laser_base_img, Images.laser_barrel_img, not moveable_laser],
-            "r": [Color.RED, Images.laser_base_img, Images.laser_barrel_img, not moveable_laser],
-            "NOCOLOR": [Color.NO_COLOR, Images.laser_base_img, Images.laser_barrel_img, not moveable_laser]
+            "b": [Color.BLUE, Images.laser_base_img, Images.laser_barrel_img, not moveable_laser, Images.good_warn_img, Images.bad_warn_img],
+            "o": [Color.ORANGE, Images.laser_base_img, Images.laser_barrel_img, not moveable_laser, Images.good_warn_img, Images.bad_warn_img],
+            "g": [Color.GREEN, Images.laser_base_img, Images.laser_barrel_img, not moveable_laser, Images.good_warn_img, Images.bad_warn_img],
+            "r": [Color.RED, Images.laser_base_img, Images.laser_barrel_img, not moveable_laser, Images.good_warn_img, Images.bad_warn_img],
+            "NOCOLOR": [Color.NO_COLOR, Images.laser_base_img, Images.laser_barrel_img, not moveable_laser, Images.good_warn_img, Images.bad_warn_img]
         },
         "LCM": {
-            "b": [Color.BLUE, Images.moveable_laser_img, Images.laser_barrel_img, moveable_laser],
-            "o": [Color.ORANGE, Images.moveable_laser_img, Images.laser_barrel_img, moveable_laser],
-            "g": [Color.GREEN, Images.moveable_laser_img, Images.laser_barrel_img, moveable_laser],
-            "r": [Color.RED, Images.moveable_laser_img, Images.laser_barrel_img, moveable_laser],
-            "NOCOLOR": [Color.NO_COLOR, Images.moveable_laser_img, Images.laser_barrel_img, moveable_laser]
+            "b": [Color.BLUE, Images.moveable_laser_img, Images.laser_barrel_img, moveable_laser, Images.good_warn_img, Images.bad_warn_img],
+            "o": [Color.ORANGE, Images.moveable_laser_img, Images.laser_barrel_img, moveable_laser, Images.good_warn_img, Images.bad_warn_img],
+            "g": [Color.GREEN, Images.moveable_laser_img, Images.laser_barrel_img, moveable_laser, Images.good_warn_img, Images.bad_warn_img],
+            "r": [Color.RED, Images.moveable_laser_img, Images.laser_barrel_img, moveable_laser, Images.good_warn_img, Images.bad_warn_img],
+            "NOCOLOR": [Color.NO_COLOR, Images.moveable_laser_img, Images.laser_barrel_img, moveable_laser, Images.good_warn_img, Images.bad_warn_img]
         },
         "LSU": {
             "b": [Color.BLUE, Images.laser_base_img, Images.laser_switch_img, laser_angle_up],
@@ -307,18 +307,18 @@ class TileConfig:
             "NOCOLOR": [Color.NO_COLOR, Images.laser_base_img, Images.laser_switch_img, laser_angle_left]
         },
         "M": {
-            "b": [Color.BLUE, Images.mirror_img, Images.mirror_color_img, not moveable],
-            "o": [Color.ORANGE, Images.mirror_img, Images.mirror_color_img, not moveable],
-            "g": [Color.GREEN, Images.mirror_img, Images.mirror_color_img, not moveable],
-            "r": [Color.RED, Images.mirror_img, Images.mirror_color_img, not moveable],
-            "NOCOLOR": [Color.NO_COLOR, Images.mirror_img, Images.mirror_color_img, not moveable]
+            "b": [Color.BLUE, Images.mirror_img, Images.mirror_color_img, not moveable, Images.good_warn_img, Images.bad_warn_img],
+            "o": [Color.ORANGE, Images.mirror_img, Images.mirror_color_img, not moveable, Images.good_warn_img, Images.bad_warn_img],
+            "g": [Color.GREEN, Images.mirror_img, Images.mirror_color_img, not moveable, Images.good_warn_img, Images.bad_warn_img],
+            "r": [Color.RED, Images.mirror_img, Images.mirror_color_img, not moveable, Images.good_warn_img, Images.bad_warn_img],
+            "NOCOLOR": [Color.NO_COLOR, Images.mirror_img, Images.mirror_color_img, not moveable, Images.good_warn_img, Images.bad_warn_img]
         },
         "MM": {
-            "b": [Color.BLUE, Images.moveable_mirror_img, Images.mirror_color_img, moveable],
-            "o": [Color.ORANGE, Images.moveable_mirror_img, Images.mirror_color_img, moveable],
-            "g": [Color.GREEN, Images.moveable_mirror_img, Images.mirror_color_img, moveable],
-            "r": [Color.RED, Images.moveable_mirror_img, Images.mirror_color_img, moveable],
-            "NOCOLOR": [Color.NO_COLOR, Images.moveable_mirror_img, Images.mirror_color_img, moveable]
+            "b": [Color.BLUE, Images.moveable_mirror_img, Images.mirror_color_img, moveable, Images.good_warn_img, Images.bad_warn_img],
+            "o": [Color.ORANGE, Images.moveable_mirror_img, Images.mirror_color_img, moveable, Images.good_warn_img, Images.bad_warn_img],
+            "g": [Color.GREEN, Images.moveable_mirror_img, Images.mirror_color_img, moveable, Images.good_warn_img, Images.bad_warn_img],
+            "r": [Color.RED, Images.moveable_mirror_img, Images.mirror_color_img, moveable, Images.good_warn_img, Images.bad_warn_img],
+            "NOCOLOR": [Color.NO_COLOR, Images.moveable_mirror_img, Images.mirror_color_img, moveable, Images.good_warn_img, Images.bad_warn_img]
         }
     }
 
