@@ -5,6 +5,7 @@ from level_objects.agent_objects.box import Box
 from level_objects.agent_objects.snake.snake import Snake
 from level_objects.agent_objects.spike_ball import SpikeBall
 from level_objects.dynamic_objects.lava import Lava
+from level_objects.dynamic_objects.door import Door
 from level_objects.static_objects.goal import Goal
 from level_objects.agent_objects.laser_cannon import LaserCannon
 from level_objects.agent_objects.mirror import Mirror
@@ -71,15 +72,23 @@ class CollisionManager:
                     self.level_won = True
                     return False
                 continue
-            if tile.color == collider.color and tile.color != Color.NO_COLOR:
+            if tile.color == collider.color and tile.color != Color.NO_COLOR and not self.is_moveable(collider):
                 continue
+
             if self.is_pressure_plate_tile(tile):
                 for segment in tile.segments:
                     if collider.collide(segment.rect):
                         tile.hit_segments.add(segment)
-            else:
-                if collider.__class__ == Snake and collider.collide(tile.get_hitbox()):
+
+            elif collider.__class__ == Snake and collider.collide(tile.get_hitbox()):
                     return True
+            
+            elif self.is_moveable(collider) and collider.draw_ghost_rect and tile.__class__ != Lava:
+                if tile.__class__ == Door and tile.collide(collider.ghost_rect):
+                    collider.warn_move = True
+                elif tile.__class__ != Door and collider.ghost_rect.colliderect(tile.rect):
+                    collider.warn_move = True
+
         return False
 
 
@@ -91,18 +100,33 @@ class CollisionManager:
                     continue
             if agent == collider:
                 continue
-            if agent.__class__ == Box or agent.__class__ == LaserCannon or agent.__class__ == Mirror:
-                if collider.__class__ == Snake and collider.rect.colliderect(agent.rect) and not agent.move(
+
+            if self.is_moveable(agent) and collider.__class__ == Snake:
+                if collider.rect.colliderect(agent.hor_ghost_trigger_rect) or collider.rect.colliderect(
+                    agent.vert_ghost_trigger_rect
+                ):
+                    agent.trigger_ghost_rect(collider.rect)
+                    if collider.collide(agent.ghost_rect):
+                        agent.warn_move = True
+                        
+                if collider.rect.colliderect(agent.rect) and not agent.move(
                         collider, static_tiles, dynamic_tiles, agents, self.is_box_skippable, self.in_bounds
                     ):
                         return True
-                elif collider.__class__ == Snake and collider.color != Color.NO_COLOR and collider.collide(agent.rect):
+                elif collider.color != Color.NO_COLOR and collider.collide(agent.rect):
                     return True
+                
             elif agent.__class__ == SpikeBall and collider.__class__ == Snake:
                 if collider.collide(agent.rect):
                     return True
+                
             if collider.__class__ == SpikeBall and agent.rect.colliderect(collider.rect):
-                collider.reverse_direction(agent)
+                collider.reverse_direction()
+            elif self.is_moveable(collider) and collider.draw_ghost_rect:
+                if collider.ghost_rect.colliderect(agent.rect):
+                    collider.warn_move = True
+
+
         return False
 
 
@@ -111,6 +135,9 @@ class CollisionManager:
         for tile in static_tiles:
             if collider.rect.colliderect(tile.rect):
                 return True
+            elif self.is_moveable(collider) and collider.draw_ghost_rect:
+                if collider.ghost_rect.colliderect(tile.rect):
+                    collider.warn_move = True
         return False
 
 
@@ -179,9 +206,17 @@ class CollisionManager:
     def is_box_skippable(self, tile):
         if tile.__class__ in self.compound_tiles:
             return True
-        return tile.__class__ == Lava or tile.__class__ == Goal or tile.__class__ == SpikeBall
+        return tile.__class__ == Lava or tile.__class__ == Goal
     
 
 
     def in_bounds(self, collider_rect):
         return self.pa_rect.contains(collider_rect)
+    
+
+
+    def is_moveable(self, tile):
+        if tile.__class__ == Box:
+            return True
+        if tile.__class__ == Mirror or tile.__class__ == LaserCannon:
+            return tile.moveable
