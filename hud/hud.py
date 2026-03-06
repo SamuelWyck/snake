@@ -3,6 +3,7 @@ from asset_loaders.image_loader import Images
 from hud.border import Border
 from user_interface.elements.live_text_display import LiveTextDisplay
 from user_interface.elements.text_display import TextDisplay
+from user_interface.elements.image_display import ImageDisplay
 from asset_loaders.font_loader import Fonts
 from asset_loaders.image_loader import Images
 from utils.color import Color
@@ -55,6 +56,16 @@ class Hud:
             color=Color.YELLOW,
             text="999"
         )
+
+        # variables for level failed display
+        self.level_failed_message = ImageDisplay(topleft=(0, 0), image=Images.level_failed_title_img)
+        screen_width, screen_height = screen_size
+        self.level_failed_message.set_center((screen_width // 2, screen_height // 2 - 20))
+
+
+
+    def draw_level_failed_message(self, surface):
+        self.level_failed_message.update(surface)
         
 
 
