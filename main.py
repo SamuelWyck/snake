@@ -23,6 +23,7 @@ class Game:
         self.screen_height = Display.screen_height
 
         self.framerate = 480
+        self.one_second = 1
 
         #setup game canvas 
         self.canvas_width, self.canvas_height = 1536, 864
@@ -127,6 +128,7 @@ class Game:
 
 
             if self.collision_manager.level_won:
+                time.sleep(self.one_second * 1.5)
                 exit_menu, level_num = self.ui.win_menu.run(self.framerate, self.canvas, self.screen)
                 last_time = time.time()
                 self.player_controller.reset_all()
@@ -156,8 +158,13 @@ class Game:
                 self.level_manager.get_level_objects
             )
             if collision:
+                self.hud.draw_level_failed_message(self.screen)
+                pygame.display.update()
+                time.sleep(self.one_second * 2)
+
                 self.level_manager.reset_level()
                 self.player_controller.reset_inputs()
+                last_time = time.time()
                 continue
 
 
