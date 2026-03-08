@@ -2,7 +2,7 @@ import pygame
 from asset_loaders.image_loader import Images
 from hud.border import Border
 from user_interface.elements.live_text_display import LiveTextDisplay
-from user_interface.elements.text_display import TextDisplay
+from hud.stat_display import StatDisplay
 from user_interface.elements.image_display import ImageDisplay
 from asset_loaders.font_loader import Fonts
 from asset_loaders.image_loader import Images
@@ -47,18 +47,18 @@ class Hud:
         self.pickups_border_rect = self.pickups_border.get_rect()
         self.pickups_border_rect.topleft = (15, 278)
 
-        # variables for level num display
-        level_display_x = 1325
-        level_display_y = 10
-        self.level_title_display = TextDisplay(
-            topleft=(level_display_x, level_display_y), 
-            font=Fonts.pickup_outline_font, color=Color.YELLOW, text="LEVEL:"
-        )
-        self.level_num_display = TextDisplay(
-            topleft=(self.level_title_display.get_width() + level_display_x + 10, level_display_y), 
-            font=Fonts.pickup_outline_font,
-            color=Color.YELLOW,
-            text="999"
+        # level num display
+        level_display_x = 1290
+        level_display_y = 5
+        level_num_gap = 10
+        self.level_num_display = StatDisplay(
+            (level_display_x, level_display_y), 
+            level_num_gap, 
+            title="LEVEL", 
+            font=Fonts.pickup_outline_font, 
+            color=Color.SNAKE_YELLOW,
+            outline_width=6,
+            outline_color=Color.BLACK
         )
 
         # variables for level failed display
@@ -74,7 +74,7 @@ class Hud:
 
 
     def update_level_num(self, level_num):
-        self.level_num_display.change_text(str(level_num + 1))
+        self.level_num_display.update_stat(str(level_num + 1))
 
         
 
@@ -87,7 +87,6 @@ class Hud:
         if self.player_pickups != None:
             self.update_player_pickups(surface)
 
-        self.level_title_display.update(surface)
         self.level_num_display.update(surface)
 
         
