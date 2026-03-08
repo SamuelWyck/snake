@@ -1,8 +1,8 @@
 import pygame
 from asset_loaders.image_loader import Images
 from hud.border import Border
-from user_interface.elements.live_text_display import LiveTextDisplay
 from hud.stat_display import StatDisplay
+from user_interface.elements.live_text_display import LiveTextDisplay
 from user_interface.elements.image_display import ImageDisplay
 from asset_loaders.font_loader import Fonts
 from asset_loaders.image_loader import Images
