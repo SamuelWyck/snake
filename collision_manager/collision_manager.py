@@ -6,6 +6,7 @@ from level_objects.agent_objects.snake.snake import Snake
 from level_objects.agent_objects.spike_ball import SpikeBall
 from level_objects.dynamic_objects.lava import Lava
 from level_objects.dynamic_objects.door import Door
+from level_objects.dynamic_objects.portal import Portal
 from level_objects.static_objects.goal import Goal
 from level_objects.agent_objects.laser_cannon import LaserCannon
 from level_objects.agent_objects.mirror import Mirror
@@ -72,13 +73,17 @@ class CollisionManager:
                     self.level_won = True
                     return False
                 continue
-            if tile.color == collider.color and tile.color != Color.NO_COLOR and not self.is_moveable(collider):
+            if tile.color == collider.color and tile.color != Color.NO_COLOR and not self.is_moveable(collider) and tile.__class__ != Portal:
                 continue
 
             if self.is_pressure_plate_tile(tile):
                 for segment in tile.segments:
                     if collider.collide(segment.rect):
                         tile.hit_segments.add(segment)
+
+            elif tile.__class__ == Portal:
+                if tile.collide(collider):
+                    tile.teleport(collider)
 
             elif collider.__class__ == Snake and collider.collide(tile.get_hitbox()):
                     return True
@@ -134,10 +139,14 @@ class CollisionManager:
     def check_static_tiles(self, collider, static_tiles):
         for tile in static_tiles:
             if collider.rect.colliderect(tile.rect):
-                return True
+                if collider.__class__ == Snake:
+                    return True
+                elif collider.__class__ == SpikeBall:
+                    collider.reverse_direction()
             elif self.is_moveable(collider) and collider.draw_ghost_rect:
                 if collider.ghost_rect.colliderect(tile.rect):
                     collider.warn_move = True
+
         return False
 
 
@@ -181,7 +190,7 @@ class CollisionManager:
             for tile in dynamic_tiles:
                 if tile.__class__ == Goal:
                     continue
-                if tile.__class__ == Lava or self.is_pressure_plate_tile(tile):
+                if tile.__class__ == Lava or self.is_pressure_plate_tile(tile) or tile.__class__ == Portal:
                     continue
                 if tile.collide(interactable.rect):
                     if interactable.__class__ == Bullet:
@@ -206,7 +215,7 @@ class CollisionManager:
     def is_box_skippable(self, tile):
         if tile.__class__ in self.compound_tiles:
             return True
-        return tile.__class__ == Lava or tile.__class__ == Goal
+        return tile.__class__ == Lava or tile.__class__ == Goal or tile.__class__ == Portal
     
 
 
