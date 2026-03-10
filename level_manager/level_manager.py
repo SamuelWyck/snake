@@ -1,6 +1,7 @@
 import os
 from level_manager.tile_config import TileConfig
 from level_objects.interactables.laser import Laser
+from level_objects.interactables.bullet import Bullet
 
 
 
@@ -63,6 +64,8 @@ class LevelManager:
             if not TileConfig.is_pickup(interactable):
                 continue
             interactable.set_center_position(interactable.original_position)
+
+        self.small_interactables[:] = [item for item in self.small_interactables if item.__class__ != Bullet]
 
         while self.player.eaten_pickups:
             pickup = self.player.eaten_pickups.pop()
@@ -180,7 +183,7 @@ class LevelManager:
         self.store_tile(first_portal)
         self.store_tile(second_portal)
     
-    
+
 
     def explore_wall(self, row, col, level, symbol):
         topleft = self.calc_tile_topleft(row, col)
