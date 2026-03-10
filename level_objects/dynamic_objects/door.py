@@ -6,12 +6,14 @@ from utils.animation import Animation
 
 
 class Door(LevelTile, Receiver):
-    def __init__(self, topleft, size, color, frame_data, is_open, is_vertical):
+    def __init__(self, topleft, size, color, frame_data, source_image, is_open, is_vertical):
         super().__init__(topleft, size)
 
         if is_vertical:
             frame_data = self.rotate_frames(frame_data)
+            source_image = pygame.transform.rotate(source_image, 90)
 
+        self.source_image = source_image
         self.animation = Animation(frame_data)
         self.image = None
         self.color = color
@@ -34,12 +36,16 @@ class Door(LevelTile, Receiver):
     def update(self, surface, delta_time):
         if not self.is_open:
             self.image = self.animation.get_frame(delta_time)
-            self.draw(surface)
+
+        self.draw(surface)
 
     
 
     def draw(self, surface):
-        surface.blit(self.image, self.rect.topleft)
+        if not self.is_open:
+            surface.blit(self.image, self.rect.topleft)
+
+        surface.blit(self.source_image, self.rect.topleft)
 
 
 
