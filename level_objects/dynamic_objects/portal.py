@@ -55,8 +55,9 @@ class Portal(LevelTile):
 
 
     def collide(self, collider):
-        if self.color != collider.color and self.color != Color.NO_COLOR:
+        if self.color != Color.NO_COLOR and self.color != collider.color:
             return False
+        
         if self.rect.contains(collider.rect):
             if collider is self.teleported_object:
                 self.hit_teleported_object = True
