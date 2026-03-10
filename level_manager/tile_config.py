@@ -8,6 +8,7 @@ from level_objects.dynamic_objects.lava import Lava
 from level_objects.dynamic_objects.door import Door
 from level_objects.dynamic_objects.pressure_plate.pressure_plate import PressurePlate
 from level_objects.dynamic_objects.sticky_pressure_plate import StickyPressurePlate
+from level_objects.dynamic_objects.portal import Portal
 from level_objects.agent_objects.box import Box
 from level_objects.agent_objects.laser_cannon import LaserCannon
 from level_objects.agent_objects.mirror import Mirror
@@ -99,6 +100,7 @@ class TileConfig:
 
     empty_symbol = "O"
     wall_symbol = "W"
+    portal_symbol = "T"
 
     tile_delimiter = ","
     tile_data_delimiter = "-"
@@ -155,7 +157,8 @@ class TileConfig:
         "LSD": LaserSwitch,
         "LSL": LaserSwitch,
         "M": Mirror,
-        "MM": Mirror
+        "MM": Mirror,
+        "T": Portal
     }
     tile_args_map = {
         "W": {
@@ -319,6 +322,13 @@ class TileConfig:
             "g": [Color.GREEN, Images.moveable_mirror_img, Images.mirror_color_img, moveable, Images.good_warn_img, Images.bad_warn_img],
             "r": [Color.RED, Images.moveable_mirror_img, Images.mirror_color_img, moveable, Images.good_warn_img, Images.bad_warn_img],
             "NOCOLOR": [Color.NO_COLOR, Images.moveable_mirror_img, Images.mirror_color_img, moveable, Images.good_warn_img, Images.bad_warn_img]
+        },
+        "T": {
+            "b": [Images.portal_img, Color.BLUE],
+            "o": [Images.portal_img, Color.ORANGE],
+            "g": [Images.portal_img, Color.GREEN],
+            "r": [Images.portal_img, Color.RED],
+            "NOCOLOR": [Images.portal_img, Color.NO_COLOR],
         }
     }
 
@@ -328,7 +338,8 @@ class TileConfig:
         PressurePlate,
         Door,
         Lava,
-        Goal
+        Goal,
+        Portal
     ])
     interactables = set([Pickup])
     tiles_needing_interactables = set([Cannon])
@@ -356,7 +367,7 @@ class TileConfig:
             tile_id = None
             tile_args = tile_args[:]
             tile_args.append(tile_value)
-        elif tile_class == SpikeBall:
+        elif tile_class == SpikeBall or tile_class == Portal:
             tile_id = None
         elif tile_class == LaserCannon or tile_class == Mirror:
             tile_args = tile_args[:]
@@ -510,6 +521,15 @@ class TileConfig:
         symbol_parts = tile_symbol.split(cls.tile_data_delimiter)
         tile_symbol = symbol_parts[tile_symbol_index]
         return tile_symbol == cls.wall_symbol
+    
+
+
+    @classmethod
+    def is_portal_tile(cls, tile_symbol):
+        tile_symbol_index = 0
+        symbol_parts = tile_symbol.split(cls.tile_data_delimiter)
+        symbol = symbol_parts[tile_symbol_index]
+        return symbol == cls.portal_symbol
     
 
 
