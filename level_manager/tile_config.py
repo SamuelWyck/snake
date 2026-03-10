@@ -166,16 +166,16 @@ class TileConfig:
             "NOCOLOR": [Color.NO_COLOR, Color.COLOR_KEY]   
         },
         "DO": {
-            "NOCOLOR": [Color.NO_COLOR, door_frame_data, start_door_open, not vertical_door]
+            "NOCOLOR": [Color.NO_COLOR, door_frame_data, Images.door_source_img, start_door_open, not vertical_door]
         },
         "DC": {
-            "NOCOLOR": [Color.NO_COLOR, door_frame_data, not start_door_open, not vertical_door]
+            "NOCOLOR": [Color.NO_COLOR, door_frame_data, Images.door_source_img, not start_door_open, not vertical_door]
         },
         "DVO": {
-            "NOCOLOR": [Color.NO_COLOR, door_frame_data, start_door_open, vertical_door]
+            "NOCOLOR": [Color.NO_COLOR, door_frame_data, Images.door_source_img, start_door_open, vertical_door]
         },
         "DVC": {
-            "NOCOLOR": [Color.NO_COLOR, door_frame_data, not start_door_open, vertical_door]
+            "NOCOLOR": [Color.NO_COLOR, door_frame_data, Images.door_source_img, not start_door_open, vertical_door]
         },
         "P": {
             "NOCOLOR": [Color.NO_COLOR, [Images.pressure_plate_img, Images.pressure_plate_pressed_img]]
