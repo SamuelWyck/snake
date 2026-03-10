@@ -135,11 +135,16 @@ class LevelManager:
             topleft_positions = self.get_snake_positions(row, col, level)
         elif TileConfig.is_wall_tile(symbol):
             topleft_positions, tile_size = self.explore_wall(row, col, level, symbol)
+        elif TileConfig.is_portal_tile(symbol):
+            topleft_positions = self.find_portal_tile_positions(row, level, symbol)
         else:
             topleft_positions = self.calc_tile_topleft(row, col)
 
-        tile = TileConfig.get_tile(topleft_positions, tile_size, symbol, self.small_interactables, self.lasers)
-        self.store_tile(tile)
+        if TileConfig.is_portal_tile(symbol):
+            self.get_and_link_portal_tiles(topleft_positions, tile_size, symbol)
+        else:
+            tile = TileConfig.get_tile(topleft_positions, tile_size, symbol, self.small_interactables, self.lasers)
+            self.store_tile(tile)
 
     
 
@@ -161,6 +166,20 @@ class LevelManager:
             if TileConfig.is_laser_switch(tile):
                 self.laser_switches.append(tile)
 
+
+    
+    def get_and_link_portal_tiles(self, topleft_positions, tile_size, symbol):
+        first_pos, second_pos = topleft_positions
+
+        first_portal = TileConfig.get_tile(first_pos, tile_size, symbol, self.small_interactables, self.lasers)
+        second_portal = TileConfig.get_tile(second_pos, tile_size, symbol, self.small_interactables, self.lasers)
+
+        first_portal.link_portal(second_portal)
+        second_portal.link_portal(first_portal)
+
+        self.store_tile(first_portal)
+        self.store_tile(second_portal)
+    
     
 
     def explore_wall(self, row, col, level, symbol):
@@ -362,6 +381,20 @@ class LevelManager:
                 j += 1
         
         return merged_list
+    
+
+
+    def find_portal_tile_positions(self, start_row, level, symbol):
+        topleft_positions = []
+
+        for row in range(start_row, len(level)):
+            for col in range(0, len(level[0])):
+                current_symbol = level[row][col]
+                if current_symbol == symbol:
+                    topleft_positions.append(self.calc_tile_topleft(row, col))
+                    self.found_island_tiles.add((row, col))
+
+        return topleft_positions
 
 
 
