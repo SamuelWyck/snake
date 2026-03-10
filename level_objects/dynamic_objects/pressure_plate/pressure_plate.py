@@ -37,3 +37,9 @@ class PressurePlate(Transmitter):
             self.same_activation = False
         
         self.hit_segments = set()
+
+    
+
+    def reset(self):
+        self.same_activation = False
+        self.hit_segments = set()

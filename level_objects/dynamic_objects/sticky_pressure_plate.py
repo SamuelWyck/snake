@@ -28,3 +28,10 @@ class StickyPressurePlate(PressurePlate):
             self.same_activation = False
         
         self.hit_segments = set()
+
+
+    
+    def reset(self):
+        self.activated = False
+        self.same_activation = False
+        self.hit_segments = set()
