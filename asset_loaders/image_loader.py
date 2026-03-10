@@ -44,6 +44,7 @@ class Images:
     door_img_1 = pygame.image.load(os.path.join(dynamic_tile_images_path, "door_frames/door_frame_1.png")).convert_alpha()
     door_img_2 = pygame.image.load(os.path.join(dynamic_tile_images_path, "door_frames/door_frame_2.png")).convert_alpha()
     door_img_3 = pygame.image.load(os.path.join(dynamic_tile_images_path, "door_frames/door_frame_3.png")).convert_alpha()
+    door_source_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "door_source.png")).convert_alpha()
     lava_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "acid_frames/lava.png")).convert_alpha()
     bubble_img_0 = pygame.image.load(os.path.join(dynamic_tile_images_path, "acid_frames/bubble_frame_0.png")).convert_alpha()
     bubble_img_1 = pygame.image.load(os.path.join(dynamic_tile_images_path, "acid_frames/bubble_frame_1.png")).convert_alpha()
