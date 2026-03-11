@@ -198,7 +198,7 @@ class TileConfig:
             "o": [*snake_args, Color.ORANGE, player_controller],
             "g": [*snake_args, Color.GREEN, player_controller],
             "r": [*snake_args, Color.RED, player_controller],
-            "NOCOLOR": [*snake_args, Color.GRAY, player_controller]
+            "NOCOLOR": [*snake_args, Color.NO_COLOR, player_controller]
         },
         "S": {
             "b": [spike_ball_size, spike_ball_vel, Color.BLUE, Images.spike_ball_fg_img, Images.spike_ball_bg_img, not circular_path],
