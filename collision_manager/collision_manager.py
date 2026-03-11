@@ -84,8 +84,7 @@ class CollisionManager:
             elif tile.__class__ == Portal:
                 if tile.collide(collider):
                     tile.teleport(collider)
-                    if collider.__class__ == Snake:
-                        collider.handle_teleport()
+                    collider.handle_teleport()
 
             elif collider.__class__ == Snake and collider.collide(tile.get_hitbox()):
                     return True
