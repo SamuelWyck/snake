@@ -65,7 +65,8 @@ class Snake:
     
     def get_head_image(self):
         head_img = self.head_img.copy()
-        head_img.fill(self.color, special_flags=pygame.BLEND_MIN)
+        color = self.color if self.color != Color.NO_COLOR else Color.GRAY
+        head_img.fill(color, special_flags=pygame.BLEND_MIN)
         head_img.blit(self.eyes_img, (0, 0))
         return head_img
 
@@ -296,11 +297,12 @@ class Snake:
 
     def draw_body(self, surface):
         remove = False
+        color = self.color if self.color != Color.NO_COLOR else Color.GRAY
         for body_part in self.body:
             if body_part.remove:
                 remove = True
                 continue
-            body_part.draw(surface, self.color)
+            body_part.draw(surface, color)
         
         return remove
     
