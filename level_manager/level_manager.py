@@ -16,6 +16,7 @@ class LevelManager:
         self.small_interactables = []
         self.lasers = []
         self.laser_switches = []
+        self.portals = []
         self.player = None
 
         self.level_files = [
@@ -50,6 +51,7 @@ class LevelManager:
         self.small_interactables = []
         self.lasers = []
         self.laser_switches = []
+        self.portals = []
         self.player = None
     
 
@@ -182,6 +184,8 @@ class LevelManager:
 
         self.store_tile(first_portal)
         self.store_tile(second_portal)
+        self.portals.append(first_portal)
+        self.portals.append(second_portal)
     
 
 
@@ -448,4 +452,4 @@ class LevelManager:
 
 
     def get_level_objects(self):
-        return self.static_tiles, self.dynamic_tiles, self.agent_tiles, self.small_interactables, self.lasers, self.laser_switches
+        return self.static_tiles, self.dynamic_tiles, self.agent_tiles, self.small_interactables, self.lasers, self.laser_switches, self.portals
