@@ -206,11 +206,9 @@ class Mirror(LevelTile):
 
         if not in_bounds(self.rect):
             self.rect.center = old_position
-            self.position_trigger_rects()
             return False
         if collider.collide(self.rect):
             self.rect.center = old_position
-            self.position_trigger_rects()
             return False
         
         for tile in static_tiles:
@@ -218,7 +216,6 @@ class Mirror(LevelTile):
                 continue
             if tile.collide(self.rect):
                 self.rect.center = old_position
-                self.position_trigger_rects()
                 return False
 
         for tile in dynamic_tiles:
@@ -226,7 +223,6 @@ class Mirror(LevelTile):
                 continue
             if tile.collide(self.rect):
                 self.rect.center = old_position
-                self.position_trigger_rects()
                 return False
 
         for agent in agents:
@@ -234,10 +230,10 @@ class Mirror(LevelTile):
                 continue
             if agent.collide(self.rect):
                 self.rect.center = old_position
-                self.position_trigger_rects()
                 return False
         
         self.move_laser()
+        self.position_trigger_rects()
         return True
     
 
@@ -280,7 +276,6 @@ class Mirror(LevelTile):
         else:
             self.rect.y += self.move_distance
 
-        self.position_trigger_rects()
         return old_position
         
     

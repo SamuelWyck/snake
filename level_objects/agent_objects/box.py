@@ -64,11 +64,9 @@ class Box(LevelTile):
 
         if not in_bounds(self.rect):
             self.rect.center = old_position
-            self.position_trigger_rects()
             return False
         if collider.collide(self.rect):
             self.rect.center = old_position
-            self.position_trigger_rects()
             return False
         
         for tile in static_tiles:
@@ -76,7 +74,6 @@ class Box(LevelTile):
                 continue
             if tile.collide(self.rect):
                 self.rect.center = old_position
-                self.position_trigger_rects()
                 return False
 
         for tile in dynamic_tiles:
@@ -84,7 +81,6 @@ class Box(LevelTile):
                 continue
             if tile.collide(self.rect):
                 self.rect.center = old_position
-                self.position_trigger_rects()
                 return False
 
         for agent in agents:
@@ -92,9 +88,9 @@ class Box(LevelTile):
                 continue
             if agent.collide(self.rect):
                 self.rect.center = old_position
-                self.position_trigger_rects()
                 return False
         
+        self.position_trigger_rects()
         return True
     
 
@@ -123,7 +119,6 @@ class Box(LevelTile):
         else:
             self.rect.y += self.move_distance
 
-        self.position_trigger_rects()
         return old_position
     
 

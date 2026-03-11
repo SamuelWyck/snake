@@ -101,11 +101,9 @@ class LaserCannon(LevelTile):
 
         if not in_bounds(self.rect):
             self.rect.center = old_position
-            self.position_trigger_rects()
             return False
         if collider.collide(self.rect):
             self.rect.center = old_position
-            self.position_trigger_rects()
             return False
         
         for tile in static_tiles:
@@ -113,7 +111,6 @@ class LaserCannon(LevelTile):
                 continue
             if tile.collide(self.rect):
                 self.rect.center = old_position
-                self.position_trigger_rects()
                 return False
 
         for tile in dynamic_tiles:
@@ -121,7 +118,6 @@ class LaserCannon(LevelTile):
                 continue
             if tile.collide(self.rect):
                 self.rect.center = old_position
-                self.position_trigger_rects()
                 return False
 
         for agent in agents:
@@ -129,11 +125,11 @@ class LaserCannon(LevelTile):
                 continue
             if agent.collide(self.rect):
                 self.rect.center = old_position
-                self.position_trigger_rects()
                 return False
         
         new_laser_start = self.get_laser_start_coords()
         self.laser.set_laser_start(new_laser_start)
+        self.position_trigger_rects()
         return True
     
 
@@ -161,7 +157,6 @@ class LaserCannon(LevelTile):
         else:
             self.rect.y += self.move_distance
         
-        self.position_trigger_rects()
         return old_position
     
 
