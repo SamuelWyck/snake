@@ -157,3 +157,8 @@ class Box(LevelTile):
         self.position_trigger_rects()
         self.warn_move = False
         self.draw_ghost_rect = False
+
+    
+
+    def handle_teleport(self):
+        self.position_trigger_rects()

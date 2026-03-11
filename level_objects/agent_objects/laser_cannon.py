@@ -194,3 +194,9 @@ class LaserCannon(LevelTile):
         self.position_trigger_rects()
         self.warn_move = False
         self.draw_ghost_rect = False
+
+    
+    def handle_teleport(self):
+        self.position_trigger_rects()
+        new_laser_start = self.get_laser_start_coords()
+        self.laser.set_laser_start(new_laser_start)

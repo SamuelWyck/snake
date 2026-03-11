@@ -316,3 +316,8 @@ class Mirror(LevelTile):
     
     def get_hitbox(self):
         return self.rect
+    
+
+
+    def handle_teleport(self):
+        self.position_trigger_rects()
