@@ -13,10 +13,12 @@ class Portal(LevelTile):
 
         self.paired_portal = None
 
+        self.object_to_teleport = None
+
         self.teleported_object = None
         self.hit_teleported_object = False
 
-    
+
 
     def update(self, surface, delta_time):
         self.draw(surface)
@@ -43,46 +45,27 @@ class Portal(LevelTile):
     
 
 
-    def position_moveable_for_teleport(self, collider, player, moveable_old_pos):
-        spacing = 10
+    def teleport(self):
+        if self.object_to_teleport == None:
+            return
+        
+        self.object_to_teleport.rect.center = self.paired_portal.rect.center
+        self.paired_portal.teleported_object = self.object_to_teleport
+        self.paired_portal.hit_teleported_object = True
 
-        collider.rect.center = self.paired_portal.rect.center
-
-        old_x, old_y = moveable_old_pos
-        if player.rect.centerx < old_x:
-            collider.rect.centerx -= spacing
-        elif player.rect.centerx > old_x:
-            collider.rect.centerx += spacing
-        elif player.rect.centery < old_y:
-            collider.rect.centery -= spacing
-        elif player.rect.centery > old_y:
-            collider.rect.centery += spacing
+        self.object_to_teleport.handle_teleport()
+        self.object_to_teleport = None
 
 
 
-    def teleport(self, collider, player, is_moveable, static_tiles, dynamic_tiles, agents, is_box_skippable, in_bounds):    
-        if is_moveable(collider) and is_moveable(self.paired_portal.teleported_object):
-            old_pos = collider.rect.center
-            self.position_moveable_for_teleport(collider, player, old_pos)
-
-            if self.paired_portal.teleported_object.move(
-                collider, static_tiles, dynamic_tiles, agents, is_box_skippable, in_bounds
-            ):
-                collider.rect.center = self.paired_portal.rect.center
-                self.paired_portal.teleported_object = collider
-                self.paired_portal.hit_teleported_object = True
-                return True
-            else:
-                collider.rect.center = old_pos
-                self.hit_teleported_object = True
-                self.teleported_object = collider
-                return False
-            
-        else:
-            collider.rect.center = self.paired_portal.rect.center
-            self.paired_portal.teleported_object = collider
-            self.paired_portal.hit_teleported_object = True
-            return True
+    def queue_teleport(self, collider, is_moveable):    
+        if is_moveable(collider) and self.paired_portal.teleported_object != None:
+            return False
+        if self.object_to_teleport != None:
+            return False
+        
+        self.object_to_teleport = collider
+        return True
 
 
 
