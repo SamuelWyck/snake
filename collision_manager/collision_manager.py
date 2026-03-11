@@ -42,7 +42,7 @@ class CollisionManager:
             if not self.in_bounds(player.rect):
                 return True
 
-        if self.check_dynamic_tiles(player, dynamic_tiles):
+        if self.check_dynamic_tiles(player, dynamic_tiles, static_tiles, agents, player):
             return True
         if self.check_agents(player, agents, static_tiles, dynamic_tiles):
             return True
@@ -50,7 +50,7 @@ class CollisionManager:
         for agent in agents:
             if self.check_agents(agent, agents, static_tiles, dynamic_tiles):
                 return True
-            if self.check_dynamic_tiles(agent, dynamic_tiles):
+            if self.check_dynamic_tiles(agent, dynamic_tiles, static_tiles, dynamic_tiles, player):
                 return True
             if self.check_static_tiles(agent, static_tiles):
                 return True
@@ -66,7 +66,7 @@ class CollisionManager:
     
 
 
-    def check_dynamic_tiles(self, collider, dynamic_tiles):
+    def check_dynamic_tiles(self, collider, dynamic_tiles, static_tiles, agents, player):
         for tile in dynamic_tiles:
             if tile.__class__ == Goal:
                 if collider.__class__ == Snake and tile.collide(collider):
@@ -83,8 +83,13 @@ class CollisionManager:
 
             elif tile.__class__ == Portal:
                 if tile.collide(collider):
-                    tile.teleport(collider)
-                    collider.handle_teleport()
+                    if tile.teleport(
+                        collider, player, 
+                        self.is_moveable, 
+                        static_tiles, dynamic_tiles, agents, 
+                        self.is_box_skippable, self.in_bounds
+                    ):
+                        collider.handle_teleport()
 
             elif collider.__class__ == Snake and collider.collide(tile.get_hitbox()):
                     return True
@@ -119,7 +124,7 @@ class CollisionManager:
                         collider, static_tiles, dynamic_tiles, agents, self.is_box_skippable, self.in_bounds
                     ):
                         return True
-                elif collider.color != Color.NO_COLOR and collider.collide(agent.rect):
+                elif collider.collide(agent.rect):
                     return True
                 
             elif agent.__class__ == SpikeBall and collider.__class__ == Snake:
