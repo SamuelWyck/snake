@@ -29,6 +29,7 @@ class Snake:
         self.stopped = 4
         self.movement = None
         self.last_movement = None
+        self.teleported = False
     
         self.length_increase = 0
         self.length_decrease = 0
@@ -216,8 +217,9 @@ class Snake:
         if self.step_interval <= 0 and self.movement != self.stopped:
             self.step_interval = self.max_step_interval
             prev_head_pos, same_direction = self.move()
-            if not same_direction:
+            if not same_direction or self.teleported:
                 self.add_body_segment(prev_head_pos)
+                self.teleported = False
             else:
                 self.grow_front_segment()
             
@@ -312,29 +314,19 @@ class Snake:
         if same_y_coord:
             return "left" if segment_pos[x_coord] > next_segment_pos[x_coord] else "right"
         return "top" if segment_pos[y_coord] > next_segment_pos[y_coord] else "bottom"
-
-
-
-    def get_change_direction(self, segment_pos, next_segment_pos):
-        return self.get_joint_side(segment_pos, next_segment_pos)
     
 
 
     def grow_front_segment(self):
         front_body_part = self.body[-1]
-        change_direction = self.get_change_direction(front_body_part.rect.center, self.rect.center)
-        front_body_part.grow(self.step_size, change_direction)
+        front_body_part.grow(self.step_size)
 
     
 
     def shrink_back_segment(self):
         back_index = 0 if not self.body[0].remove else 1
-        next_index = back_index + 1
         back_body_part = self.body[back_index]
-
-        next_body_part_pos = self.body[next_index].back_pos if len(self.body) > next_index else self.rect.center
-        change_direction = self.get_change_direction(back_body_part.rect.center, next_body_part_pos)
-        back_body_part.shrink(self.step_size, change_direction)
+        back_body_part.shrink(self.step_size)
 
     
 
@@ -468,3 +460,8 @@ class Snake:
             self.image = self.get_head_image()
         self.eaten_pickups.append(pickup)
         return True
+    
+
+
+    def handle_teleport(self):
+        self.teleported = True
