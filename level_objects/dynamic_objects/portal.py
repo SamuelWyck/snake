@@ -45,9 +45,6 @@ class Portal(LevelTile):
 
     def teleport(self, collider):        
         collider.rect.center = self.paired_portal.rect.center
-        if hasattr(collider, "vector"):
-            collider.vector.x = collider.rect.centerx
-            collider.vector.y = collider.rect.centery
 
         self.paired_portal.teleported_object = collider
         self.paired_portal.hit_teleported_object = True
