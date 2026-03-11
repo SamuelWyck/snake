@@ -33,7 +33,7 @@ class CollisionManager:
     
 
     def check_collisions(self, player, level_object_fetcher):   
-        static_tiles, dynamic_tiles, agents, interactables, lasers, laser_switches = level_object_fetcher()
+        static_tiles, dynamic_tiles, agents, interactables, lasers, laser_switches, portals = level_object_fetcher()
 
         if player.just_moved():
             if self.check_static_tiles(player, static_tiles):
@@ -42,7 +42,7 @@ class CollisionManager:
             if not self.in_bounds(player.rect):
                 return True
 
-        if self.check_dynamic_tiles(player, dynamic_tiles, static_tiles, agents, player):
+        if self.check_dynamic_tiles(player, dynamic_tiles):
             return True
         if self.check_agents(player, agents, static_tiles, dynamic_tiles):
             return True
@@ -50,13 +50,17 @@ class CollisionManager:
         for agent in agents:
             if self.check_agents(agent, agents, static_tiles, dynamic_tiles):
                 return True
-            if self.check_dynamic_tiles(agent, dynamic_tiles, static_tiles, dynamic_tiles, player):
+            if self.check_dynamic_tiles(agent, dynamic_tiles):
                 return True
             if self.check_static_tiles(agent, static_tiles):
                 return True
         
         if self.check_interactables(interactables, player, static_tiles, dynamic_tiles, agents, lasers, laser_switches):
             return True
+        
+        
+        for portal in portals:
+            portal.teleport()
 
         if len(player.pickups_to_drop) != 0:
             pickup = player.pickups_to_drop.pop()
@@ -66,7 +70,7 @@ class CollisionManager:
     
 
 
-    def check_dynamic_tiles(self, collider, dynamic_tiles, static_tiles, agents, player):
+    def check_dynamic_tiles(self, collider, dynamic_tiles):
         for tile in dynamic_tiles:
             if tile.__class__ == Goal:
                 if collider.__class__ == Snake and tile.collide(collider):
@@ -83,13 +87,7 @@ class CollisionManager:
 
             elif tile.__class__ == Portal:
                 if tile.collide(collider):
-                    if tile.teleport(
-                        collider, player, 
-                        self.is_moveable, 
-                        static_tiles, dynamic_tiles, agents, 
-                        self.is_box_skippable, self.in_bounds
-                    ):
-                        collider.handle_teleport()
+                    tile.queue_teleport(collider, self.is_moveable)
 
             elif collider.__class__ == Snake and collider.collide(tile.get_hitbox()):
                     return True
@@ -120,9 +118,8 @@ class CollisionManager:
                     if collider.collide(agent.ghost_rect):
                         agent.warn_move = True
                         
-                if collider.rect.colliderect(agent.rect) and not agent.move(
-                        collider, static_tiles, dynamic_tiles, agents, self.is_box_skippable, self.in_bounds
-                    ):
+                if collider.rect.colliderect(agent.rect): 
+                    if not agent.move(collider, static_tiles, dynamic_tiles, agents, self.is_box_skippable, self.in_bounds):
                         return True
                 elif collider.collide(agent.rect):
                     return True
