@@ -97,6 +97,13 @@ class TileConfig:
         (Images.smoke_img_9, 7),
         (Images.smoke_img_10, 7)
     ]
+    portal_frame_data = [
+        (Images.portal_img_0, 6),
+        (Images.portal_img_1, 6),
+        (Images.portal_img_2, 6),
+        (Images.portal_img_3, 6),
+        (Images.portal_img_4, 6)
+    ]
 
     empty_symbol = "O"
     wall_symbol = "W"
@@ -324,11 +331,11 @@ class TileConfig:
             "NOCOLOR": [Color.NO_COLOR, Images.moveable_mirror_img, Images.mirror_color_img, moveable, Images.good_warn_img, Images.bad_warn_img]
         },
         "T": {
-            "b": [Images.portal_img, Color.BLUE],
-            "o": [Images.portal_img, Color.ORANGE],
-            "g": [Images.portal_img, Color.GREEN],
-            "r": [Images.portal_img, Color.RED],
-            "NOCOLOR": [Images.portal_img, Color.NO_COLOR],
+            "b": [Images.portal_blue_img, portal_frame_data, Color.BLUE],
+            "o": [Images.portal_orange_img, portal_frame_data, Color.ORANGE],
+            "g": [Images.portal_green_img, portal_frame_data, Color.GREEN],
+            "r": [Images.portal_red_img, portal_frame_data, Color.RED],
+            "NOCOLOR": [Images.portal_nocolor_img, portal_frame_data, Color.NO_COLOR],
         }
     }
 
