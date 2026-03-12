@@ -11,7 +11,8 @@ class ButtonMenu:
     def __init__(
             self, buttons_topleft, button_gap, 
             background_img, screen_size, canvas_size, 
-            mouse_manager, buttons_with_callbacks, title_text_display=None
+            mouse_manager, buttons_with_callbacks, 
+            title_text_display=None, music_start_cb=None, music_end_cb=None
         ):
         self.screen_width, self.screen_height = screen_size
         self.canvas_width, self.canvas_height = canvas_size
@@ -23,6 +24,8 @@ class ButtonMenu:
             self.title_text_display.set_topleft(self.get_title_topleft())
 
         self.mouse = mouse_manager
+        self.music_start_cb = music_start_cb
+        self.music_end_cb = music_end_cb
 
         self.buttons = [] 
         self.callback_map = {}
@@ -65,6 +68,9 @@ class ButtonMenu:
         mouse_btn_just_released = False
         left_mouse_btn = 1
 
+        if self.music_start_cb != None:
+            self.music_start_cb()
+
         while run:
             delta_time = time.time() - last_time
             delta_time *= 60
@@ -91,6 +97,8 @@ class ButtonMenu:
                     callback = self.callback_map[button.id]
                     exit_menu, info = callback(canvas=canvas, screen=screen, framerate=framerate)
                     if exit_menu:
+                        if self.music_end_cb != None:
+                            self.music_end_cb()
                         return info
             
             self.mouse.update()
