@@ -114,9 +114,9 @@ class CollisionManager:
                 if collider.rect.colliderect(agent.hor_ghost_trigger_rect) or collider.rect.colliderect(
                     agent.vert_ghost_trigger_rect
                 ):
-                    agent.trigger_ghost_rect(collider.rect)
-                    if collider.collide(agent.ghost_rect):
-                        agent.warn_move = True
+                    if agent.trigger_ghost_rect(collider.rect):
+                        if collider.collide(agent.ghost_rect):
+                            agent.warn_move = True
                         
                 if collider.rect.colliderect(agent.rect): 
                     if not agent.move(collider, static_tiles, dynamic_tiles, agents, self.is_box_skippable, self.in_bounds):
