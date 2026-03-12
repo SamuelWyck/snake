@@ -62,7 +62,16 @@ class Images:
     pressure_plate_pressed_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "pressure_plate_pressed.png")).convert_alpha()
     s_pressure_plate_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "pressure_plate_s.png")).convert_alpha()
     s_pressure_plate_pressed_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "pressure_plate_s_pressed.png")).convert_alpha()
-    portal_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "portal.png")).convert_alpha()
+    portal_nocolor_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "portal_nocolor.png")).convert_alpha()
+    portal_blue_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "portal_blue.png")).convert_alpha()
+    portal_orange_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "portal_orange.png")).convert_alpha()
+    portal_green_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "portal_green.png")).convert_alpha()
+    portal_red_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "portal_red.png")).convert_alpha()
+    portal_img_0 = pygame.image.load(os.path.join(dynamic_tile_images_path, "portal_frames/portal_frame_0.png")).convert_alpha()
+    portal_img_1 = pygame.image.load(os.path.join(dynamic_tile_images_path, "portal_frames/portal_frame_1.png")).convert_alpha()
+    portal_img_2 = pygame.image.load(os.path.join(dynamic_tile_images_path, "portal_frames/portal_frame_2.png")).convert_alpha()
+    portal_img_3 = pygame.image.load(os.path.join(dynamic_tile_images_path, "portal_frames/portal_frame_3.png")).convert_alpha()
+    portal_img_4 = pygame.image.load(os.path.join(dynamic_tile_images_path, "portal_frames/portal_frame_4.png")).convert_alpha()
 
 
     # agent images
