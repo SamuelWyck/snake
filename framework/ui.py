@@ -10,6 +10,7 @@ from user_interface.elements.image_display import ImageDisplay
 from asset_loaders.font_loader import Fonts
 from asset_loaders.image_loader import Images
 from utils.color import Color
+from framework.audio_manager import AudioManager
 
 
 
@@ -52,10 +53,15 @@ class Ui:
             (exit_btn, exit_btn_callback)
         ]
 
+        music_start_cb = AudioManager.play_menu_music_loop
+        music_end_cb = AudioManager.stop_menu_music
+
         main_menu = ButtonMenu(
             buttons_topleft, button_gap, Images.main_menu_bg_img,
             screen_size, canvas_size, mouse_manager,
-            btns_with_callbacks
+            btns_with_callbacks,
+            music_start_cb=music_start_cb, 
+            music_end_cb=music_end_cb
         )
 
         return main_menu
