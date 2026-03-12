@@ -1,14 +1,19 @@
+import pygame
 from level_objects.proto_objects.level_tile import LevelTile
 from utils.color import Color
+from utils.animation import Animation
 
 
 
 class Portal(LevelTile):
 
-    def __init__(self, topleft, size, image, color):
+    def __init__(self, topleft, size, image, frame_data, color):
         super().__init__(topleft, size)
 
         self.image = image
+        self.animation = Animation(frame_data)
+        self.animation_img = None
+
         self.color = color
 
         self.paired_portal = None
@@ -21,6 +26,7 @@ class Portal(LevelTile):
 
 
     def update(self, surface, delta_time):
+        self.animation_img = self.animation.get_frame(delta_time)
         self.draw(surface)
 
         if not self.hit_teleported_object:
@@ -32,6 +38,7 @@ class Portal(LevelTile):
     
     def draw(self, surface):
         surface.blit(self.image, self.rect.topleft)
+        surface.blit(self.animation_img, self.rect.topleft)
 
 
 
