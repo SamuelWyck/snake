@@ -167,7 +167,7 @@ class LaserCannon(LevelTile):
 
     def trigger_ghost_rect(self, player_rect):
         if player_rect.center == self.rect.center:
-            return
+            return False
         
         self.draw_ghost_rect = True
         self.ghost_rect.center = self.rect.center
@@ -180,6 +180,8 @@ class LaserCannon(LevelTile):
             self.ghost_rect.y += self.rect.height
         elif player_rect.centery > self.rect.centery:
             self.ghost_rect.y -= self.rect.height
+
+        return True
     
 
     def reset(self):
