@@ -9,7 +9,9 @@ from framework.ui import Ui
 from hud.hud import Hud
 from level_manager.level_manager import LevelManager
 from collision_manager.collision_manager import CollisionManager
+from framework.audio_manager import AudioManager
 from asset_loaders.image_loader import Images
+from asset_loaders.audio_loader import Audio
 from utils.color import Color
 
 
@@ -42,6 +44,9 @@ class Game:
         #setup hud manager
         self.hud = Hud(pa_topleft, (pa_width, pa_height), (self.screen_width, self.screen_height))
 
+        #setup audio manager
+        self.audio_manger = AudioManager(Audio.menu_music_path, None, None, None)
+
         #setup level manager
         self.level_manager = LevelManager((pa_width, pa_height), single_tile_size=40)
         self.player = None
@@ -57,7 +62,7 @@ class Game:
         self.ui = Ui(
             (self.screen_width, self.screen_height), 
             (self.canvas_width, self.canvas_height), 
-            self.mouse, self.level_manager
+            self.mouse, self.level_manager, self.audio_manger
         )
 
 
