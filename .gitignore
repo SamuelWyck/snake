@@ -9,6 +9,7 @@ __pycache__/
 # save files 
 keybinds.csv
 mouse.txt
+audio.txt
 
 # C extensions
 *.so
