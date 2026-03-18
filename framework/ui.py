@@ -53,7 +53,7 @@ class Ui:
         ]
 
         music_start_cb = audio_manager.play_menu_music_loop
-        music_end_cb = audio_manager.stop_menu_music
+        music_end_cb = audio_manager.stop_music
 
         main_menu = ButtonMenu(
             buttons_topleft, button_gap, Images.main_menu_bg_img,
