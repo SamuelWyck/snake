@@ -1,5 +1,5 @@
 import pygame
-
+import random
 
 
 class AudioManager:
@@ -10,6 +10,10 @@ class AudioManager:
         self.save_file_path = save_file_path
 
         self.game_music_path_list = game_music_path_list
+        self.game_music_index = random.randint(0, len(self.game_music_path_list) - 1)
+
+        self.music_end_event = pygame.USEREVENT + 1
+        pygame.mixer.music.set_endevent(self.music_end_event)
 
         self.sound_map = sound_map
         self.channel_map = channel_map
@@ -29,9 +33,31 @@ class AudioManager:
 
 
 
-    def stop_menu_music(self):
+    def stop_music(self):
         pygame.mixer.music.stop()
         pygame.mixer.music.unload()
+
+
+
+    def play_game_music(self):
+        track_file_path = self.game_music_path_list[self.game_music_index]
+
+        pygame.mixer.music.load(track_file_path)
+        pygame.mixer.music.play(fade_ms=1000)
+
+        self.game_music_index += 1
+        if self.game_music_index >= len(self.game_music_path_list):
+            self.game_music_index = 0
+
+
+
+    def pause_music(self):
+        pygame.mixer.music.pause()
+
+
+
+    def resume_music(self):
+        pygame.mixer.music.unpause()
 
 
     
