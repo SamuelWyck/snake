@@ -45,7 +45,12 @@ class Game:
         self.hud = Hud(pa_topleft, (pa_width, pa_height), (self.screen_width, self.screen_height))
 
         #setup audio manager
-        self.audio_manger = AudioManager(Audio.menu_music_path, None, None, None)
+        audio_save_path = os.path.join("saves", "audio.txt")
+        game_music_path_list = [
+            os.path.join("assets/music", "game_track_0.ogg"),
+            os.path.join("assets/music", "game_track_1.ogg")
+        ]
+        self.audio_manger = AudioManager(Audio.menu_music_path, game_music_path_list, None, None, audio_save_path)
 
         #setup level manager
         self.level_manager = LevelManager((pa_width, pa_height), single_tile_size=40)
@@ -82,9 +87,12 @@ class Game:
         self.level_manager.clear_level()
         self.player = self.level_manager.load_level(level_num)
         self.player_controller = self.player.controller
+
         self.hud.create_length_display(self.player)
         self.hud.link_player_pickups_list(self.player)
         self.hud.update_level_num(self.level_manager.current_level)
+
+        self.audio_manger.play_game_music()
 
 
     
@@ -109,6 +117,7 @@ class Game:
                         pygame.quit()
                         sys.exit()
                     elif event.key == pygame.K_ESCAPE:
+                        self.audio_manger.pause_music()
                         exit_game, level_num = self.ui.pause_menu.run(self.framerate, self.canvas, self.screen)
                         last_time = time.time()
                         self.player_controller.reset_all()
@@ -118,10 +127,13 @@ class Game:
                         elif level_num != None:
                             if level_num == self.level_manager.current_level:
                                 self.level_manager.reset_level()
+                                self.audio_manger.play_game_music()
                                 break
                             else:
                                 self.load_level(level_num)
                                 break
+                        else:
+                            self.audio_manger.resume_music()
                     else:
                         self.player_controller.key_down(event.key)
                 elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -130,6 +142,8 @@ class Game:
                     self.player_controller.key_up(event.key)
                 elif event.type == pygame.MOUSEBUTTONUP:
                     self.player_controller.mouse_up(event.button)
+                elif event.type == self.audio_manger.music_end_event:
+                    self.audio_manger.play_game_music()
 
 
             if self.collision_manager.level_won:
