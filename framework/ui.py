@@ -23,7 +23,7 @@ class Ui:
         self.antialias = True
 
         self.control_menu = self.get_control_menu(screen_size, canvas_size, mouse_manager)
-        self.audio_menu = self.get_audio_menu(screen_size, canvas_size, mouse_manager)
+        self.audio_menu = self.get_audio_menu(screen_size, canvas_size, mouse_manager, audio_manager)
         self.mouse_menu = self.get_mouse_menu(screen_size, canvas_size, mouse_manager)
         self.settings_menu = self.get_settings_menu(screen_size, canvas_size, mouse_manager)
         self.level_select_menu = self.get_level_select_menu(screen_size, canvas_size, mouse_manager)
@@ -140,7 +140,7 @@ class Ui:
 
     @staticmethod
     def get_slider_str_val(slider):
-        return str(round(slider.value, 2))
+        return str(round(slider.value, 2) * 2)
     
 
 
@@ -153,7 +153,7 @@ class Ui:
 
 
 
-    def get_audio_menu(self, screen_size, canvas_size, mouse_manager):
+    def get_audio_menu(self, screen_size, canvas_size, mouse_manager, audio_manager):
         start_y_pos = 270
         element_gap = 15
         info_gap = 40
@@ -175,7 +175,7 @@ class Ui:
         music_slider = Slider(
             topleft=(0, 0), size=self.slider_size, 
             slide_bar_color=Color.MENU_GREEN, slide_color=Color.YELLOW,
-            border_radius=self.slide_border_radius, callback=lambda val: None,
+            border_radius=self.slide_border_radius, callback=audio_manager.set_music_volume,
             bar_img=Images.slider_bar_img, slide_img=Images.slider_slide_img
         )
         music_slider_val = LiveTextDisplay(
@@ -187,12 +187,13 @@ class Ui:
         back_btn = Button(topleft=(0, 0), image=Images.back_btn_img, hover_image=Images.back_btn_hvr_img)
         back_btn_callback = lambda **kwargs: (True, (False, None))
 
-        cleanup_callback = lambda : None
+        init_callback = lambda : Ui.audio_menu_init(music_slider, audio_manager)
+        cleanup_callback = audio_manager.save_volume_settings
 
         menu = GeneralMenu(
             start_y_pos, element_gap, 
             Images.audio_menu_bg_img, mouse_manager, 
-            screen_size, canvas_size, None, cleanup_callback,
+            screen_size, canvas_size, init_callback, cleanup_callback,
             sound_text, sounds_slider_val, sound_slider, 
             info_gap, 
             music_text, music_slider_val, music_slider,
@@ -201,6 +202,12 @@ class Ui:
         )
 
         return menu
+    
+
+
+    @staticmethod
+    def audio_menu_init(music_slider, audio_manager):
+        music_slider.set_value(audio_manager.get_music_volume())
     
 
 
