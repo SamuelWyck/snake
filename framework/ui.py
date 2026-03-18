@@ -10,7 +10,6 @@ from user_interface.elements.image_display import ImageDisplay
 from asset_loaders.font_loader import Fonts
 from asset_loaders.image_loader import Images
 from utils.color import Color
-from framework.audio_manager import AudioManager
 
 
 
@@ -18,7 +17,7 @@ from framework.audio_manager import AudioManager
 # and info is any info to pass along when the menu is exited
 
 class Ui:
-    def __init__(self, screen_size, canvas_size, mouse_manager, level_manager):
+    def __init__(self, screen_size, canvas_size, mouse_manager, level_manager, audio_manager):
         self.slider_size = (300, 50)
         self.slide_border_radius = 20
         self.antialias = True
@@ -28,13 +27,13 @@ class Ui:
         self.mouse_menu = self.get_mouse_menu(screen_size, canvas_size, mouse_manager)
         self.settings_menu = self.get_settings_menu(screen_size, canvas_size, mouse_manager)
         self.level_select_menu = self.get_level_select_menu(screen_size, canvas_size, mouse_manager)
-        self.main_menu = self.get_main_menu(screen_size, canvas_size, mouse_manager)
+        self.main_menu = self.get_main_menu(screen_size, canvas_size, mouse_manager, audio_manager)
         self.pause_menu = self.get_pause_menu(screen_size, canvas_size, mouse_manager, level_manager)
         self.win_menu = self.get_win_menu(screen_size, canvas_size, mouse_manager)
     
 
 
-    def get_main_menu(self, screen_size, canvas_size, mouse_manager):
+    def get_main_menu(self, screen_size, canvas_size, mouse_manager, audio_manager):
         button_gap = 20
         buttons_topleft = (30, 550)
 
@@ -53,8 +52,8 @@ class Ui:
             (exit_btn, exit_btn_callback)
         ]
 
-        music_start_cb = AudioManager.play_menu_music_loop
-        music_end_cb = AudioManager.stop_menu_music
+        music_start_cb = audio_manager.play_menu_music_loop
+        music_end_cb = audio_manager.stop_menu_music
 
         main_menu = ButtonMenu(
             buttons_topleft, button_gap, Images.main_menu_bg_img,
