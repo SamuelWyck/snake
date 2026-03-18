@@ -1,25 +1,28 @@
 import pygame
-import os
 
 
 
 class AudioManager:
     pygame.mixer.init()
 
-    menu_music_path = os.path.join("assets/music/", "menu_music.ogg")
+    def __init__(self, menu_music_path, game_music_path_list, sound_map, channel_map):
+        self.menu_music_path = menu_music_path
+        self.game_music_path_list = game_music_path_list
+
+        self.sound_map = sound_map
+        self.channel_map = channel_map
 
 
 
-    @classmethod
-    def play_menu_music_loop(cls):
+    def play_menu_music_loop(self):
         if pygame.mixer.music.get_busy():
             return
         
-        pygame.mixer.music.load(cls.menu_music_path)
+        pygame.mixer.music.load(self.menu_music_path)
         pygame.mixer.music.play(loops=-1)
 
 
 
-    @classmethod
-    def stop_menu_music(cls):
+    def stop_menu_music(self):
         pygame.mixer.music.stop()
+        pygame.mixer.music.unload()
