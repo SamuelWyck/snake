@@ -18,7 +18,7 @@ class AudioManager:
         self.sound_map = sound_map
         self.channel_map = channel_map
 
-        self.precision = 4
+        self.precision = 3
         self.set_music_volume(.5)
         self.load_volume_settings()
 
@@ -67,6 +67,7 @@ class AudioManager:
         elif volume > 1:
             volume = 1
 
+        volume = round(volume, self.precision)
         pygame.mixer.music.set_volume(volume)
 
 
