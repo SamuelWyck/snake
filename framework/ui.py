@@ -6,6 +6,7 @@ from user_interface.control_menu import ControlMenu
 from user_interface.elements.button import Button
 from user_interface.elements.slider import Slider
 from user_interface.elements.live_text_display import LiveTextDisplay
+from user_interface.elements.text_display import TextDisplay
 from user_interface.elements.image_display import ImageDisplay
 from asset_loaders.font_loader import Fonts
 from asset_loaders.image_loader import Images
@@ -21,12 +22,14 @@ class Ui:
         self.slider_size = (300, 50)
         self.slide_border_radius = 20
         self.antialias = True
+        self.sound_credits_file_path = "sound_credits.txt"
 
         self.control_menu = self.get_control_menu(screen_size, canvas_size, mouse_manager)
         self.audio_menu = self.get_audio_menu(screen_size, canvas_size, mouse_manager, audio_manager)
         self.mouse_menu = self.get_mouse_menu(screen_size, canvas_size, mouse_manager)
         self.settings_menu = self.get_settings_menu(screen_size, canvas_size, mouse_manager)
         self.level_select_menu = self.get_level_select_menu(screen_size, canvas_size, mouse_manager)
+        self.credits_menu = self.get_credits_menu(screen_size, canvas_size, mouse_manager)
         self.main_menu = self.get_main_menu(screen_size, canvas_size, mouse_manager, audio_manager)
         self.pause_menu = self.get_pause_menu(screen_size, canvas_size, mouse_manager, level_manager)
         self.win_menu = self.get_win_menu(screen_size, canvas_size, mouse_manager)
@@ -35,7 +38,7 @@ class Ui:
 
     def get_main_menu(self, screen_size, canvas_size, mouse_manager, audio_manager):
         button_gap = 20
-        buttons_topleft = (30, 550)
+        buttons_topleft = (30, 450)
 
         play_btn = Button(topleft=(0, 0), image=Images.play_btn_img, hover_image=Images.play_btn_hvr_img)
         play_btn_callback = self.level_select_menu.run
@@ -43,12 +46,16 @@ class Ui:
         settings_btn = Button(topleft=(0, 0), image=Images.settings_btn_img, hover_image=Images.settings_btn_hvr_img)
         settings_btn_callback = self.settings_menu.run
 
+        credits_btn = Button(topleft=(0, 0), image=Images.credits_btn_img, hover_image=Images.credits_btn_hvr_img)
+        credits_btn_callback = self.credits_menu.run
+
         exit_btn = Button(topleft=(0, 0), image=Images.exit_btn_img, hover_image=Images.exit_btn_hvr_img)
         exit_btn_callback = lambda **kwargs : (True, (True, None))
 
         btns_with_callbacks = [
             (play_btn, play_btn_callback),
             (settings_btn, settings_btn_callback),
+            (credits_btn, credits_btn_callback),
             (exit_btn, exit_btn_callback)
         ]
 
@@ -97,6 +104,58 @@ class Ui:
         )
 
         return settings_menu
+
+
+    
+    def get_credits_menu(self, screen_size, canvas_size, mouse_manager):
+        y_pos = 40
+        element_gap = 10
+        info_gap = 50
+
+
+        title_text = ImageDisplay(topleft=(0, 0), image=Images.sound_credits_title_img)
+
+        credit_displays = self.get_credit_displays()
+
+        back_btn = Button(topleft=(0, 0), image=Images.back_btn_img, hover_image=Images.back_btn_hvr_img)
+        back_btn_callback = lambda **kwargs : (True, (False, None))
+
+
+        menu = GeneralMenu(
+            y_pos, element_gap, 
+            Images.controls_menu_bg_img, mouse_manager, 
+            screen_size, canvas_size,
+            None, None,
+            title_text,
+            info_gap,
+            *credit_displays,
+            info_gap,
+            (back_btn, back_btn_callback)
+        )
+
+        return menu
+    
+
+
+    def get_credit_displays(self):
+        credits = []
+        try:
+            with open(self.sound_credits_file_path, "r") as file:
+                credits = file.readlines()
+        except:
+            pass
+        
+        credit_displays = []
+        for credit in credits:
+            display = TextDisplay(
+                topleft=(0, 0),
+                font=Fonts.pickup_outline_font,
+                color=Color.YELLOW,
+                text=credit
+            )
+            credit_displays.append(display)
+        
+        return credit_displays
     
 
 
