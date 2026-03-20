@@ -117,6 +117,7 @@ class Images:
     sensitivity_title_img = pygame.image.load(os.path.join(menu_images_path, "sensitivity_title.png")).convert_alpha()
     level_cleared_title_img = pygame.image.load(os.path.join(menu_images_path, "level_cleared_title.png")).convert_alpha()
     level_failed_title_img = pygame.image.load(os.path.join(menu_images_path, "level_failed_title.png")).convert_alpha()
+    sound_credits_title_img = pygame.image.load(os.path.join(menu_images_path, "sound_credits_title.png")).convert_alpha()
 
     slider_bar_img = pygame.image.load(os.path.join(menu_images_path, "slider_bar.png")).convert_alpha()
     slider_slide_img = pygame.image.load(os.path.join(menu_images_path, "slider_slide.png")).convert_alpha()
@@ -147,3 +148,5 @@ class Images:
     reset_btn_hvr_img = pygame.image.load(os.path.join(menu_images_path, "reset_btn_hover.png")).convert_alpha()
     quit_btn_img = pygame.image.load(os.path.join(menu_images_path, "quit_btn.png")).convert_alpha()
     quit_btn_hvr_img = pygame.image.load(os.path.join(menu_images_path, "quit_btn_hover.png")).convert_alpha()
+    credits_btn_img = pygame.image.load(os.path.join(menu_images_path, "credits_btn.png")).convert_alpha()
+    credits_btn_hvr_img = pygame.image.load(os.path.join(menu_images_path, "credits_btn_hover.png")).convert_alpha()
