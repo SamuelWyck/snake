@@ -18,7 +18,7 @@ class AudioManager:
         self.sound_map = sound_map
         self.channel_map = channel_map
 
-
+        self.precision = 4
         self.set_music_volume(.5)
         self.load_volume_settings()
 
@@ -72,7 +72,9 @@ class AudioManager:
 
 
     def get_music_volume(self):
-        return pygame.mixer.music.get_volume()
+        volume = pygame.mixer.music.get_volume()
+        volume = round(volume, self.precision)
+        return volume
     
 
 
