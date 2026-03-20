@@ -46,11 +46,7 @@ class Game:
 
         #setup audio manager
         audio_save_path = os.path.join("saves", "audio.txt")
-        game_music_path_list = [
-            os.path.join("assets/music", "game_track_0.ogg"),
-            os.path.join("assets/music", "game_track_1.ogg")
-        ]
-        self.audio_manger = AudioManager(Audio.menu_music_path, game_music_path_list, None, None, audio_save_path)
+        self.audio_manger = AudioManager(Audio.menu_music_path, Audio.game_music_paths, None, None, audio_save_path)
 
         #setup level manager
         self.level_manager = LevelManager((pa_width, pa_height), single_tile_size=40)
