@@ -17,5 +17,5 @@ class Audio:
         os.path.join(music_path, "game_track_4.ogg"),
         os.path.join(music_path, "game_track_5.ogg"),
         os.path.join(music_path, "game_track_6.ogg"),
-        os.path.join(music_path, "game_track_7.wav")
+        os.path.join(music_path, "game_track_7.ogg")
     ]
