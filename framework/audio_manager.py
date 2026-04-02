@@ -2,9 +2,8 @@ import pygame
 import random
 
 
-class AudioManager:
-    pygame.mixer.init()
 
+class AudioManager:
     def __init__(self, menu_music_path, game_music_path_list, sound_map, channel_map, save_file_path=None):
         self.menu_music_path = menu_music_path
         self.save_file_path = save_file_path
