@@ -64,6 +64,7 @@ class Snake:
 
         #setup sound effects
         self.eat_pickup_sound = Audio.get_sound_effect("eat_pickup", "player")
+        self.drop_pickup_sound = Audio.get_sound_effect("drop_pickup", "player")
 
 
     
@@ -382,6 +383,8 @@ class Snake:
             self.image = self.get_head_image()
         else:
             self.image = self.image_cache[0][self.color]
+
+        self.drop_pickup_sound.soft_play()
 
 
 
