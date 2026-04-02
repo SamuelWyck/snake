@@ -221,7 +221,7 @@ class Ui:
         sound_slider = Slider(
             topleft=(0, 0), size=self.slider_size, 
             slide_bar_color=Color.MENU_GREEN, slide_color=Color.YELLOW, 
-            border_radius=self.slide_border_radius, callback=lambda val: None,
+            border_radius=self.slide_border_radius, callback=audio_manager.set_sound_volume,
             bar_img=Images.slider_bar_img, slide_img=Images.slider_slide_img
         )
         sounds_slider_val = LiveTextDisplay(
@@ -246,7 +246,7 @@ class Ui:
         back_btn = Button(topleft=(0, 0), image=Images.back_btn_img, hover_image=Images.back_btn_hvr_img)
         back_btn_callback = lambda **kwargs: (True, (False, None))
 
-        init_callback = lambda : Ui.audio_menu_init(music_slider, audio_manager)
+        init_callback = lambda : Ui.audio_menu_init(sound_slider, music_slider, audio_manager)
         cleanup_callback = audio_manager.save_volume_settings
 
         menu = GeneralMenu(
@@ -265,8 +265,9 @@ class Ui:
 
 
     @staticmethod
-    def audio_menu_init(music_slider, audio_manager):
+    def audio_menu_init(sound_slider, music_slider, audio_manager):
         music_slider.set_value(audio_manager.get_music_volume())
+        sound_slider.set_value(audio_manager.get_sound_volume())
     
 
 
