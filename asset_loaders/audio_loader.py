@@ -26,7 +26,8 @@ class Audio:
 
 
     sounds_map = {
-        "eat_pickup": pygame.mixer.Sound(os.path.join(sound_path, "eat.wav"))
+        "eat_pickup": pygame.mixer.Sound(os.path.join(sound_path, "eat.wav")),
+        "drop_pickup": pygame.mixer.Sound(os.path.join(sound_path, "shrink.wav"))
     }
 
     channels_map = {
