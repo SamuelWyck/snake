@@ -4,7 +4,7 @@ import random
 
 
 class AudioManager:
-    def __init__(self, menu_music_path, game_music_path_list, sound_map, channel_map, save_file_path=None):
+    def __init__(self, menu_music_path, game_music_path_list, channel_map, save_file_path=None):
         self.menu_music_path = menu_music_path
         self.save_file_path = save_file_path
 
@@ -14,11 +14,11 @@ class AudioManager:
         self.music_end_event = pygame.USEREVENT + 1
         pygame.mixer.music.set_endevent(self.music_end_event)
 
-        self.sound_map = sound_map
         self.channel_map = channel_map
 
         self.precision = 3
         self.set_music_volume(.5)
+        self.set_sound_volume(.5)
         self.load_volume_settings()
 
 
@@ -84,8 +84,9 @@ class AudioManager:
         
         try:
             music_volume = str(self.get_music_volume())
+            sound_volume = str(self.get_sound_volume())
             with open(self.save_file_path, "w") as file:
-                file.write(music_volume)
+                file.write(f"{music_volume},{sound_volume}")
         except:
             pass
 
@@ -97,10 +98,39 @@ class AudioManager:
         
         try:
             music_volume = None
+            sound_volume = None
             with open(self.save_file_path, "r") as file:
-                volume_info = file.readline()
-                music_volume = float(volume_info)
+                volume_info = file.readline().split(",")
+
+                music_volume = float(volume_info[0])
+                sound_volume = float(volume_info[1])
 
             self.set_music_volume(music_volume)
+            self.set_sound_volume(sound_volume)
         except:
             pass
+
+
+    
+    def set_sound_volume(self, volume):
+        if volume < 0:
+            volume = 0
+        elif volume > 1:
+            volume = 1
+
+        volume = round(volume, self.precision)
+
+        for key in self.channel_map:
+            channel = self.channel_map[key]
+            channel.set_volume(volume)
+
+
+    
+    def get_sound_volume(self):
+        volume = None
+        for key in self.channel_map:
+            volume = self.channel_map[key].get_volume()
+            break
+
+        volume = round(volume, self.precision)
+        return volume
