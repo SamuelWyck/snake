@@ -384,7 +384,7 @@ class Snake:
         else:
             self.image = self.image_cache[0][self.color]
 
-        self.drop_pickup_sound.soft_play()
+        self.drop_pickup_sound.hard_play()
 
 
 
@@ -469,7 +469,7 @@ class Snake:
             self.image = self.get_head_image()
 
         self.eaten_pickups.append(pickup)
-        self.eat_pickup_sound.soft_play()
+        self.eat_pickup_sound.hard_play()
         return True
     
 
