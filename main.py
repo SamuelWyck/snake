@@ -46,7 +46,7 @@ class Game:
 
         #setup audio manager
         audio_save_path = os.path.join("saves", "audio.txt")
-        self.audio_manger = AudioManager(Audio.menu_music_path, Audio.game_music_paths, None, None, audio_save_path)
+        self.audio_manger = AudioManager(Audio.menu_music_path, Audio.game_music_paths, Audio.channels_map, audio_save_path)
 
         #setup level manager
         self.level_manager = LevelManager((pa_width, pa_height), single_tile_size=40)
