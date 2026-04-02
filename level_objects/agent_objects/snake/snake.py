@@ -1,6 +1,7 @@
 import pygame
 from level_objects.agent_objects.snake.snake_segment import SnakeSegment
 from utils.color import Color
+from asset_loaders.audio_loader import Audio
 
 
 
@@ -60,6 +61,9 @@ class Snake:
             self.move_right: -90,
             self.move_left: 90
         }
+
+        #setup sound effects
+        self.eat_pickup_sound = Audio.get_sound_effect("eat_pickup", "player")
 
 
     
@@ -460,7 +464,9 @@ class Snake:
         if pickup.color != Color.NO_COLOR:
             self.color = pickup.color
             self.image = self.get_head_image()
+
         self.eaten_pickups.append(pickup)
+        self.eat_pickup_sound.soft_play()
         return True
     
 
