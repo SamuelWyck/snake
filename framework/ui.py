@@ -149,7 +149,7 @@ class Ui:
         for credit in credits:
             display = TextDisplay(
                 topleft=(0, 0),
-                font=Fonts.pickup_outline_font,
+                font=Fonts.pickup_font,
                 color=Color.YELLOW,
                 text=credit
             )
