@@ -96,6 +96,8 @@ class Game:
         run = True
         last_time = time.time()
         clock = pygame.time.Clock()
+        game_over_count = 1
+        max_game_over_count = 1
 
         while run:
             delta_time = time.time() - last_time
@@ -157,6 +159,18 @@ class Game:
                 else:
                     self.load_level(level_num)
 
+            if game_over_count == 0:
+                self.hud.draw_level_failed_message(self.screen)
+                pygame.display.update()
+                time.sleep(self.one_second * 2)
+
+                self.level_manager.reset_level()
+                self.player_controller.reset_inputs()
+                last_time = time.time()
+
+                game_over_count = max_game_over_count
+                continue
+
 
             self.canvas.blit(Images.canvas_background_img, (0, 0))
             self.hud.draw(self.canvas)
@@ -173,14 +187,7 @@ class Game:
                 self.level_manager.get_level_objects
             )
             if collision:
-                self.hud.draw_level_failed_message(self.screen)
-                pygame.display.update()
-                time.sleep(self.one_second * 2)
-
-                self.level_manager.reset_level()
-                self.player_controller.reset_inputs()
-                last_time = time.time()
-                continue
+                game_over_count -= 1
 
 
             PlayArea.backing_surface_blit(Images.wall_texture_img, (0, 0))
