@@ -145,7 +145,8 @@ class Game:
 
 
             if self.collision_manager.level_won:
-                time.sleep(self.one_second * .5)
+                # time.sleep(self.one_second * .5)
+                self.audio_manger.pause_music()
                 exit_menu, level_num = self.ui.win_menu.run(self.framerate, self.canvas, self.screen)
                 last_time = time.time()
                 self.player_controller.reset_all()
