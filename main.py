@@ -155,6 +155,7 @@ class Game:
                     return
                 elif level_num == self.level_manager.current_level:
                     self.level_manager.reset_level()
+                    self.audio_manger.play_game_music()
                     continue
                 else:
                     self.load_level(level_num)
