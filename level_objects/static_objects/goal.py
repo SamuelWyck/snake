@@ -1,6 +1,7 @@
 import pygame
 from level_objects.proto_objects.level_tile import LevelTile
 from asset_loaders.font_loader import Fonts
+from asset_loaders.audio_loader import Audio
 from utils.color import Color
 
 
@@ -15,6 +16,8 @@ class Goal(LevelTile):
 
         self.value = int(value) if value != None else value
         self.color = color
+
+        self.win_sound = Audio.get_sound_effect("win_level", "level")
     
 
 
@@ -33,7 +36,12 @@ class Goal(LevelTile):
             return False
         if self.value != None and player.real_length != self.value:
             return False
-        return self.rect.colliderect(player.rect)
+        
+        if self.rect.colliderect(player.rect):
+            self.win_sound.hard_play()
+            return True
+        else:
+            return False
     
 
 
