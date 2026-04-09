@@ -24,8 +24,10 @@ class Game:
         self.screen_width = Display.screen_width
         self.screen_height = Display.screen_height
 
+        #setup random needed variables
         self.framerate = 480
         self.one_second = 1
+        self.lose_sound = Audio.get_sound_effect("lose_level", "level")
 
         #setup game canvas 
         self.canvas_width, self.canvas_height = 1536, 864
@@ -163,11 +165,14 @@ class Game:
 
             if game_over_count == 0:
                 self.hud.draw_level_failed_message(self.screen)
+                self.audio_manger.pause_music()
+                self.lose_sound.hard_play()
                 pygame.display.update()
                 time.sleep(self.one_second * 2)
 
                 self.level_manager.reset_level()
                 self.player_controller.reset_inputs()
+                self.audio_manger.resume_music()
                 last_time = time.time()
 
                 game_over_count = max_game_over_count
