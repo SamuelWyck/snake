@@ -1,7 +1,7 @@
-import pygame
 from level_objects.proto_objects.level_tile import LevelTile
 from utils.color import Color
 from utils.animation import Animation
+from asset_loaders.audio_loader import Audio
 
 
 
@@ -22,6 +22,8 @@ class Portal(LevelTile):
 
         self.teleported_object = None
         self.hit_teleported_object = False
+
+        self.teleport_sound = Audio.get_sound_effect("portal", "portal")
 
 
 
@@ -62,6 +64,7 @@ class Portal(LevelTile):
 
         self.object_to_teleport.handle_teleport()
         self.object_to_teleport = None
+        self.teleport_sound.soft_play()
 
 
 
