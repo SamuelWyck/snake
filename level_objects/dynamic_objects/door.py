@@ -2,6 +2,7 @@ import pygame
 from level_objects.proto_objects.level_tile import LevelTile
 from level_objects.proto_objects.receiver import Receiver
 from utils.animation import Animation
+from asset_loaders.audio_loader import Audio
 
 
 
@@ -20,6 +21,9 @@ class Door(LevelTile, Receiver):
         self.is_open = is_open
         self.starting_status = is_open
         self.open_rect = pygame.rect.Rect((-10, -10), (0, 0))
+
+        # sound variables
+        self.close_sound = Audio.get_sound_effect("door_close", "door")
 
     
 
@@ -56,11 +60,16 @@ class Door(LevelTile, Receiver):
 
     def close(self):
         self.is_open = False
+        self.close_sound.soft_play()
 
 
     
     def toggle(self):
         self.is_open = not self.is_open
+        if self.is_open:
+            ...
+        else:
+            self.close_sound.soft_play()
     
 
 
