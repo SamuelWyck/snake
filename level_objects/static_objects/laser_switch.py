@@ -1,5 +1,6 @@
 import pygame
 from level_objects.proto_objects.transmitter import Transmitter
+from asset_loaders.audio_loader import Audio
 from utils.color import Color
 
 
@@ -17,6 +18,8 @@ class LaserSwitch(Transmitter):
 
         self.is_on = False
         self.opened = False
+
+        self.triggered_sound = Audio.get_sound_effect("laser_bounce", "laser")
 
     
     def build_image(self, base_image, socket_image, color, angle):
@@ -45,6 +48,7 @@ class LaserSwitch(Transmitter):
         if self.is_on and not self.opened:
             self.toggle_receivers()
             self.opened = True
+            self.triggered_sound.soft_play()
         elif not self.is_on and self.opened:
             self.toggle_receivers()
             self.opened = False
