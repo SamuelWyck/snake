@@ -3,6 +3,7 @@ from framework.play_area import PlayArea
 from level_objects.proto_objects.level_tile import LevelTile
 from level_objects.agent_objects.snake.snake import Snake
 from level_objects.interactables.laser import Laser
+from asset_loaders.audio_loader import Audio
 from utils.color import Color
 
 
@@ -50,6 +51,9 @@ class LaserCannon(LevelTile):
         self.warn_move = False
         self.good_warn_img = good_warn_img
         self.bad_warn_img = bad_warn_img
+
+        # sound variables
+        self.move_sound = Audio.get_sound_effect("box_move", "moveable")
 
     
     def build_image(self, base_image, barrel_image, color, angle):
@@ -127,6 +131,7 @@ class LaserCannon(LevelTile):
                 self.rect.center = old_position
                 return False
         
+        self.move_sound.soft_play()
         new_laser_start = self.get_laser_start_coords()
         self.laser.set_laser_start(new_laser_start)
         self.position_trigger_rects()

@@ -65,6 +65,7 @@ class Mirror(LevelTile):
 
         # sound variables
         self.laser_bounce_sound = Audio.get_sound_effect("laser_bounce", "laser")
+        self.move_sound = Audio.get_sound_effect("box_move", "moveable")
 
 
 
@@ -239,6 +240,7 @@ class Mirror(LevelTile):
                 self.rect.center = old_position
                 return False
         
+        self.move_sound.soft_play()
         self.move_laser()
         self.position_trigger_rects()
         return True
