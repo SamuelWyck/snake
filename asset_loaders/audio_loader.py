@@ -33,7 +33,8 @@ class Audio:
         "laser_bounce": pygame.mixer.Sound(os.path.join(sound_path, "laser_bounce.wav")),
         "box_move": pygame.mixer.Sound(os.path.join(sound_path, "box_move.wav")),
         "door_close": pygame.mixer.Sound(os.path.join(sound_path, "door_close.wav")),
-        "door_open": pygame.mixer.Sound(os.path.join(sound_path, "door_open.wav"))
+        "door_open": pygame.mixer.Sound(os.path.join(sound_path, "door_open.wav")),
+        "portal": pygame.mixer.Sound(os.path.join(sound_path, "portal.wav"))
     }
 
     channels_map = {
@@ -41,7 +42,8 @@ class Audio:
         "level": pygame.mixer.Channel(1),
         "laser": pygame.mixer.Channel(2),
         "moveable": pygame.mixer.Channel(3),
-        "door": pygame.mixer.Channel(4)
+        "door": pygame.mixer.Channel(4),
+        "portal": pygame.mixer.Channel(5)
     }
 
 
