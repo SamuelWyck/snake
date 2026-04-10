@@ -35,7 +35,9 @@ class Audio:
         "door_close": pygame.mixer.Sound(os.path.join(sound_path, "door_close.wav")),
         "door_open": pygame.mixer.Sound(os.path.join(sound_path, "door_open.wav")),
         "portal": pygame.mixer.Sound(os.path.join(sound_path, "portal.wav")),
-        "cannon": pygame.mixer.Sound(os.path.join(sound_path, "cannon.wav"))
+        "cannon": pygame.mixer.Sound(os.path.join(sound_path, "cannon.wav")),
+        "plate_press": pygame.mixer.Sound(os.path.join(sound_path, "plate_press.wav")),
+        "plate_unpress": pygame.mixer.Sound(os.path.join(sound_path, "plate_unpress.wav"))
     }
 
     channels_map = {
@@ -45,7 +47,8 @@ class Audio:
         "moveable": pygame.mixer.Channel(3),
         "door": pygame.mixer.Channel(4),
         "portal": pygame.mixer.Channel(5),
-        "cannon": pygame.mixer.Channel(6)
+        "cannon": pygame.mixer.Channel(6),
+        "plate": pygame.mixer.Channel(7)
     }
 
 
