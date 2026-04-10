@@ -1,6 +1,7 @@
 import pygame
 from level_objects.proto_objects.level_tile import LevelTile
 from level_objects.agent_objects.snake.snake import Snake
+from asset_loaders.audio_loader import Audio
 from utils.color import Color
 
 
@@ -26,6 +27,9 @@ class Box(LevelTile):
         self.warn_move = False
         self.good_warn_img = good_warn_img
         self.bad_warn_img = bad_warn_img
+
+        # variables for sounds
+        self.move_sound = Audio.get_sound_effect("box_move", "moveable")
 
     
 
@@ -91,6 +95,7 @@ class Box(LevelTile):
                 return False
         
         self.position_trigger_rects()
+        self.move_sound.soft_play()
         return True
     
 
