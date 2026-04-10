@@ -1,6 +1,7 @@
 import pygame, math
 from utils.color import Color
 from utils.explosion import Explosion
+from asset_loaders.audio_loader import Audio
 
 
 
@@ -34,6 +35,9 @@ class Bullet:
         if stop_at_target:
             line_slope = opposite_side / adjacent_side if adjacent_side != 0 else 0
             self.target_vector = self.calc_off_screen_target(line_slope, screen_dimensions)
+
+        # sound variables
+        self.explode_sound = Audio.get_sound_effect("cannon_ball", "cannon_ball")
 
 
     def calc_off_screen_target(self, slope, screen_dimensions):
@@ -73,6 +77,7 @@ class Bullet:
                 )
             self.explosion.update(surface, delta_time)
             self.remove = self.explosion.finished
+            # self.explode_sound.play_once()
             return
         
         speed = delta_time * self.speed
