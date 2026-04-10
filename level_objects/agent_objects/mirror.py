@@ -2,6 +2,7 @@ import pygame
 from level_objects.interactables.laser import Laser
 from level_objects.agent_objects.snake.snake import Snake
 from level_objects.proto_objects.level_tile import LevelTile
+from asset_loaders.audio_loader import Audio
 from framework.play_area import PlayArea
 from utils.color import Color
 
@@ -61,6 +62,10 @@ class Mirror(LevelTile):
         self.warn_move = False
         self.good_warn_img = good_warn_img
         self.bad_warn_img = bad_warn_img
+
+        # sound variables
+        self.laser_bounce_sound = Audio.get_sound_effect("laser_bounce", "laser")
+
 
 
     def build_images(self, base_img, color_img, color, angle):
@@ -139,6 +144,8 @@ class Mirror(LevelTile):
         self.lasers.append(self.laser)
         self.is_hit = True
         self.last_laser_color = laser.color
+
+        self.laser_bounce_sound.soft_play()
         
 
     def get_target_coords(self):
