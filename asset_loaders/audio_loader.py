@@ -29,12 +29,14 @@ class Audio:
         "eat_pickup": pygame.mixer.Sound(os.path.join(sound_path, "eat.wav")),
         "drop_pickup": pygame.mixer.Sound(os.path.join(sound_path, "shrink.wav")),
         "win_level": pygame.mixer.Sound(os.path.join(sound_path, "win.wav")),
-        "lose_level": pygame.mixer.Sound(os.path.join(sound_path, "lose.wav"))
+        "lose_level": pygame.mixer.Sound(os.path.join(sound_path, "lose.wav")),
+        "laser_bounce": pygame.mixer.Sound(os.path.join(sound_path, "laser_bounce.wav"))
     }
 
     channels_map = {
         "player": pygame.mixer.Channel(0),
-        "level": pygame.mixer.Channel(1)
+        "level": pygame.mixer.Channel(1),
+        "laser": pygame.mixer.Channel(2)
     }
 
 
