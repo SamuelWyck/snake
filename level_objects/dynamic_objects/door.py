@@ -24,6 +24,7 @@ class Door(LevelTile, Receiver):
 
         # sound variables
         self.close_sound = Audio.get_sound_effect("door_close", "door")
+        self.open_sound = Audio.get_sound_effect("door_open", "door")
 
     
 
@@ -55,6 +56,7 @@ class Door(LevelTile, Receiver):
 
     def open(self):
         self.is_open = True
+        self.open_sound.hard_play()
 
     
 
@@ -67,7 +69,7 @@ class Door(LevelTile, Receiver):
     def toggle(self):
         self.is_open = not self.is_open
         if self.is_open:
-            ...
+            self.open_sound.hard_play()
         else:
             self.close_sound.soft_play()
     
