@@ -4,6 +4,7 @@ from level_objects.proto_objects.level_tile import LevelTile
 from level_objects.interactables.bullet import Bullet
 from utils.animation import Animation
 from framework.play_area import PlayArea
+from asset_loaders.audio_loader import Audio
 
 
 
@@ -30,6 +31,8 @@ class Cannon(LevelTile):
         self.bullet_list = bullet_list
         self.bullet_color = bullet_color
         self.bullet_target_coords = self.get_bullet_target_coords(position_angle)
+
+        self.shoot_sound = Audio.get_sound_effect("cannon", "cannon")
 
 
     def get_smoke_animation_rect(self):
@@ -103,6 +106,7 @@ class Cannon(LevelTile):
             stop_at_target=True
         )
         self.bullet_list.append(bullet)
+        self.shoot_sound.hard_play()
             
     
     def collide(self, rect):
