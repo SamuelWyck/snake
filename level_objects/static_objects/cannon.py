@@ -106,7 +106,7 @@ class Cannon(LevelTile):
             stop_at_target=True
         )
         self.bullet_list.append(bullet)
-        self.shoot_sound.hard_play()
+        self.shoot_sound.soft_play()
             
     
     def collide(self, rect):
