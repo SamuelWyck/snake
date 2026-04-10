@@ -1,4 +1,5 @@
 from level_objects.proto_objects.level_tile import LevelTile
+from asset_loaders.audio_loader import Audio
 
 
 
@@ -10,6 +11,9 @@ class PlateSegment(LevelTile):
         self.pressed_img = images[1]
         
         self.pressed = False
+
+        self.press_sound = Audio.get_sound_effect("plate_press", "plate")
+        self.unpress_sound = Audio.get_sound_effect("plate_unpress", "plate")
 
     
 
@@ -30,9 +34,17 @@ class PlateSegment(LevelTile):
 
 
     def press(self):
+        if self.pressed:
+            return
+
         self.pressed = True
+        self.press_sound.hard_play()
 
 
     
     def unpress(self):
+        if not self.pressed:
+            return
+        
         self.pressed = False
+        self.unpress_sound.hard_play()
