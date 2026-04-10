@@ -6,6 +6,7 @@ from framework.sound_effect import SoundEffect
 
 class Audio:
     pygame.mixer.init()
+    pygame.mixer.set_num_channels(9)
 
 
     music_path = "assets/music"
@@ -36,6 +37,7 @@ class Audio:
         "door_open": pygame.mixer.Sound(os.path.join(sound_path, "door_open.wav")),
         "portal": pygame.mixer.Sound(os.path.join(sound_path, "portal.wav")),
         "cannon": pygame.mixer.Sound(os.path.join(sound_path, "cannon.wav")),
+        "cannon_ball": pygame.mixer.Sound(os.path.join(sound_path, "cannon_ball.wav")),
         "plate_press": pygame.mixer.Sound(os.path.join(sound_path, "plate_press.wav")),
         "plate_unpress": pygame.mixer.Sound(os.path.join(sound_path, "plate_unpress.wav"))
     }
@@ -48,7 +50,8 @@ class Audio:
         "door": pygame.mixer.Channel(4),
         "portal": pygame.mixer.Channel(5),
         "cannon": pygame.mixer.Channel(6),
-        "plate": pygame.mixer.Channel(7)
+        "cannon_ball": pygame.mixer.Channel(7),
+        "plate": pygame.mixer.Channel(8)
     }
 
 
