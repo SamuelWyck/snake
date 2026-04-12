@@ -184,7 +184,7 @@ class Game:
             PlayArea.blit(Images.background_img, topleft=(0, 0))
 
             self.mouse.update()
-            mouse_pos = self.mouse.get_pos()
+            # mouse_pos = self.mouse.get_pos()
 
             self.level_manager.update(PlayArea.surface, delta_time)
             self.player.update(PlayArea.surface, delta_time)
