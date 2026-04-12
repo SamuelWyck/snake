@@ -301,7 +301,7 @@ class Ui:
         
         exit_btn = Button(topleft=(0, 0), image=Images.back_btn_img, hover_image=Images.back_btn_hvr_img)
 
-        page_up_btn = Button(topleft=(0, 0), image=Images.page_down_btn_img, hover_image=Images.page_down_btn_hvr_img)
+        page_up_btn = Button(topleft=(0, 0), image=Images.page_up_btn_img, hover_image=Images.page_up_btn_hvr_img)
         page_down_btn = Button(topleft=(0, 0), image=Images.page_down_btn_img, hover_image=Images.page_down_btn_hvr_img)
 
         select_menu = SelectMenu(
