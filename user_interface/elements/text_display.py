@@ -3,12 +3,13 @@ from user_interface.elements.menu_element import MenuElement
 
 
 class TextDisplay(MenuElement):
-    def __init__(self, topleft, font, color, text):
+    def __init__(self, topleft, font, color, text, wrap_length=0):
         self.font = font
         self.color = color
         self.text = text
+        self.wrap_length = wrap_length
 
-        self.rendered_text = self.font.render(self.text, antialias=True, color=self.color)
+        self.rendered_text = self.font.render(self.text, antialias=True, color=self.color, wraplength=self.wrap_length)
         self.text_rect = self.rendered_text.get_rect()
         self.text_rect.topleft = topleft
 
@@ -19,7 +20,7 @@ class TextDisplay(MenuElement):
 
     def change_text(self, new_text):
         self.text = new_text
-        self.rendered_text = self.font.render(self.text, antialias=True, color=self.color)
+        self.rendered_text = self.font.render(self.text, antialias=True, color=self.color, wraplength=self.wrap_length)
         old_topleft = self.text_rect.topleft
         self.text_rect = self.rendered_text.get_rect()
         self.text_rect.topleft = old_topleft
