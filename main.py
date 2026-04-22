@@ -6,12 +6,14 @@ from framework.display import Display
 from framework.play_area import PlayArea
 from user_interface.mouse import Mouse
 from framework.ui import Ui
+from framework.tutorial import Tutorial
 from hud.hud import Hud
 from level_manager.level_manager import LevelManager
 from collision_manager.collision_manager import CollisionManager
 from framework.audio_manager import AudioManager
 from asset_loaders.image_loader import Images
 from asset_loaders.audio_loader import Audio
+from asset_loaders.font_loader import Fonts
 from utils.color import Color
 
 
@@ -67,6 +69,14 @@ class Game:
             (self.canvas_width, self.canvas_height), 
             self.mouse, self.level_manager, self.audio_manger
         )
+
+        #setup tutorial manager
+        tutorials = {
+            0: "This is a long tutorial string test to see how big and long we should be. Isn't it cool?, This is a long tutorial string test to see how big and long we should be. Isn't it cool?"
+        }
+        tutorial_topleft = (150, 5)
+        wrap_length = PlayArea.get_width() - 120
+        self.tutorial = Tutorial(tutorial_topleft, tutorials, Fonts.tutorial_font, Color.WHITE, wrap_length)
 
 
 
@@ -181,6 +191,7 @@ class Game:
 
             self.canvas.blit(Images.canvas_background_img, (0, 0))
             self.hud.draw(self.canvas)
+            self.tutorial.draw(self.canvas, self.level_manager.current_level)
             PlayArea.blit(Images.background_img, topleft=(0, 0))
 
             self.mouse.update()
