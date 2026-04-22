@@ -16,4 +16,4 @@ class Fonts:
     menu_font = pygame.font.Font(os.path.join(fonts_dir_path, "pickupFont.ttf"), 48)
     large_menu_font = pygame.font.Font(os.path.join(fonts_dir_path, "pickupFont.ttf"), 65)
     level_win_font = pygame.font.Font(os.path.join(fonts_dir_path, "pickupFont.ttf"), 60)
-    tutorial_font = pygame.font.Font(os.path.join(fonts_dir_path, "pickupFont.ttf"), 25)
+    tutorial_font = pygame.font.Font(os.path.join(fonts_dir_path, "tutorial.otf"), 23)
