@@ -19,14 +19,19 @@ class LevelManager:
         self.portals = []
         self.player = None
 
+        level_data_path = os.path.abspath("./level_data_files")
         self.level_files = [
             {
-                "level": os.path.join("level_data_files/level_1", "level_1.txt"),
-                "agents": os.path.join("level_data_files/level_1", "agents_interactables_1.txt")
+                "level": os.path.join(level_data_path, "level_1", "level_1.txt"),
+                "agents": os.path.join(level_data_path, "level_1", "agents_interactables_1.txt")
             },
             {
-                "level": os.path.join("level_data_files/level_2", "level_2.txt"),
-                "agents": os.path.join("level_data_files/level_2", "agents_interactables_2.txt")
+                "level": os.path.join(level_data_path, "level_2", "level_2.txt"),
+                "agents": os.path.join(level_data_path, "level_2", "agents_interactables_2.txt")
+            },
+            {
+                "level": os.path.join(level_data_path, "test_level", "test_level.txt"),
+                "agents": os.path.join(level_data_path, "test_level", "test_level_agents.txt")
             }
         ]
 
