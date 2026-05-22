@@ -73,7 +73,8 @@ class Game:
         #setup tutorial manager
         tutorials = {
             -1: "This is a long tutorial string test to see how big and long we should be. Isn't it cool?, This is a long tutorial string test to see how big and long we should be. Isn't it cool?",
-            0: "WASD to move. Reach the apple to win the level. Running into any obstacles will cause you to fail."
+            0: "WASD to move. Reach the apple to win the level. Running into any obstacles will cause you to fail.",
+            1: "Your body length, shown in the top left, must be the same as the number on the apple. Use pickups to shrink or grow. Your body length can never drop below three."
         }
         tutorial_topleft = (150, 6)
         wrap_length = PlayArea.get_width() - 120
