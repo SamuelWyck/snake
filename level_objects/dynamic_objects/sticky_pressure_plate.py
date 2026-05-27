@@ -11,15 +11,6 @@ class StickyPressurePlate(PressurePlate):
 
 
     def update(self, surface, delta_time):
-        for segment in self.segments:
-            if segment in self.hit_segments or self.activated:
-                segment.press()
-            else:
-                segment.unpress()
-
-            segment.update(surface, delta_time)
-        
-
         if len(self.hit_segments) == len(self.segments) and not self.same_activation:
             self.toggle_receivers()
             self.same_activation = True
@@ -27,6 +18,16 @@ class StickyPressurePlate(PressurePlate):
         elif len(self.hit_segments) != len(self.segments) and self.same_activation:
             self.same_activation = False
         
+
+        for segment in self.segments:
+            if segment in self.hit_segments or self.activated:
+                segment.press()
+            else:
+                segment.unpress()
+
+            segment.update(surface, delta_time)
+
+
         self.hit_segments = set()
 
 
