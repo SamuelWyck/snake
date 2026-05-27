@@ -1,6 +1,7 @@
 import pygame
 from level_objects.dynamic_objects.pressure_plate.pressure_plate import PressurePlate
 from level_objects.dynamic_objects.sticky_pressure_plate import StickyPressurePlate
+from level_objects.dynamic_objects.color_length_plate import ColorLengthPlate
 from level_objects.agent_objects.box import Box
 from level_objects.agent_objects.snake.snake import Snake
 from level_objects.agent_objects.spike_ball import SpikeBall
@@ -26,7 +27,8 @@ class CollisionManager:
         self.pa_rect = pygame.rect.Rect((0, 0), play_area_size)
         self.compound_tiles = set([
             PressurePlate,
-            StickyPressurePlate
+            StickyPressurePlate,
+            ColorLengthPlate
         ])
         self.level_won = False
 
@@ -77,10 +79,17 @@ class CollisionManager:
                     self.level_won = True
                     return False
                 continue
-            if tile.color == collider.color and tile.color != Color.NO_COLOR and not self.is_moveable(collider) and tile.__class__ != Portal:
+            if tile.color == collider.color and tile.color != Color.NO_COLOR and not self.is_moveable(collider) and tile.__class__ != Portal and tile.__class__ != ColorLengthPlate:
                 continue
 
-            if self.is_pressure_plate_tile(tile):
+            if self.is_pressure_plate_tile(tile) and tile.__class__ != ColorLengthPlate:
+                for segment in tile.segments:
+                    if collider.collide(segment.rect):
+                        tile.hit_segments.add(segment)
+            
+            elif tile.__class__ == ColorLengthPlate:
+                if collider.__class__ != Snake or not tile.can_collide(collider):
+                    continue
                 for segment in tile.segments:
                     if collider.collide(segment.rect):
                         tile.hit_segments.add(segment)
