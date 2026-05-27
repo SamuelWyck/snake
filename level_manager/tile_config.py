@@ -8,6 +8,7 @@ from level_objects.dynamic_objects.lava import Lava
 from level_objects.dynamic_objects.door import Door
 from level_objects.dynamic_objects.pressure_plate.pressure_plate import PressurePlate
 from level_objects.dynamic_objects.sticky_pressure_plate import StickyPressurePlate
+from level_objects.dynamic_objects.color_length_plate import ColorLengthPlate
 from level_objects.dynamic_objects.portal import Portal
 from level_objects.agent_objects.box import Box
 from level_objects.agent_objects.laser_cannon import LaserCannon
@@ -135,6 +136,7 @@ class TileConfig:
         "DVC": Door,
         "P": PressurePlate,
         "SP": StickyPressurePlate,
+        "CP": ColorLengthPlate,
         "B": Box,
         "SH": Snake,
         "PSH": Snake,
@@ -192,6 +194,13 @@ class TileConfig:
         },
         "SP": {
             "NOCOLOR": [Color.NO_COLOR, [Images.s_pressure_plate_img, Images.s_pressure_plate_pressed_img]]
+        },
+        "CP": {
+            "b": [Images.c_l_plate_img, Color.BLUE],
+            "o": [Images.c_l_plate_img, Color.ORANGE],
+            "g": [Images.c_l_plate_img, Color.GREEN],
+            "r": [Images.c_l_plate_img, Color.RED],
+            "NOCOLOR": [Images.c_l_plate_img, Color.NO_COLOR]
         },
         "B": {
             "b": [Color.BLUE, Images.box_img, Images.good_warn_img, Images.bad_warn_img],
@@ -343,6 +352,7 @@ class TileConfig:
     dynamic_tiles = set([
         StickyPressurePlate,
         PressurePlate,
+        ColorLengthPlate,
         Door,
         Lava,
         Goal,
@@ -352,10 +362,12 @@ class TileConfig:
     tiles_needing_interactables = set([Cannon])
 
 
-    tiles_to_explore = set(["P", "SP"])
+    tiles_to_explore = set(["P", "SP", "CP"])
     island_tiles_to_find = set(["S", "SC"])
     snake_head_symbols = set(["SH", "PSH"])
     snake_segment_symbol = "SS"
+    color_length_plate_symbol = "CP"
+    color_length_plate_length = None
     tiles_to_link = {}
 
 
@@ -369,6 +381,10 @@ class TileConfig:
         if tile_class in cls.tiles_needing_interactables:
             tile_args = tile_args[:]
             tile_args.append(interactable_list)
+        elif tile_class == ColorLengthPlate:
+            tile_args = tile_args[:]
+            tile_args.append(cls.color_length_plate_length)
+            cls.color_length_plate_length = None
         elif tile_class == Goal:
             tile_value = tile_id
             tile_id = None
@@ -405,6 +421,9 @@ class TileConfig:
         symbol = symbol_parts[symbol_index]
         if symbol in cls.island_tiles_to_find:
             return cls.parse_spike_ball(tile_symbol)
+        elif symbol == cls.color_length_plate_symbol:
+            return cls.parse_color_length_plate(symbol_parts)
+
         id = None
         color = "NOCOLOR"
 
@@ -418,6 +437,39 @@ class TileConfig:
             color = symbol_parts[color_index]
 
         return symbol, color, id
+
+
+
+    @classmethod
+    def parse_color_length_plate(cls, symbol_parts):
+        symbol_idx = 0
+        color_length_idx = 1
+        id_idx = 2
+        no_color_key = "NOCOLOR"
+
+        if (len(symbol_parts) == 2):
+            id_idx = 1
+            cls.color_length_plate_length = None
+            return symbol_parts[symbol_idx], no_color_key, symbol_parts[id_idx]
+        
+
+        symbol = symbol_parts[symbol_idx]
+        id = symbol_parts[id_idx]
+
+        color_and_length = symbol_parts[color_length_idx]
+        color = color_and_length[0] if color_and_length[0].isalpha() else no_color_key
+        length = None
+        if color != no_color_key:
+            length = int(color_and_length[1:]) if len(color_and_length) > 1 else None
+        else:
+            length = int(color_and_length)
+
+
+        cls.color_length_plate_length = length
+        return symbol, color, id
+
+
+
 
 
 
