@@ -62,6 +62,7 @@ class Images:
     pressure_plate_pressed_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "pressure_plate_pressed.png")).convert_alpha()
     s_pressure_plate_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "pressure_plate_s.png")).convert_alpha()
     s_pressure_plate_pressed_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "pressure_plate_s_pressed.png")).convert_alpha()
+    c_l_plate_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "color_length_plate.png")).convert_alpha()
     portal_nocolor_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "portal_nocolor.png")).convert_alpha()
     portal_blue_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "portal_blue.png")).convert_alpha()
     portal_orange_img = pygame.image.load(os.path.join(dynamic_tile_images_path, "portal_orange.png")).convert_alpha()
