@@ -74,7 +74,10 @@ class Game:
         tutorials = {
             -1: "This is a long tutorial string test to see how big and long we should be. Isn't it cool?, This is a long tutorial string test to see how big and long we should be. Isn't it cool?",
             0: "WASD to move. Reach the apple to win the level. Running into any obstacles will cause you to fail.",
-            1: "Your body length, shown in the top left, must be the same as the number on the apple. Use pickups to shrink or grow. Your body length can never drop below three."
+            1: "Your body length, shown in the top left, must be the same as the number on the apple. Use pickups to shrink or grow. Your body length can never drop below three.",
+            3: "Objects with yellow and black stripes can be pushed. Be careful, trying to push something into a wall will still be fatal.",
+            4: "Pressure plates can open doors. To trigger a pressure plate the whole plate must be covered at once. Plates with an X stay pressed once fully covered."
+            # 3: "Your color must also be the same as the apple's color. Pickups that have a color will change your color. Remember your body length can't drop below three."
         }
         tutorial_topleft = (150, 6)
         wrap_length = PlayArea.get_width() - 120
