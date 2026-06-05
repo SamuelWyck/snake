@@ -34,6 +34,18 @@ class LevelManager:
                 "agents": os.path.join(level_data_path, "level_3", "agents_interactables_3.txt")
             },
             {
+                "level": os.path.join(level_data_path, "level_4", "level_4.txt"),
+                "agents": os.path.join(level_data_path, "level_4", "agents_interactables_4.txt")
+            },
+            {
+                "level": os.path.join(level_data_path, "level_5", "level_5.txt"),
+                "agents": os.path.join(level_data_path, "level_5", "agents_interactables_5.txt")
+            },
+            {
+                "level": os.path.join(level_data_path, "level_6", "level_6.txt"),
+                "agents": os.path.join(level_data_path, "level_6", "agents_interactables_6.txt")
+            },
+            {
                 "level": os.path.join(level_data_path, "test_level", "test_level.txt"),
                 "agents": os.path.join(level_data_path, "test_level", "test_level_agents.txt")
             }
@@ -302,7 +314,7 @@ class LevelManager:
     def traverse_tiles_rec(self, row, col, level, symbol, topleft_positions, visited, explored_tiles):
         row_valid = 0 <= row < len(level)
         #the last col in each row is an unneeded newline character so subtract len by one to ignore it
-        col_valid = 0 <= col < len(level[row]) - 1
+        col_valid = 0 <= col < len(level[0]) - 1
         if not row_valid or not col_valid:
             return
         key = (row, col)
