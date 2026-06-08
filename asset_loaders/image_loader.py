@@ -120,6 +120,8 @@ class Images:
     level_failed_title_img = pygame.image.load(os.path.join(menu_images_path, "level_failed_title.png")).convert_alpha()
     sound_credits_title_img = pygame.image.load(os.path.join(menu_images_path, "sound_credits_title.png")).convert_alpha()
 
+    choice_locked_img = pygame.image.load(os.path.join(menu_images_path, "choice_locked.png")).convert_alpha()
+
     slider_bar_img = pygame.image.load(os.path.join(menu_images_path, "slider_bar.png")).convert_alpha()
     slider_slide_img = pygame.image.load(os.path.join(menu_images_path, "slider_slide.png")).convert_alpha()
 
