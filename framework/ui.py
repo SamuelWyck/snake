@@ -18,11 +18,12 @@ from utils.color import Color
 # and info is any info to pass along when the menu is exited
 
 class Ui:
-    def __init__(self, screen_size, canvas_size, mouse_manager, level_manager, audio_manager):
+    def __init__(self, screen_size, canvas_size, mouse_manager, level_manager, audio_manager, save_dir_path):
         self.slider_size = (300, 50)
         self.slide_border_radius = 20
         self.antialias = True
         self.sound_credits_file_path = "sound_credits.txt"
+        self.level_save_path = save_dir_path
 
         self.control_menu = self.get_control_menu(screen_size, canvas_size, mouse_manager)
         self.audio_menu = self.get_audio_menu(screen_size, canvas_size, mouse_manager, audio_manager)
@@ -307,10 +308,30 @@ class Ui:
         select_menu = SelectMenu(
             starting_y, num_cols, num_rows, col_gap, row_gap, 
             Images.level_menu_bg_img, screen_size, canvas_size, mouse_manager, 
-            page_up_btn, page_down_btn, exit_btn, click_callback, buttons
+            page_up_btn, page_down_btn, exit_btn, click_callback, buttons, 
+            Images.choice_locked_img, self.load_highest_unlocked_level, self.save_highest_unlocked_level
         )
 
         return select_menu
+    
+
+
+    def load_highest_unlocked_level(self):
+        try:
+            with open(self.level_save_path, "r") as file:
+                level_num = file.readline()
+                return int(level_num)
+        except:
+            return 0
+        
+
+
+    def save_highest_unlocked_level(self, level_num):
+        try:
+            with open(self.level_save_path, "w") as file:
+                file.write(str(level_num))
+        except:
+            return
     
 
 
