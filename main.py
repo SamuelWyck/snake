@@ -64,10 +64,11 @@ class Game:
         self.mouse = Mouse(self.canvas.size, self.screen.size, Images.mouse_img, save_path)
         
         #setup ui manager
+        level_save_path = os.path.join("saves", "level_num.txt")
         self.ui = Ui(
             (self.screen_width, self.screen_height), 
             (self.canvas_width, self.canvas_height), 
-            self.mouse, self.level_manager, self.audio_manger
+            self.mouse, self.level_manager, self.audio_manger, level_save_path
         )
 
         #setup tutorial manager
@@ -164,6 +165,8 @@ class Game:
 
 
             if self.collision_manager.level_won:
+                if self.level_manager.current_level == self.ui.level_select_menu.highest_unlocked_choice:
+                    self.ui.level_select_menu.set_highest_unlocked_choice(self.level_manager.current_level + 1)
                 # time.sleep(self.one_second * .5)
                 self.audio_manger.pause_music()
                 exit_menu, level_num = self.ui.win_menu.run(self.framerate, self.canvas, self.screen)
