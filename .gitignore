@@ -10,6 +10,7 @@ __pycache__/
 keybinds.csv
 mouse.txt
 audio.txt
+level_num.txt
 
 # C extensions
 *.so
