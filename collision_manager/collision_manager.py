@@ -107,6 +107,10 @@ class CollisionManager:
                 elif tile.__class__ != Door and collider.ghost_rect.colliderect(tile.rect):
                     collider.warn_move = True
 
+            elif collider.__class__ == SpikeBall and tile.__class__ == Door:
+                if collider.rect.colliderect(tile.get_hitbox()):
+                    collider.reverse_direction()
+
         return False
 
 
