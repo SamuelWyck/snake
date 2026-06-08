@@ -11,7 +11,8 @@ class SelectMenu:
     def __init__(
             self, start_y_pos, num_cols, num_rows, col_gap, row_gap, 
             background_img, screen_size, canvas_size, mouse_manager,
-            page_up_btn, page_down_btn, exit_btn, click_callback, buttons
+            page_up_btn, page_down_btn, exit_btn, click_callback, buttons, 
+            choice_locked_img=None, load_unlocked_choice_cb=None, save_unlocked_choice_cb=None
         ):
         self.canvas_size = canvas_size
         self.screen_size = screen_size
@@ -39,6 +40,18 @@ class SelectMenu:
 
         self.buttons = buttons
         self.position_buttons(start_y_pos, num_rows, num_cols, col_gap, row_gap)
+
+        # variables needed for locking choices
+        self.highest_unlocked_choice = 0
+        if load_unlocked_choice_cb != None:
+            self.highest_unlocked_choice = load_unlocked_choice_cb()
+
+        self.save_highest_unlocked_choice_cb = save_unlocked_choice_cb
+
+        self.locked_img = choice_locked_img
+        self.locked_img_rect = None
+        if choice_locked_img != None:
+            self.locked_img_rect = choice_locked_img.get_rect()
 
 
     
@@ -127,6 +140,27 @@ class SelectMenu:
 
 
 
+    def button_is_unlocked(self, btn_id):
+        if self.locked_img == None:
+            return True
+        return btn_id <= self.highest_unlocked_choice
+    
+
+
+    def draw_locked_img(self, surface, button):
+        self.locked_img_rect.center = button.image_rect.center
+        surface.blit(self.locked_img, self.locked_img_rect.topleft)
+
+
+
+    def set_highest_unlocked_choice(self, new_choice_num):
+        self.highest_unlocked_choice = new_choice_num
+        
+        if self.save_highest_unlocked_choice_cb != None:
+            self.save_highest_unlocked_choice_cb(new_choice_num)
+
+
+
     def run(self, framerate, canvas, screen):
         backing_img = None
         if not self.fullscreen_background:
@@ -163,7 +197,7 @@ class SelectMenu:
                 if index == len(self.buttons):
                     break
                 button = self.buttons[index]
-                if button.clicked:
+                if button.clicked and self.button_is_unlocked(button.id):
                     button.clicked = False
                     self.cleanup()
                     return self.click_callback(button.id)
@@ -189,12 +223,16 @@ class SelectMenu:
 
             for page_button in self.page_buttons:
                 page_button.update(canvas, mouse_pos, left_mouse_just_pressed, left_mouse_just_released)
+
             self.exit_btn.update(canvas, mouse_pos, left_mouse_just_pressed, left_mouse_just_released)
+
             for index in range(self.btn_index_min, self.btn_index_max):
                 if index == len(self.buttons):
                     break
                 button = self.buttons[index]
                 button.update(canvas, mouse_pos, left_mouse_just_pressed, left_mouse_just_released)
+                if not self.button_is_unlocked(button.id):
+                    self.draw_locked_img(canvas, button)
             
             self.mouse.draw(canvas)
             
