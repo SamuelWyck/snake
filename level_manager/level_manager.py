@@ -164,6 +164,12 @@ class LevelManager:
         with open(file_path, "r") as file:
             for line in file:
                 level.append(line.split(TileConfig.tile_delimiter))
+
+        for row in range(len(level)):
+            for col in range(len(level[row])):
+                level[row][col] = level[row][col].strip()
+
+
         return level
 
 
