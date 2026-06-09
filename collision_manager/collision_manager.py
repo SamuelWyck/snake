@@ -180,8 +180,9 @@ class CollisionManager:
                     interactable.dead = True
                     continue
             if interactable.__class__ == Bullet and player.collide(interactable.rect):
-                interactable.dead = True
-                return True
+                if interactable.color != player.color or player.color == Color.NO_COLOR:
+                    interactable.dead = True
+                    return True
             elif interactable.__class__ == Laser:
                 player.collide_laser(interactable)
             
