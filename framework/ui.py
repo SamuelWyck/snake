@@ -283,7 +283,7 @@ class Ui:
         click_callback = lambda id: (True, (False, id))
 
         buttons = []
-        for i in range(1, 17):
+        for i in range(1, 51):
             Fonts.large_menu_font.outline = outline_width
             image = Fonts.large_menu_font.render(str(i), self.antialias, Color.BLACK)
             Fonts.large_menu_font.outline = 0
