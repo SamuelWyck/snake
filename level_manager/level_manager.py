@@ -86,6 +86,14 @@ class LevelManager:
                 "agents": os.path.join(level_data_path, "level_16", "agents_interactables_16.txt")
             },
             {
+                "level": os.path.join(level_data_path, "level_17", "level_17.txt"),
+                "agents": os.path.join(level_data_path, "level_17", "agents_interactables_17.txt")
+            },
+            {
+                "level": os.path.join(level_data_path, "level_18", "level_18.txt"),
+                "agents": os.path.join(level_data_path, "level_18", "agents_interactables_18.txt")
+            },
+            {
                 "level": os.path.join(level_data_path, "test_level", "test_level.txt"),
                 "agents": os.path.join(level_data_path, "test_level", "test_level_agents.txt")
             }
