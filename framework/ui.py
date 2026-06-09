@@ -29,7 +29,7 @@ class Ui:
         self.audio_menu = self.get_audio_menu(screen_size, canvas_size, mouse_manager, audio_manager)
         self.mouse_menu = self.get_mouse_menu(screen_size, canvas_size, mouse_manager)
         self.settings_menu = self.get_settings_menu(screen_size, canvas_size, mouse_manager)
-        self.level_select_menu = self.get_level_select_menu(screen_size, canvas_size, mouse_manager)
+        self.level_select_menu = self.get_level_select_menu(screen_size, canvas_size, mouse_manager, level_manager)
         self.credits_menu = self.get_credits_menu(screen_size, canvas_size, mouse_manager)
         self.main_menu = self.get_main_menu(screen_size, canvas_size, mouse_manager, audio_manager)
         self.pause_menu = self.get_pause_menu(screen_size, canvas_size, mouse_manager, level_manager)
@@ -272,7 +272,7 @@ class Ui:
     
 
 
-    def get_level_select_menu(self, screen_size, canvas_size, mouse_manager):
+    def get_level_select_menu(self, screen_size, canvas_size, mouse_manager, level_manager):
         starting_y = 225
         num_cols = 4
         num_rows = 3
@@ -283,17 +283,19 @@ class Ui:
         click_callback = lambda id: (True, (False, id))
 
         buttons = []
-        for i in range(1, 51):
+        for i in range(len(level_manager.level_files)):
+            btn_num = str(i + 1)
+            
             Fonts.large_menu_font.outline = outline_width
-            image = Fonts.large_menu_font.render(str(i), self.antialias, Color.BLACK)
+            image = Fonts.large_menu_font.render(btn_num, self.antialias, Color.BLACK)
             Fonts.large_menu_font.outline = 0
 
             hover_image = image.copy()
 
-            yellow_color_image = Fonts.large_menu_font.render(str(i), self.antialias, Color.SNAKE_YELLOW)
+            yellow_color_image = Fonts.large_menu_font.render(btn_num, self.antialias, Color.SNAKE_YELLOW)
             image.blit(yellow_color_image, (outline_width, outline_width))
             
-            green_color_image = Fonts.large_menu_font.render(str(i), self.antialias, Color.SNAKE_GREEN)
+            green_color_image = Fonts.large_menu_font.render(btn_num, self.antialias, Color.SNAKE_GREEN)
             hover_image.blit(green_color_image, (outline_width, outline_width))
 
             button = Button(topleft=(0, 0),image=image, hover_image=hover_image)
