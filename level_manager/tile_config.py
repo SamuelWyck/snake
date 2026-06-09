@@ -548,7 +548,9 @@ class TileConfig:
 
     @classmethod
     def is_snake_head_tile(cls, tile_symbol):
-        return tile_symbol in cls.snake_head_symbols
+        symbol_parts = tile_symbol.split(TileConfig.tile_data_delimiter)
+        tile_type = symbol_parts[0]
+        return tile_type in cls.snake_head_symbols
     
 
 
