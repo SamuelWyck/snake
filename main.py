@@ -80,7 +80,8 @@ class Game:
             4: "Pressure plates can open doors. To trigger a pressure plate the whole plate must be covered at once. Plates with an X stay pressed once fully covered.",
             7: "Press space to drop pickups and lose their effects.",
             9: "If a pressure plates has a number, it will only be triggered if fully covered by a snake with a matching length. These plates will stay pressed once triggered.",
-            11: "Your color must also be the same as the apple's color. Pickups that have a color will change your color. Gray pickups and obstacles are colorless."
+            11: "Your color must also be the same as the apple's color. Pickups that have a color will change your color. Gray pickups and obstacles are colorless.",
+            12: "You will phase through anything that is the same color as you (including yourself). Remember it is impossible to phase through things while colorless."
         }
         tutorial_topleft = (150, 6)
         wrap_length = PlayArea.get_width() - 120
