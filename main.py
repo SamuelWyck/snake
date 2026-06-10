@@ -82,7 +82,9 @@ class Game:
             9: "If a pressure plates has a number, it will only be triggered if fully covered by a snake with a matching length. These plates will stay pressed once triggered.",
             11: "Your color must also be the same as the apple's color. Pickups that have a color will change your color. Gray pickups and obstacles are colorless.",
             12: "You will phase through anything that is the same color as you (including yourself). Remember it is impossible to phase through things while colorless.",
-            16: "A portal will phase objects to a linked portal. The object must be the same color as the portal."
+            16: "A portal will phase objects to a linked portal. The object must be the same color as the portal.",
+            20: "Lasers can power switches. The laser must be the same color as the switch to power it.",
+            21: "Mirrors bounce lasers. If a mirror has a color, it will change the laser's color."
         }
         tutorial_topleft = (150, 6)
         wrap_length = PlayArea.get_width() - 120
