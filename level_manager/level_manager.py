@@ -19,91 +19,40 @@ class LevelManager:
         self.portals = []
         self.player = None
 
+
+        self.level_files = self.get_level_file_paths()
         level_data_path = os.path.abspath("./level_data_files")
-        self.level_files = [
-            {
-                "level": os.path.join(level_data_path, "level_1", "level_1.txt"),
-                "agents": os.path.join(level_data_path, "level_1", "agents_interactables_1.txt")
-            },
-            {
-                "level": os.path.join(level_data_path, "level_2", "level_2.txt"),
-                "agents": os.path.join(level_data_path, "level_2", "agents_interactables_2.txt")
-            },
-            {
-                "level": os.path.join(level_data_path, "level_3", "level_3.txt"),
-                "agents": os.path.join(level_data_path, "level_3", "agents_interactables_3.txt")
-            },
-            {
-                "level": os.path.join(level_data_path, "level_4", "level_4.txt"),
-                "agents": os.path.join(level_data_path, "level_4", "agents_interactables_4.txt")
-            },
-            {
-                "level": os.path.join(level_data_path, "level_5", "level_5.txt"),
-                "agents": os.path.join(level_data_path, "level_5", "agents_interactables_5.txt")
-            },
-            {
-                "level": os.path.join(level_data_path, "level_6", "level_6.txt"),
-                "agents": os.path.join(level_data_path, "level_6", "agents_interactables_6.txt")
-            },
-            {
-                "level": os.path.join(level_data_path, "level_7", "level_7.txt"),
-                "agents": os.path.join(level_data_path, "level_7", "agents_interactables_7.txt")
-            },
-            {
-                "level": os.path.join(level_data_path, "level_8", "level_8.txt"),
-                "agents": os.path.join(level_data_path, "level_8", "agents_interactables_8.txt")
-            },
-            {
-                "level": os.path.join(level_data_path, "level_9", "level_9.txt"),
-                "agents": os.path.join(level_data_path, "level_9", "agents_interactables_9.txt")
-            },
-            {
-                "level": os.path.join(level_data_path, "level_10", "level_10.txt"),
-                "agents": os.path.join(level_data_path, "level_10", "agents_interactables_10.txt")
-            },
-            {
-                "level": os.path.join(level_data_path, "level_11", "level_11.txt"),
-                "agents": os.path.join(level_data_path, "level_11", "agents_interactables_11.txt")
-            },
-            {
-                "level": os.path.join(level_data_path, "level_12", "level_12.txt"),
-                "agents": os.path.join(level_data_path, "level_12", "agents_interactables_12.txt")
-            },
-            {
-                "level": os.path.join(level_data_path, "level_13", "level_13.txt"),
-                "agents": os.path.join(level_data_path, "level_13", "agents_interactables_13.txt")
-            },
-            {
-                "level": os.path.join(level_data_path, "level_14", "level_14.txt"),
-                "agents": os.path.join(level_data_path, "level_14", "agents_interactables_14.txt")
-            },
-            {
-                "level": os.path.join(level_data_path, "level_15", "level_15.txt"),
-                "agents": os.path.join(level_data_path, "level_15", "agents_interactables_15.txt")
-            },
-            {
-                "level": os.path.join(level_data_path, "level_16", "level_16.txt"),
-                "agents": os.path.join(level_data_path, "level_16", "agents_interactables_16.txt")
-            },
-            {
-                "level": os.path.join(level_data_path, "level_17", "level_17.txt"),
-                "agents": os.path.join(level_data_path, "level_17", "agents_interactables_17.txt")
-            },
-            {
-                "level": os.path.join(level_data_path, "level_18", "level_18.txt"),
-                "agents": os.path.join(level_data_path, "level_18", "agents_interactables_18.txt")
-            },
-            {
-                "level": os.path.join(level_data_path, "test_level", "test_level.txt"),
-                "agents": os.path.join(level_data_path, "test_level", "test_level_agents.txt")
-            }
-        ]
+        self.level_files.append({
+            "level": os.path.join(level_data_path, "test_level", "test_level.txt"),
+            "agents": os.path.join(level_data_path, "test_level", "test_level_agents.txt")
+        })
+        
 
         self._current_level = None
 
         self.traversed_tile_positions = set()
         self.found_island_tiles = set()
         self.found_wall_tiles = set()
+
+
+
+    def get_level_file_paths(self):
+        level_data_path = os.path.abspath("./level_data_files")
+        num_level_dirs = len(os.listdir(level_data_path)) - 2
+
+        level_data_paths = []
+        for i in range(1, num_level_dirs + 1):
+            dir_name = f"level_{i}"
+            level_file = f"level_{i}.txt"
+            agents_file = f"agents_interactables_{i}.txt"
+
+            level_info = {
+                "level": os.path.join(level_data_path, dir_name, level_file),
+                "agents": os.path.join(level_data_path, dir_name, agents_file)
+            }
+            level_data_paths.append(level_info)
+
+        return level_data_paths
 
 
     
