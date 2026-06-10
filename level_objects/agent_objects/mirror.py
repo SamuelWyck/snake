@@ -204,6 +204,7 @@ class Mirror(LevelTile):
             return angle
         if self.angle == self.angle_left:
             angle = self.angle_up if start_coords != self.first_target_coords else self.angle_right
+            return angle
 
     
     def move(self, collider, static_tiles, dynamic_tiles, agents, tile_to_skip, in_bounds):
