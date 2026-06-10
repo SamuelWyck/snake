@@ -38,7 +38,7 @@ class LevelManager:
 
     def get_level_file_paths(self):
         level_data_path = os.path.abspath("./level_data_files")
-        num_level_dirs = len(os.listdir(level_data_path)) - 2
+        num_level_dirs = len(os.listdir(level_data_path)) - 2 # subtract by two to ignore test dirs 
 
         level_data_paths = []
         for i in range(1, num_level_dirs + 1):
