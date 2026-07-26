@@ -77,16 +77,8 @@ class Circle:
 
     def collide_rect(self, rect):
         close_rect_point = self.closest_rect_point(rect)
-        edge_to_rect_center = self.edge_point_closest_to(rect.center)
-        edge_to_rect_point = self.edge_point_closest_to(close_rect_point)
-
-        distance_to_rect_center = self.distance_to_point(rect.center)
-        distance_to_close_rect_point = self.distance_to_point(close_rect_point)
-
-        edge_collide = rect.collidepoint(edge_to_rect_center) or rect.collidepoint(edge_to_rect_point) 
-        distance_collide = distance_to_rect_center <= self.radius or distance_to_close_rect_point <= self.radius
-
-        return edge_collide or distance_collide
+        distance_to_rect_point = self.distance_to_point(close_rect_point)
+        return distance_to_rect_point <= self.radius
     
 
 
