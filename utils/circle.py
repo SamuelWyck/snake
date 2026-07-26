@@ -8,10 +8,12 @@ class Circle:
         self._radius = radius
 
 
+
     @property
     def radius(self):
         return self._radius
     
+
 
     @radius.setter
     def radius(self, new_radius):
@@ -20,10 +22,12 @@ class Circle:
         self._radius = new_radius
     
 
+
     @property
     def center(self):
         return self._center
     
+
 
     @center.setter
     def center(self, new_center):
@@ -34,14 +38,17 @@ class Circle:
             pass
 
 
+
     @property
     def centerx(self):
         return self._center[0]
     
 
+
     @centerx.setter
     def centerx(self, new_x):
         self._center[0] = new_x
+
 
 
     @property
@@ -49,9 +56,11 @@ class Circle:
         return self._center[1]
     
 
+
     @centery.setter
     def centery(self, new_y):
         self._center[1] = new_y
+
 
 
     def collide_circle(self, circle):
@@ -65,61 +74,62 @@ class Circle:
         return distance <= self.radius + circle.radius
     
 
+
     def collide_rect(self, rect):
-        ...
+        close_rect_point = self.closest_rect_point(rect)
+        edge_to_rect_center = self.edge_point_closest_to(rect.center)
+        edge_to_rect_point = self.edge_point_closest_to(close_rect_point)
+
+        distance_to_rect_center = self.distance_to_point(rect.center)
+        distance_to_close_rect_point = self.distance_to_point(close_rect_point)
+
+        edge_collide = rect.collidepoint(edge_to_rect_center) or rect.collidepoint(edge_to_rect_point) 
+        distance_collide = distance_to_rect_center <= self.radius or distance_to_close_rect_point <= self.radius
+
+        return edge_collide or distance_collide
+    
+
+
+    def distance_to_point(self, point):
+        pointx, pointy = point
+        x = pointx - self.centerx
+        y = pointy - self.centery
+
+        return math.sqrt((x * x) + (y * y))
+
+        
+
+    def closest_rect_point(self, rect):
+        pointx, pointy = self.center
+
+        if pointx < rect.x:
+            pointx = rect.x
+        elif pointx > rect.x + rect.width:
+            pointx = rect.right
+
+        if pointy < rect.y:
+            pointy = rect.y
+        elif pointy > rect.bottom:
+            pointy = rect.bottom
+
+        return (pointx, pointy)
+
 
     
-    def closest_edge_to_point(self, point):
+    def edge_point_closest_to(self, point):
         pointx, pointy = point
         centerx, centery = self.center
 
         x = pointx - centerx
         y = pointy - centery
-        angle = math.atan(y / x)
-        if x < 0:
-            angle += math.pi
+        angle = 0
+        if x != 0:
+            angle = math.atan(y / x)
+            if x < 0:
+                angle += math.pi
+        else:
+            angle = math.pi / 2 if y > 0 else (3 * math.pi) / 2
 
         edgex = math.cos(angle) * self.radius
         edgey = math.sin(angle) * self.radius
         return [edgex + centerx, edgey + centery]
-    
-
-
-
-
-def main():
-    pygame.display.init()
-    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-
-    rect = pygame.rect.Rect((400, 400), (300, 40))
-
-    hitCircle = Circle((200, 200), 20)
-
-    mouseCircle = Circle((0, 0), 10)
-
-    run = True
-    while run:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_BACKSPACE:
-                    run = False
-
-        mousePos = pygame.mouse.get_pos()
-        mouseCircle.center = mousePos
-
-        color = (255, 0, 0)
-        if mouseCircle.collide_circle(hitCircle):
-            color = (0, 255, 0)
-
-        screen.fill((0, 0, 0))
-        pygame.draw.rect(screen, (255, 0, 0), rect)
-        pygame.draw.circle(screen, color, hitCircle.center, hitCircle.radius)
-        pygame.draw.circle(screen, (0, 0, 255), mouseCircle.center, mouseCircle.radius)
-        pygame.display.update()
-            
-
-
-main()
-    
